@@ -12,6 +12,7 @@ module.exports = {
             if (ban) {
                 return msg.channel.send('User is already banned');
             }
+            if(!user.kickable)) return msg.channel.send('You can not kick/ban a moderator.')
 
             msg.guild.members.ban(user, {
                 reason: args.slice(1).join(' ')
