@@ -19,12 +19,8 @@ module.exports = (client, msg) => {
           setTimeout(() => {
               msg.delete()
           }, 0);
-          
-          client.channels.fetch(client.config.memberlog).then(channel => {
-          return channel.send({ 
-              embeds: [new MessageEmbed().setColor('RED').setThumbnail(msg.author.avatarURL({dylanic: true, format: 'png'})).setDescription(`<@${msg.author.id}> (${msg.author.id}) tried to advertise\n\n Message Deleted: ||${msg.content}||\n\n** **`)]
-          })
-        })
+          let embed = new MessageEmbed().setColor('RED').setThumbnail(msg.author.avatarURL({dylanic: true, format: 'png'})).setDescription(`<@${msg.author.id}> (${msg.author.id}) tried to advertise\n\n Message Deleted: ||${msg.content}||\n\n** **`)
+          client.channels.cache.get(`${client.config.memberlog}`).send(embed)
         }
         
       }
