@@ -9,6 +9,7 @@ module.exports = {
         if (user) {
             const bans = await msg.guild.fetchBans();
             const ban = bans.find(b => b.user.id === user);
+            if (!user.kickable) return msg.channel.send('You can not ban/kick a moderator.')
             if (ban) {
                 return msg.channel.send('User is already banned');
             }
