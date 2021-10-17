@@ -1,4 +1,4 @@
 module.exports = (client) => {
-    console.log('Started');
+    client.log.info('Connected to Discord');
     client.user.setActivity('members', { type: 'WATCHING' });
 };

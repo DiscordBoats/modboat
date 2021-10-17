@@ -3,6 +3,10 @@
     "name": "modboat",
     "dependencies": {
         "better-sqlite3": "7.4.3",
-        "discord.js": "12.5.3"
+        "discord.js": "12.5.3",
+        "leekslazylogger": "^4.1.2"
+    },
+    "scripts": {
+        "start": "cd src && node index.js"
     }
 }

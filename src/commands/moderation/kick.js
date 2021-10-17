@@ -1,3 +1,4 @@
+
 module.exports = {
     name: 'kick',
     description: 'Kicks a user.',
@@ -7,8 +8,19 @@ module.exports = {
     execute(client, msg, args) {
         const user = msg.mentions.users.first() ? msg.mentions.users.first().id : args[0];
         const member = msg.guild.member(user);
-        if (!member.kickable) return msg.channel.send('You can not ban/kick a moderator.')
         if (member) {
+            if (!member.kickable) {
+                return msg.channel.send('You cannot kick this user.');
+            }
+    
+            if (member.id === msg.author.id || member.id === client.user.id) {
+                return msg.channel.send('You cannot kick the bot or yourself.');
+            }
+    
+            if (member.roles.cache.find(r => r.id === client.config.modRole)) {
+                return msg.channel.send('You cannot kick this user.');
+            }
+    
             member.kick(args.slice(1).join(' ')).then(() => {
                 msg.channel.send(`${user} has been kicked.`);
                 client.channels.fetch(client.config.modlog).then(channel => {

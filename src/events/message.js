@@ -58,10 +58,10 @@ module.exports = (client, msg) => {
     }
 
     try {
-      console.log('Attempting to run cmd ' + command.name + ' (ran by ' + msg.author.id + ')');
+      client.log.info('Attempting to run cmd ' + command.name + ' (ran by ' + msg.author.id + ')');
       command.execute(client, msg, args);
     } catch (err) {
-      console.error(err);
+      client.log.error(err);
       return msg.channel.send("```" + err + "```");
     }
 };

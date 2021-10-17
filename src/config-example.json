@@ -5,6 +5,7 @@
     "memberlog": "",
     "messagelog": "",
     "muted": "Muted",
+    "modRole": "",
     "automod": {
         "enabled": true,
         "invites": ["discord.gg","discord.com/invite/","dsc.gg","discord.link","invite.gg","invite.link","discord.io"]

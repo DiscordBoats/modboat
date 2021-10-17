@@ -1,9 +1,11 @@
 # Folders
+logs/
 .vscode/
 node_modules/
 
 # Files
+config.json
 database.db
 database.db-shm
 database.db-wal
-config.json
+package-lock.json

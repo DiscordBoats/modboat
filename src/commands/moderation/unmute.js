@@ -12,6 +12,10 @@ module.exports = {
                 return msg.channel.send('You cannot unmute the bot or yourself.');
             }
 
+            if (member.roles.cache.find(r => r.id === client.config.modRole)) {
+                return msg.channel.send('You cannot unmute this user.');
+            }
+
             const muterole = msg.guild.roles.cache.find(r => r.name === 'Muted');
             if (!member.roles.cache.has(muterole.id)) {
                 return msg.channel.send('This user is not muted.');
