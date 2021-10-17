@@ -7,6 +7,6 @@
     "muted": "Muted",
     "automod": {
         "enabled": true,
-        "invites": ["discord.gg"]
+        "invites": ["discord.gg","discord.com/invite/","dsc.gg","discord.link","invite.gg","invite.link","discord.io"]
     }
 }
