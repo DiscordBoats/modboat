@@ -1,0 +1,12 @@
+{
+    "prefix": "+",
+    "token": "",
+    "modlog": "",
+    "memberlog": "",
+    "messagelog": "",
+    "muted": "Muted",
+    "automod": {
+        "enabled": true,
+        "invites": ["discord.gg"]
+    }
+}

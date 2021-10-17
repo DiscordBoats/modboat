@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'create-tag',
+    name: 'createtag',
     description: 'Create a tag',
     usage: '[name] | [title] | [description] | [image]',
     category: 'Utility',

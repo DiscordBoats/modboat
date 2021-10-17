@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'delete-tag',
+    name: 'deletetag',
     description: 'Delete a tag',
     usage: '[name]',
     category: 'Utility',
