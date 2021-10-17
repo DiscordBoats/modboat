@@ -7,7 +7,7 @@ module.exports = (client, msg) => {
 
     /* anti discord invites */
     if (msg.content) {
-      let censor = ["discord.gg"]
+      let censor = ["discord.gg","discord.com/invite/","dsc.gg","discord.link","invite.gg","invite.link","discord.io"]
       if(msg.member.roles.cache.find(r => r.id === "439872254390829077") || msg.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES) || msg.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) return;
       const censorChecks = !!censor.find((word) => {
           const regex = new RegExp(`\\b${word}\\b`, 'i'); 
