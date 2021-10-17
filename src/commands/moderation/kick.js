@@ -7,6 +7,7 @@ module.exports = {
     execute(client, msg, args) {
         const user = msg.mentions.users.first() ? msg.mentions.users.first().id : args[0];
         const member = msg.guild.member(user);
+        if (!member.kickable) return msg.channel.send('You can not ban/kick a moderator.')
         if (member) {
             member.kick(args.slice(1).join(' ')).then(() => {
                 msg.channel.send(`${user} has been kicked.`);
