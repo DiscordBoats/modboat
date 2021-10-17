@@ -23,7 +23,7 @@ module.exports = (client, msg) => {
           
             client.channels.fetch(client.config.messagelog).then(channel => {
                 return channel.send({ 
-                    embed: new MessageEmbed().setColor('RED').setThumbnail(msg.author.avatarURL({dylanic: true, format: 'png'})).setDescription(`<@${msg.author.id}> (${msg.author.id}) tried to advertise\n\n Message Deleted: ||${msg.content}||\n\n** **`)
+                    embed: new MessageEmbed().setColor('RED').setThumbnail(msg.author.avatarURL({dylanic: true, format: 'png'})).setDescription(`<@${msg.author.id}> (${msg.author.id}) tried to advertise in <#${message.channel.id}>\n\n Message Deleted: ||${msg.content}||\n\n** **`)
                 });
           });
         }
