@@ -9,3 +9,4 @@ database.db
 database.db-shm
 database.db-wal
 package-lock.json
+src/automod.json

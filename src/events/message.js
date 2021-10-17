@@ -5,29 +5,42 @@ module.exports = (client, msg) => {
         return;
     }
 
-    if (msg.content && client.config.automod.enabled === true) {
-        let censor = client.config.automod.invites;
+    if (msg.content && require('../automod.json').enabled === true) {
+      let censor = require('../automod.json').invites;
+      const censorChecks = !!censor.find((word) => {
         if (msg.member.roles.cache.find(r => r.id === '439872254390829077') || msg.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES) || msg.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
           return;
         }
+          const regex = new RegExp(`\\b${word}\\b`, 'i'); 
+          return regex.test(msg.content);             
+        });
+        if (censorChecks) {
+          setTimeout(() => {
+              msg.delete()
+          }, 0);
+          client.channels.fetch(client.config.messagelog).then(channel => {
+              return channel.send({ 
+                  embed: new MessageEmbed().setColor('RED').setThumbnail(msg.author.avatarURL({dylanic: true, format: 'png'})).setDescription(`<@${msg.author.id}> (${msg.author.id}) tried to advertise in <#${msg.channel.id}>\n\n Message Deleted: ||${msg.content}||\n\n** **`)
+              });
+        });
+      }
 
-        const censorChecks = !!censor.find((word) => {
-            const regex = new RegExp(`\\b${word}\\b`, 'i'); 
-            return regex.test(msg.content);             
-          });
-    
-          if (censorChecks) {
-            setTimeout(() => {
-                msg.delete()
-            }, 0);
-          
-            client.channels.fetch(client.config.messagelog).then(channel => {
-                return channel.send({ 
-                    embed: new MessageEmbed().setColor('RED').setThumbnail(msg.author.avatarURL({dylanic: true, format: 'png'})).setDescription(`<@${msg.author.id}> (${msg.author.id}) tried to advertise in <#${message.channel.id}>\n\n Message Deleted: ||${msg.content}||\n\n** **`)
-                });
-          });
-        }
-    }
+      let slurCensor = require('../automod.json').slurs;
+      const slurCheck = !!slurCensor.find((word) => {
+          const regex = new RegExp(`\\b${word}\\b`, 'i'); 
+          return regex.test(msg.content);             
+        });
+        if (slurCheck) {
+          setTimeout(() => {
+              msg.delete()
+          }, 0);
+          client.channels.fetch(client.config.messagelog).then(channel => {
+              return channel.send({ 
+                  embed: new MessageEmbed().setColor('#fc5858').setThumbnail(msg.author.avatarURL({dylanic: true, format: 'png'})).setDescription(`<@${msg.author.id}> (${msg.author.id}) tried to say a blacklisted in <#${msg.channel.id}>\n\n Message Deleted: ||${msg.content}||\n\n** **`)
+              });
+        });
+      }
+  }
 
     // prefix stuff
     const prefixMention = new RegExp(`^<@!?${client.user.id}> `);
@@ -64,4 +77,6 @@ module.exports = (client, msg) => {
       client.log.error(err);
       return msg.channel.send("```" + err + "```");
     }
+
+   
 };
