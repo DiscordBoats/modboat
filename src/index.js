@@ -12,7 +12,7 @@ client.db.pragma('journal_mode = WAL');
 client.config = require('./config.json');
 client.commands = new Collection();
 
-const init = async () => {
+const innit = async () => {
   const events = await readdir('./events');
   events.forEach(file => {
     const event = require(`./events/${file}`);
@@ -26,6 +26,6 @@ const init = async () => {
   });
 }
 
-init();
+innit();
 
 client.login(client.config.token);
