@@ -1,0 +1,9 @@
+# Folders
+.vscode/
+node_modules/
+
+# Files
+database.db
+database.db-shm
+database.db-wal
+config.json

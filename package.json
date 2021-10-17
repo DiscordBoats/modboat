@@ -1,0 +1,8 @@
+{
+    "private": true,
+    "name": "modboat",
+    "dependencies": {
+        "better-sqlite3": "7.4.3",
+        "discord.js": "12.5.3"
+    }
+}
