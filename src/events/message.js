@@ -1,18 +1,20 @@
-const { Permissions, MessageEmbed } = require('discord.js')
+const { Permissions, MessageEmbed } = require('discord.js');
 
 module.exports = (client, msg) => {
     if (msg.author.bot || !msg.guild) {
         return;
     }
 
-    /* anti discord invites */
-    if (msg.content) {
-      let censor = ["discord.gg"]
-      if(msg.member.roles.cache.find(r => r.id === "439872254390829077") || msg.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES) || msg.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) return;
-      const censorChecks = !!censor.find((word) => {
-          const regex = new RegExp(`\\b${word}\\b`, 'i'); 
-          return regex.test(msg.content);             
-        });
+    if (msg.content && client.config.automod.enabled === true) {
+        let censor = client.config.automod.invites;
+        if (msg.member.roles.cache.find(r => r.id === '439872254390829077') || msg.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES) || msg.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
+          return;
+        }
+
+        const censorChecks = !!censor.find((word) => {
+            const regex = new RegExp(`\\b${word}\\b`, 'i'); 
+            return regex.test(msg.content);             
+          });
     
         if (censorChecks) {
           
@@ -21,10 +23,20 @@ module.exports = (client, msg) => {
           }, 0);
           let embed = new MessageEmbed().setColor('RED').setThumbnail(msg.author.avatarURL({dylanic: true, format: 'png'})).setDescription(`<@${msg.author.id}> (${msg.author.id}) tried to advertise\n\n Message Deleted: ||${msg.content}||\n\n** **`)
           client.channels.cache.get(`${client.config.memberlog}`).send(embed)
+
+          if (censorChecks) {
+            setTimeout(() => {
+                msg.delete()
+            }, 0);
+          
+            client.channels.fetch(client.config.messagelog).then(channel => {
+                return channel.send({ 
+                    embed: new MessageEmbed().setColor('RED').setThumbnail(msg.author.avatarURL({dylanic: true, format: 'png'})).setDescription(`<@${msg.author.id}> (${msg.author.id}) tried to advertise\n\n Message Deleted: ||${msg.content}||\n\n** **`)
+                });
+          });
+
         }
-        
-      }
-      /* End */
+    }
 
     // prefix stuff
     const prefixMention = new RegExp(`^<@!?${client.user.id}> `);
