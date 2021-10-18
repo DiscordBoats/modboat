@@ -1,5 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 
+
 module.exports = (client, msg) => {
     const massmention = client.automod.massmention;
     const regex = /<@![0-9]{18}>/gm;
@@ -16,6 +17,7 @@ module.exports = (client, msg) => {
             setTimeout(() => {
                 msg.delete().catch((err) => {})
             }, 0);
+            msg.channel.send(`\`${msg.author.tag}\` has been muted for mass mention.`)
             client.channels.fetch(client.config.messagelog).then(channel => {
                 const embed = new MessageEmbed()
                 .setColor('#fc5858')
