@@ -18,8 +18,7 @@ module.exports = (client, msg) => {
             const embed = new MessageEmbed()
                 .setColor('RED')
                 .setThumbnail(msg.author.avatarURL({
-                    dylanic: true,
-                    format: 'png'
+                    dylanic: true
                 }))
                 .setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id}) tried to advertise in <#${msg.channel.id}>\n\n Message Deleted: ||${msg.content}||\n\n** **`);
             return channel.send({
