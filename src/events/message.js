@@ -1,6 +1,6 @@
 const { Permissions, MessageEmbed } = require('discord.js');
 const automod = require('../automod.json');
-const { preconditions } = require('../Functions/preconditions');
+const { preconditions } = require('../functions/preconditions');
 
 module.exports = (client, msg) => {
   if (msg.author.bot || !msg.guild) {
@@ -9,7 +9,6 @@ module.exports = (client, msg) => {
 
   // automod
   if (msg.content && automod.enabled === true) {
-    
     const censor = automod.invites;
     const censorChecks = !!censor.find((word) => {
       if (msg.member.roles.cache.find(r => r.id === client.config.modRole) || msg.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES) || msg.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
@@ -83,10 +82,10 @@ module.exports = (client, msg) => {
 
   // permissions
   const command = cmd[0];
-  const runPrecoditions = preconditions(client, message.member, command);
-    if(runPrecoditions) {
-         return;
-    }
+  const runPreconditions = preconditions(client, msg.member, command);
+  if (runPreconditions) {
+    return;
+  }
 
   try {
     client.log.info('Attempting to run cmd ' + command.name + ' (ran by ' + msg.author.id + ')');
