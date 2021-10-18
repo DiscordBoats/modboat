@@ -15,7 +15,7 @@ module.exports = {
                 return message.channel.send(`\`${member.user.tag}\` has been dehoisted.`)
 
             }
-            
+            // i know it's a mess rn but it works 
             const nick = member.nickname.startsWith(("!", ":", "?", "$", "%", "&", "'", "(", ")", "#", "*", "+", ",", "-", ".", "/").charAt(1))
             if (nick) {
                 member.edit({ nick: 'User hoisting'})
