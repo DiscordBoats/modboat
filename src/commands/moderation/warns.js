@@ -1,7 +1,6 @@
-
 module.exports = {
     name: 'warns',
-    description: 'Removes a warning from a user.',
+    description: 'List a user\'s warnings.',
     usage: '[user mention or id] [amount]',
     aliases: ['warnings'],
     category: 'Moderation',

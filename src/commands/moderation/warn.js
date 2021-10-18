@@ -1,4 +1,3 @@
-
 module.exports = {
     name: 'warn',
     description: 'Warns a user.',

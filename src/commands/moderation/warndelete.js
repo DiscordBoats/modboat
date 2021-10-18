@@ -1,4 +1,3 @@
-
 module.exports = {
     name: 'warndelete',
     description: 'Removes a warning from a user.',
