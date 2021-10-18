@@ -10,3 +10,4 @@ database.db-shm
 database.db-wal
 package-lock.json
 src/automod.json
+config-test.json
