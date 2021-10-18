@@ -1,6 +1,6 @@
-module.exports = (client) => {
+module.exports = async (client) => {
     client.log.info('Connected to Discord');
-    client.user.setActivity('members', { type: 'WATCHING' });
+    await client.user.setActivity('members', { type: 'WATCHING' });
 
     // check for mutes
     setInterval(async () => {
@@ -15,7 +15,7 @@ module.exports = (client) => {
                     member = guild.members.cache.get(mute.id);
                 }
                 if (member) {
-                    member.roles.remove(guild.roles.cache.find(r => r.name === 'Muted').id);
+                    await member.roles.remove(guild.roles.cache.find(r => r.name === 'Muted').id);
                     client.db.prepare('DELETE FROM mutes WHERE id = ?').run(mute.id);
 
                     client.channels.fetch(client.config.modlog).then(channel => {
