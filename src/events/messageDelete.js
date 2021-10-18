@@ -1,4 +1,6 @@
 module.exports = (client, oldMsg) => {
+if(!oldMsg.author.bot) return;
+
     client.channels.fetch(client.config.messagelog).then(channel => {
         const embed = {
             color: 'dc3b3b',
@@ -6,7 +8,7 @@ module.exports = (client, oldMsg) => {
                 name: `A message was deleted by ${oldMsg.author.tag} (${oldMsg.author.id})`,
                 icon_url: oldMsg.author.avatarURL()
             },
-            title: '#' + oldMsg.channel.name,
+            title: `<#${oldMsg.channel.id}>`,
             description: `**Message**:\n${oldMsg.content} ${oldMsg.attachments.size > 0 ? '[Attachment]' : ''}`
         }
         channel.send({ embed });

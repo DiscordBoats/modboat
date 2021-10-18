@@ -20,7 +20,7 @@ module.exports = (client, msg) => {
           }, 0);
           client.channels.fetch(client.config.messagelog).then(channel => {
               return channel.send({ 
-                  embed: new MessageEmbed().setColor('RED').setThumbnail(msg.author.avatarURL({dylanic: true, format: 'png'})).setDescription(`<@${msg.author.id}> (${msg.author.id}) tried to advertise in <#${msg.channel.id}>\n\n Message Deleted: ||${msg.content}||\n\n** **`)
+                  embed: new MessageEmbed().setColor('RED').setThumbnail(msg.author.avatarURL({dylanic: true, format: 'png'})).setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id}) tried to advertise in <#${msg.channel.id}>\n\n Message Deleted: ||${msg.content}||\n\n** **`)
               });
         });
       }
@@ -36,7 +36,7 @@ module.exports = (client, msg) => {
           }, 0);
           client.channels.fetch(client.config.messagelog).then(channel => {
               return channel.send({ 
-                  embed: new MessageEmbed().setColor('#fc5858').setThumbnail(msg.author.avatarURL({dylanic: true, format: 'png'})).setDescription(`<@${msg.author.id}> (${msg.author.id}) tried to say a blacklisted in <#${msg.channel.id}>\n\n Message Deleted: ||${msg.content}||\n\n** **`)
+                  embed: new MessageEmbed().setColor('#fc5858').setThumbnail(msg.author.avatarURL({dylanic: true, format: 'png'})).setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id}) tried to say a blacklisted in <#${msg.channel.id}>\n\n Message Deleted: ||${msg.content}||\n\n** **`)
               });
         });
       }
