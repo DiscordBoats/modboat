@@ -1,14 +1,16 @@
 const { Permissions, MessageEmbed } = require('discord.js');
+const automod = require('../automod.json');
 
 module.exports = (client, msg) => {
   if (msg.author.bot || !msg.guild) {
     return;
   }
 
-  if (msg.content && require('../automod.json').enabled === true) {
-    let censor = require('../automod.json').invites;
+  // automod
+  if (msg.content && automod.enabled === true) {
+    const censor = automod.invites;
     const censorChecks = !!censor.find((word) => {
-      if (msg.member.roles.cache.find(r => r.id === '439872254390829077') || msg.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES) || msg.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
+      if (msg.member.roles.cache.find(r => r.id === client.config.modRole) || msg.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES) || msg.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
         return;
       }
       const regex = new RegExp(`\\b${word}\\b`, 'i');
@@ -25,7 +27,7 @@ module.exports = (client, msg) => {
       });
     }
 
-    let slurCensor = require('../automod.json').slurs;
+    const slurCensor = automod.slurs;
     const slurCheck = !!slurCensor.find((word) => {
       const regex = new RegExp(`\\b${word}\\b`, 'i');
       return regex.test(msg.content);
@@ -41,12 +43,12 @@ module.exports = (client, msg) => {
       });
     }
 
-    const massmention = require('../automod.json').massmention;
+    const massmention = automod.massmention;
     const regex = /<@![0-9]{18}>/gm;
+    let validate;
     try {
-      var validate = msg.content.match(regex != null && regex).length >= massmention;
-
-  } catch (error) { };
+      validate = msg.content.match(regex != null && regex).length >= massmention;
+    } catch (error) { };
     if (validate) {
       const member = msg.member;
       const muterole = msg.guild.roles.cache.find(r => r.name === client.config.muted);
@@ -62,7 +64,6 @@ module.exports = (client, msg) => {
       });
     }
   }
-
 
   // prefix stuff
   const prefixMention = new RegExp(`^<@!?${client.user.id}> `);
@@ -99,6 +100,4 @@ module.exports = (client, msg) => {
     client.log.error(err);
     return msg.channel.send("```" + err + "```");
   }
-
-
 };

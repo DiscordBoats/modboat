@@ -1,6 +1,8 @@
 module.exports = (client, oldMsg, newMsg) => {
-    if(!oldMsg.author.bot == false) return;
-    
+    if (!oldMsg.author.bot === false) {
+        return;
+    }
+
     client.channels.fetch(client.config.messagelog).then(channel => {
         const embed = {
             color: 'dc3b3b',

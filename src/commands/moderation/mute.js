@@ -24,7 +24,7 @@ module.exports = {
             member.roles.add(muterole.id).then(() => {
                 msg.channel.send(`${user} has been muted.`);
                 client.channels.fetch(client.config.modlog).then(channel => {
-                    const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get();
+                    const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || { number: 0 };
                     const embed = {
                         color: '2e6cc2',
                         author: {

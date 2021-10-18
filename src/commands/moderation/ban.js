@@ -27,7 +27,7 @@ module.exports = {
             }).then((banned) => {
                 msg.channel.send(`${user} has been banned.`);
                 client.channels.fetch(client.config.modlog).then(channel => {
-                    const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get();
+                    const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || { number: 0 };
                     const embed = {
                         color: 'dc3b3b',
                         author: {
