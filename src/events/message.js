@@ -16,7 +16,7 @@ module.exports = (client, msg) => {
         });
         if (censorChecks) {
           setTimeout(() => {
-              msg.delete()
+              msg.delete().catch((err) => { })
           }, 0);
           client.channels.fetch(client.config.messagelog).then(channel => {
               return channel.send({ 
@@ -32,7 +32,7 @@ module.exports = (client, msg) => {
         });
         if (slurCheck) {
           setTimeout(() => {
-              msg.delete()
+              msg.delete().catch((err) => { })
           }, 0);
           client.channels.fetch(client.config.messagelog).then(channel => {
               return channel.send({ 
