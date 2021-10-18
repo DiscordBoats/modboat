@@ -12,8 +12,9 @@ client.db.pragma('journal_mode = WAL');
 
 client.log = new Logger();
 client.config = require('./config.json');
-client.emoji = require('./Functions/emoji')
+client.emoji = require('./functions/emoji');
 client.commands = new Collection();
+client.snipes = new Collection();
 
 const init = async () => {
   const events = await readdir('./events');

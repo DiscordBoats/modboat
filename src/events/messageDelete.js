@@ -15,4 +15,12 @@ module.exports = (client, oldMsg) => {
         }
         channel.send({ embed });
     });
+
+    // snipe
+    client.snipes.set(oldMsg.channel.id, {
+        content: oldMsg.content,
+        author: `${oldMsg.author.tag} (${oldMsg.author.id})`,
+        icon: oldMsg.author.avatarURL(),
+        timestamp: oldMsg.createdAt
+    });
 };
