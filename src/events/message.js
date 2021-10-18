@@ -1,5 +1,6 @@
 const { Permissions, MessageEmbed } = require('discord.js');
 const automod = require('../automod.json');
+const { preconditions } = require('../Functions/preconditions');
 
 module.exports = (client, msg) => {
   if (msg.author.bot || !msg.guild) {
@@ -82,17 +83,10 @@ module.exports = (client, msg) => {
 
   // permissions
   const command = cmd[0];
-  if (command.ownerOnly && !client.config.owners.includes(msg.author.id)) {
-    return;
-  }
-
-  if (command.permissions !== undefined && Array.isArray(command.permissions) && msg.guild) { // Permissions stuff
-    const doesntHave = command.permissions.some(x => !msg.member.permissions.has(x));
-    if (doesntHave) {
-      const missing = command.permissions.filter(x => !msg.member.permissions.has(x));
-      return msg.channel.send(`You're missing the following permissions: ${missing.join(', ')}`);
+  const runPrecoditions = preconditions(client, message.member, command);
+    if(runPrecoditions) {
+         return;
     }
-  }
 
   try {
     client.log.info('Attempting to run cmd ' + command.name + ' (ran by ' + msg.author.id + ')');
