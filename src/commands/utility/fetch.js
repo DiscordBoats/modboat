@@ -4,13 +4,29 @@ module.exports = {
     usage: '[search]',
     category: 'Utility',
     permissions: ['BAN_MEMBERS'],
-    execute(client, msg, args) {
-        const users = client.users.cache.filter(user => user.username.includes(args[0]));
+    async execute(_client, msg, args) {
+        const members = filter(await msg.guild.members.fetch(), (_k, v) => v.user.username.includes(args.join(' ')));
+        let list = '';
+        members.forEach(member => {
+            list += `${member.user.username}#${member.user.discriminator} (${member.user.id})\n`;
+        });
         const embed = {
             color: 'd35c5e',
             title: 'Results found',
-            description: users.map(user => `${user.tag} (${user.id})`).join('\n')
+            description: list
         }
-        msg.channel.send({ embed });
+        msg.channel.send({
+            embed
+        });
     }
 };
+
+const filter = (map, pred) => {
+    const result = new Map();
+    for (let [k, v] of map) {
+        if (pred(k, v)) {
+            result.set(k, v);
+        }
+    }
+    return result;
+}
