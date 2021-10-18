@@ -24,7 +24,7 @@ module.exports = {
             }
 
             member.roles.add(muterole.id).then(() => {
-                msg.channel.send(`${user} has been muted.`);
+                msg.channel.send(`${user.tag} (${user.id}) has been muted.`);
                 const time = args.slice(1).join(' ').split('| ');
                 if (time[1]) {
                     client.db.prepare('INSERT INTO mutes (id, expires) VALUES (?, ?)').run(member.id, Date.now() + ms(time[1]));

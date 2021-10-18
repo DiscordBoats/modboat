@@ -16,7 +16,7 @@ module.exports = {
             msg.guild.members.unban(user, {
                 reason: args.slice(1).join(' ')
             }).then(() => {
-                msg.channel.send(`${user} has been unbanned.`);
+                msg.channel.send(`${ban.user.tag} (${ban.user.id}) has been unbanned.`);
                 client.channels.fetch(client.config.modlog).then(channel => {
                     const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || { number: 0 };
                     const embed = {
