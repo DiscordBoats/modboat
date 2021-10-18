@@ -11,7 +11,6 @@ Simple moderation bot for Discord.
 ## Future ideas
 * Multi-guild support
 * More database support
-* Timed mutes
 * Settings command instead of using config.json for everything
 * Update to discord.js v13
 

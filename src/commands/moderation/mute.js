@@ -1,3 +1,5 @@
+const ms = require('ms');
+
 module.exports = {
     name: 'mute',
     description: 'Mutes a user.',
@@ -23,6 +25,10 @@ module.exports = {
 
             member.roles.add(muterole.id).then(() => {
                 msg.channel.send(`${user} has been muted.`);
+                const time = args.slice(1).join(' ').split('| ');
+                if (time[1]) {
+                    client.db.prepare('INSERT INTO mutes (id, expires) VALUES (?, ?)').run(member.id, Date.now() + ms(time[1]));
+                }
                 client.channels.fetch(client.config.modlog).then(channel => {
                     const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || { number: 0 };
                     const embed = {
@@ -31,7 +37,7 @@ module.exports = {
                             name: 'Mute | Case #' + (latest.number + 1),
                             icon_url: msg.author.avatarURL()
                         },
-                        description: `**User:** ${user.tag}\n**Moderator:** ${msg.author.tag}\n**Reason:** ${args.slice(1).join(' ') || 'No reason provided. To provide a reason run +reason ' + (latest.number + 1)}`,
+                        description: `**User:** ${user.tag}\n**Moderator:** ${msg.author.tag}\n**Reason:** ${time[0] || 'No reason provided. To provide a reason run +reason ' + (latest.number + 1)}${time[1] ? `\n**Time:** ${ms(ms(time[1]), { long: true })}` : ''} `,
                         footer: {
                             text: msg.guild.name,
                             icon_url: msg.guild.iconURL()
