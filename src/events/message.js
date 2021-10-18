@@ -1,6 +1,8 @@
-const { Permissions, MessageEmbed } = require('discord.js');
-const automod = require('../automod.json');
 const { preconditions } = require('../functions/preconditions');
+
+const automodInvites = require('../functions/automod/invites');
+const automodSlurs = require('../functions/automod/slurs');
+const automodMassmention = require('../functions/automod/massmention');
 
 module.exports = (client, msg) => {
   if (msg.author.bot || !msg.guild) {
@@ -8,62 +10,10 @@ module.exports = (client, msg) => {
   }
 
   // automod
-  if (msg.content && automod.enabled === true) {
-    const censor = automod.invites;
-    const censorChecks = !!censor.find((word) => {
-      if (msg.member.roles.cache.find(r => r.id === client.config.modRole) || msg.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES) || msg.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
-        return;
-      }
-      const regex = new RegExp(`\\b${word}\\b`, 'i');
-      return regex.test(msg.content);
-    });
-    if (censorChecks) {
-      setTimeout(() => {
-        msg.delete().catch((err) => { })
-      }, 0);
-      client.channels.fetch(client.config.messagelog).then(channel => {
-        return channel.send({
-          embed: new MessageEmbed().setColor('RED').setThumbnail(msg.author.avatarURL({ dylanic: true, format: 'png' })).setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id}) tried to advertise in <#${msg.channel.id}>\n\n Message Deleted: ||${msg.content}||\n\n** **`)
-        });
-      });
-    }
-
-    const slurCensor = automod.slurs;
-    const slurCheck = !!slurCensor.find((word) => {
-      const regex = new RegExp(`\\b${word}\\b`, 'i');
-      return regex.test(msg.content);
-    });
-    if (slurCheck) {
-      setTimeout(() => {
-        msg.delete().catch((err) => { })
-      }, 0);
-      client.channels.fetch(client.config.messagelog).then(channel => {
-        return channel.send({
-          embed: new MessageEmbed().setColor('#fc5858').setThumbnail(msg.author.avatarURL({ dylanic: true, format: 'png' })).setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id}) tried to say a blacklisted word/phrase in <#${msg.channel.id}>\n\n Message Deleted: ||${msg.content}||\n\n** **`)
-        });
-      });
-    }
-
-    const massmention = automod.massmention;
-    const regex = /<@![0-9]{18}>/gm;
-    let validate;
-    try {
-      validate = msg.content.match(regex).length >= massmention;
-    } catch (error) { }
-    if (validate) {
-      const member = msg.member;
-      const muterole = msg.guild.roles.cache.find(r => r.name === client.config.muted);
-      member.roles.add(muterole).then(() => {
-        setTimeout(() => {
-          msg.delete().catch((err) => { })
-        }, 0);
-        client.channels.fetch(client.config.messagelog).then(channel => {
-          return channel.send({
-            embed: new MessageEmbed().setColor('#fc5858').setThumbnail(msg.author.avatarURL({ dylanic: true, format: 'png' })).setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id}) mass mentioned more then or at least ${massmention} user(s) in <#${msg.channel.id}>\n\n User has been Muted.`)
-          });
-        });
-      });
-    }
+  if (msg.content && client.automod.enabled === true) {
+    automodInvites(client, msg);
+    automodSlurs(client, msg);
+    automodMassmention(client, msg);
   }
 
   // prefix stuff

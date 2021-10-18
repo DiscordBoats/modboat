@@ -9,9 +9,8 @@ const client = new Client({
 
 client.db = require('better-sqlite3')('database.db');
 client.db.pragma('journal_mode = WAL');
-global.automod = require('./automod.json')
-global.MessageEmbed = require('discord.js').MessageEmbed;
 client.log = new Logger();
+client.automod = require('./automod.json');
 client.config = require('./config.json');
 client.emoji = require('./functions/emoji');
 client.commands = new Collection();
