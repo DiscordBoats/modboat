@@ -48,8 +48,8 @@ module.exports = (client, msg) => {
     const regex = /<@![0-9]{18}>/gm;
     let validate;
     try {
-      validate = msg.content.match(regex != null && regex).length >= massmention;
-    } catch (error) { };
+      validate = msg.content.match(regex).length >= massmention;
+    } catch (error) { }
     if (validate) {
       const member = msg.member;
       const muterole = msg.guild.roles.cache.find(r => r.name === client.config.muted);
