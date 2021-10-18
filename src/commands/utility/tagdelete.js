@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'deletetag',
+    name: 'tagdelete',
     description: 'Delete a tag',
     usage: '[name]',
     category: 'Utility',
@@ -11,7 +11,7 @@ module.exports = {
 
         const exists = client.db.prepare('SELECT EXISTS (SELECT 1 FROM tags WHERE name = ?);').get(args[0]);
         if (exists['EXISTS (SELECT 1 FROM tags WHERE name = ?)'] === 0) {
-            return msg.channel.send('That tag does not exist.');
+            return msg.channel.send('Tag doesn\'t exist.');
         }
 
         client.db.prepare('DELETE FROM tags WHERE name =?').run(args[0]);

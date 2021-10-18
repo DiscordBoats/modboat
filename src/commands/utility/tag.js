@@ -7,7 +7,7 @@ module.exports = {
     async execute(client, msg, args) {
         const tag = client.db.prepare('SELECT * FROM tags WHERE name=?').get(args[0]);
         if (!tag) {
-            return msg.channel.send('Tag doesn\'t exist');
+            return msg.channel.send('Tag doesn\'t exist.');
         }
 
         const embed = {
@@ -19,7 +19,7 @@ module.exports = {
                 icon_url: msg.author.avatarURL()
             }
         }
-        console.log(tag)
+
         if (tag.image !== 'null') {
             embed.image = {
                 url: tag.image

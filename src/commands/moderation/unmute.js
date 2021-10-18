@@ -31,7 +31,7 @@ module.exports = {
                             name: 'Unmute | Case #' + (latest.number + 1),
                             icon_url: msg.author.avatarURL()
                         },
-                        description: `**User:** ${user.tag} (${user.id})\n**Moderator:** ${msg.author.tag} (${msg.author.id})\n**Reason:** ${args.slice(1).join(' ') || 'No reason provided'}`,
+                        description: `**User:** ${user.tag} (${user.id})\n**Moderator:** ${msg.author.tag} (${msg.author.id})\n**Reason:** ${args.slice(1).join(' ') || 'No reason provided. To provide a reason run +reason ' + (latest.number + 1)}`,
                         footer: {
                             text: msg.guild.name,
                             icon_url: msg.guild.iconURL()
