@@ -82,7 +82,7 @@ module.exports = (client, msg) => {
 
   // permissions
   const command = cmd[0];
-  const runPreconditions = preconditions(client, msg.member, command);
+  const runPreconditions = preconditions(client, msg, command);
   if (runPreconditions) {
     return;
   }

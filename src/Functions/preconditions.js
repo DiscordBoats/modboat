@@ -1,4 +1,4 @@
-function preconditions(client, member, command) {
+function preconditions(client, msg, command) {
     if (command.ownerOnly && !client.config.owners.includes(msg.author.id)) {
         return true;
     }
