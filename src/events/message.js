@@ -8,6 +8,7 @@ module.exports = (client, msg) => {
 
   // automod
   if (msg.content && automod.enabled === true) {
+    
     const censor = automod.invites;
     const censorChecks = !!censor.find((word) => {
       if (msg.member.roles.cache.find(r => r.id === client.config.modRole) || msg.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES) || msg.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
@@ -38,7 +39,7 @@ module.exports = (client, msg) => {
       }, 0);
       client.channels.fetch(client.config.messagelog).then(channel => {
         return channel.send({
-          embed: new MessageEmbed().setColor('#fc5858').setThumbnail(msg.author.avatarURL({ dylanic: true, format: 'png' })).setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id}) tried to say a blacklisted in <#${msg.channel.id}>\n\n Message Deleted: ||${msg.content}||\n\n** **`)
+          embed: new MessageEmbed().setColor('#fc5858').setThumbnail(msg.author.avatarURL({ dylanic: true, format: 'png' })).setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id}) tried to say a blacklisted word/phrase in <#${msg.channel.id}>\n\n Message Deleted: ||${msg.content}||\n\n** **`)
         });
       });
     }

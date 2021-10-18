@@ -10,7 +10,7 @@ module.exports = (client, oldMsg, newMsg) => {
                 name: `A message was edited by ${oldMsg.author.tag} (${oldMsg.author.id})`,
                 icon_url: oldMsg.author.avatarURL()
             },
-            title: `<#${oldMsg.channel.id}>`,
+            title: `#${oldMsg.channel.id}`,
             url: `https://discord.com/channels/${newMsg.guild.id}/${newMsg.channel.id}/${newMsg.id}`,
             description: `**Old Message**:\n${oldMsg.content}\n\n**New Message**:\n${newMsg.content}`
         }

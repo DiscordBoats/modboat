@@ -5,5 +5,6 @@
     "memberlog": "",
     "messagelog": "",
     "muted": "Muted",
-    "modRole": ""
+    "modRole": "",
+    "owners": [""]
 }

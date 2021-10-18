@@ -1,5 +1,6 @@
 {
     "enabled": true,
     "invites": ["discord.gg"],
-    "slurs": [""]
+    "slurs": [""],
+    "swears": [""]
 }
