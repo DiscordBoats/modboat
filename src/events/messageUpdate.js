@@ -1,10 +1,10 @@
 const { MessageEmbed } = require('discord.js')
 module.exports = (client, oldMsg, newMsg) => {
-    if (!oldMsg.author.bot === false) {
+    if (oldMsg.author.bot === true) {
         return;
     }
 
-    client.channels.fetch(client.config.messagelog).then(channel => {
+    return client.channels.fetch(client.config.messagelog).then(channel => {
 
         const embed = new MessageEmbed()
         .setColor('YELLOW')
