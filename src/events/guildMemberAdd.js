@@ -16,11 +16,7 @@ module.exports = (client, member) => {
             await member.kick('Having a blacklisted word/phrase as their username')
         }, 1000);
       }
-      let usr = member.user.username
-
-      if(usr.charAt(0) == "!" || ":" || "?" || "$" || "%" || "'" || "(" || ")" || "#" || "*" || "+" || "," || "-" || "." || "/") {
-        member.edit({nick: 'z Imagine being dehoisted'})
-    }
+     
     const unix = Math.floor(new Date(`${member.user.createdAt}`).getTime() / 1000);
     const embed = new MessageEmbed()
     .setColor('GREEN')
