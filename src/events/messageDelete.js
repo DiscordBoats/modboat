@@ -14,12 +14,12 @@ module.exports = (client, oldMsg) => {
     image: oldMsg.attachments.first() ? oldMsg.attachments.first().proxyURL : null,
     timestamp: oldMsg.createdAt
 });
-    return client.channels.fetch(client.config.messagelog).then(channel => {
+     client.channels.fetch(client.config.messagelog).then(channel => {
         const embed = new MessageEmbed()
         .setColor('#dc3b3b')
         .setDescription(`<@${oldMsg.author.id}> | ${oldMsg.author.tag} (${oldMsg.author.id})\ndeleted a message in <#${oldMsg.channel.id}>\n`).addField('Deleted Message:', `${oldMsg.content ? oldMsg.content : `[No messages found](${oldMsg.attachments.first() ? oldMsg.attachments.first().proxyURL : null}).`}`).setImage(oldMsg.attachments.first() ? oldMsg.attachments.first().proxyURL : null)
         .setThumbnail(oldMsg.author.avatarURL({ dynamic: true }));
-        channel.send(embed);
+        return channel.send(embed);
     });
 
    
