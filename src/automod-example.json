@@ -2,5 +2,6 @@
     "enabled": true,
     "invites": ["discord.gg"],
     "slurs": [""],
-    "swears": [""]
+    "swears": [""],
+    "massmention": ""
 }
