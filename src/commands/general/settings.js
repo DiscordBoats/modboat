@@ -4,6 +4,7 @@ module.exports = {
     name: 'settings',
     category: 'General',
     description: 'Change bot settings here',
+    permissions: ['MANAGE_SERVER'],
     async execute(client, msg, args) {
         const setSettings = () => {
             const settings = client.db.prepare('SELECT * FROM settings').all() || { name: '', value: '' };

@@ -7,8 +7,8 @@ module.exports = {
 	aliases: ['e', 'ev'],
 	usage: '[code]',
 	category: 'Admin',
+	ownerOnly: true,
 	async execute(client, msg, args) {
-		return;
 		let hrDiff = process.hrtime(process.hrtime());
 		let isPromise = false;
 
@@ -50,5 +50,4 @@ module.exports = {
 			msg.channel.send(embed);
 		}
 	}
-
 }

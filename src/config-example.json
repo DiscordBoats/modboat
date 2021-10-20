@@ -1,9 +1,6 @@
 {
     "defaultPrefix": "+",
     "token": "",
-    "modlog": "",
-    "memberlog": "",
-    "messagelog": "",
     "muted": "Muted",
     "modRole": "",
     "owners": [""]
