@@ -20,7 +20,7 @@ module.exports = (client, msg) => {
 
   // prefix stuff
   const prefixMention = new RegExp(`^<@!?${client.user.id}> `);
-  const prefix = msg.content.match(prefixMention) ? msg.content.match(prefixMention)[0] : client.config.prefix;
+  const prefix = msg.content.match(prefixMention) ? msg.content.match(prefixMention)[0] : (client.settings.prefix || client.config.defaultPrefix);
   if (msg.content.indexOf(prefix) !== 0) {
     return;
   }

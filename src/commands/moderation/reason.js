@@ -12,6 +12,10 @@ module.exports = {
             msg.channel.send('That case does not exist.');
         }
 
+        if (!client.settings.modlog) {
+            msg.channel.send('There is no modlog channel set.');
+        }
+
         const reason = args.slice(1).join(' ');
         client.channels.fetch(client.config.modlog).then(channel => {
             channel.messages.fetch(modlogCase.message_id).then(message => {

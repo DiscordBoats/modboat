@@ -22,7 +22,11 @@ module.exports = {
     
             member.kick(args.slice(1).join(' ')).then(() => {
                 msg.channel.send(`${user.tag} (${user.id}) has been kicked.`);
-                client.channels.fetch(client.config.modlog).then(channel => {
+                if (!client.settings.modlog) {
+                    return;
+                }
+
+                client.channels.fetch(client.settings.modlog).then(channel => {
                     const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || { number: 0 };
                     const embed = {
                         color: 'f1aeae',

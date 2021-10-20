@@ -1,7 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = (client, member) => {
-    let censor = client.automod.swears
+    let censor = client.automod.swears;
     const profane = !!censor.find((word) => {
         const regex = new RegExp(`\\b${word}\\b`, 'i'); 
         return regex.test(member.user.username);             
@@ -22,6 +22,10 @@ module.exports = (client, member) => {
       setTimeout(async () => {
         await member.kick('Having a blacklisted word/phrase as their username')
       }, 1000);
+    }
+
+    if (!client.settings.memberlog) {
+      return;
     }
      
     const embed = new MessageEmbed()

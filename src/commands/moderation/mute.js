@@ -29,7 +29,12 @@ module.exports = {
                 if (time[1]) {
                     client.db.prepare('INSERT INTO mutes (id, expires) VALUES (?, ?)').run(member.id, Date.now() + ms(time[1]));
                 }
-                client.channels.fetch(client.config.modlog).then(channel => {
+
+                if (!client.settings.modlog) {
+                    return;
+                }
+
+                client.channels.fetch(client.settings.modlog).then(channel => {
                     const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || { number: 0 };
                     const embed = {
                         color: '2e6cc2',

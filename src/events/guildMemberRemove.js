@@ -1,6 +1,10 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = (client, member) => {
+    if (!client.settings.memberlog) {
+        return;
+    }
+
     const unix = Math.floor(new Date(`${member.user.createdAt}`).getTime() / 1000);
     const embed = new MessageEmbed()
     .setColor('RED')

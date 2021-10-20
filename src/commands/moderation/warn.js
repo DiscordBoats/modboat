@@ -23,7 +23,11 @@ module.exports = {
             const currentWarnings = client.db.prepare('SELECT number FROM warns WHERE id = ?').get(member.id);
             client.db.prepare('INSERT OR REPLACE INTO warns (id, number) VALUES (?, ?)').run(member.id, currentWarnings ? currentWarnings.number + 1 : 1);
     
-            client.channels.fetch(client.config.modlog).then(channel => {
+            if (!client.settings.modlog) {
+                return;
+            }
+
+            client.channels.fetch(client.settings.modlog).then(channel => {
                 const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || { number: 0 };
                 const embed = {
                     color: 'e67e22',

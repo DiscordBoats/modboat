@@ -1,7 +1,7 @@
 module.exports = async (client, guild, member) => {
     const logs = await guild.fetchAuditLogs({ limit: 1, type: 'MEMBER_BAN' });
     const log = logs.entries.first();
-    if (!log) {
+    if (!log || !client.config.modlog) {
         return;
     }
     
