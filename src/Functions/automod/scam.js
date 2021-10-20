@@ -1,5 +1,5 @@
 const superagent = require('superagent'); 
-const { Permissions } = require('discord.js');
+const { Permissions, MessageEmbed } = require('discord.js');
 
 module.exports = async (client, msg) => {
     const unix = Math.floor(new Date().getTime() / 1000);
