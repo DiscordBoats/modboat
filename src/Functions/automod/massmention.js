@@ -22,8 +22,7 @@ module.exports = (client, msg) => {
                 const embed = new MessageEmbed()
                 .setColor('#fc5858')
                 .setThumbnail(msg.author.avatarURL({
-                    dylanic: true,
-                    format: 'png'
+                    dylanic: true
                 }))
                 .setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id}) mass mentioned more then or at least ${massmention} user(s) in <#${msg.channel.id}>\n\n User has been muted.`);
                 return channel.send({
