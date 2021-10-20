@@ -1,5 +1,5 @@
 const { readdir } = require('fs').promises;
-const { Client, Collection } = require('discord.js');
+const { Client, Collection, MessageEmbed } = require('discord.js');
 const Logger = require('leekslazylogger');
 
 const client = new Client({
@@ -7,6 +7,7 @@ const client = new Client({
   autoReconnect: true
 });
 
+global.MessageEmbed = MessageEmbed
 client.db = require('better-sqlite3')('database.db');
 client.db.pragma('journal_mode = WAL');
 client.log = new Logger();

@@ -3,6 +3,7 @@ const { preconditions } = require('../functions/preconditions');
 const automodInvites = require('../functions/automod/invites');
 const automodSlurs = require('../functions/automod/slurs');
 const automodMassmention = require('../functions/automod/massmention');
+const automodScam = require('../functions/automod/scam');
 
 module.exports = (client, msg) => {
   if (msg.author.bot || !msg.guild) {
@@ -14,6 +15,7 @@ module.exports = (client, msg) => {
     automodInvites(client, msg);
     automodSlurs(client, msg);
     automodMassmention(client, msg);
+    automodScam(client, msg)
   }
 
   // prefix stuff
