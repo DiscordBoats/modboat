@@ -3,5 +3,6 @@
     "invites": ["discord.gg"],
     "slurs": [""],
     "swears": [""],
-    "massmention": ""
+    "massmention": "",
+    "scamLinks": []
 }
