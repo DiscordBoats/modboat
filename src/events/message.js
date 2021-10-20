@@ -15,7 +15,7 @@ module.exports = (client, msg) => {
     automodInvites(client, msg);
     automodSlurs(client, msg);
     automodMassmention(client, msg);
-    automodScam(client, msg)
+    automodScam(client, msg);
   }
 
   // prefix stuff
