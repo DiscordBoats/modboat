@@ -7,6 +7,10 @@ module.exports = {
     category: 'Moderation',
     permissions: ['MANAGE_ROLES'],
     execute(client, msg, args) {
+        if (!client.config.mutedRole) { 
+            return msg.channel.send(`The muted role has not been set up yet.`);
+        }
+
         const user = msg.mentions.users.first() || args[0];
         const member = msg.guild.member(user);
         if (member) {

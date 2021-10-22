@@ -9,10 +9,11 @@ module.exports = {
         const user = msg.mentions.users.first() || args[0];
         const member = msg.guild.member(user);
         if (member) {
-            if (member.roles.cache.find(r => r.id === client.config.modRole)) {
-                return msg.channel.send('You cannot change the nick of this user.');
+            if (client.config.modRole) {
+                if (member.roles.cache.find(r => r.id === client.settings.modRole)) {
+                    return msg.channel.send('You cannot change the nick of this user.');
+                }
             }
-
             member.setNickname(args.slice(1).join(' ')).then(() => {
                 msg.channel.send(`${member.user.tag}'s nickname has been changed to ${args.slice(1).join(' ')}`);
             }).catch(err => {

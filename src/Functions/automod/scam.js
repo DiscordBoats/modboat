@@ -1,12 +1,10 @@
-const superagent = require('superagent'); 
+const fetch = require('node-fetch');
 const { Permissions, MessageEmbed } = require('discord.js');
 
 module.exports = async (client, msg) => {
     const unix = Math.floor(new Date().getTime() / 1000);
-    const links = await superagent
-    .get(`${client.automod.scamLinks}`); 
+    const scam = (await (await fetch(client.automod.scamLinks)).json()); 
 
-    const scam = links.body
     const scamRegex = !!scam.find((word) => {
         if (msg.member.roles.cache.find(r => r.id === client.config.modRole) || msg.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES) || msg.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
             return;

@@ -1,7 +1,8 @@
 {
     "defaultPrefix": "+",
     "token": "",
-    "muted": "Muted",
+    "mutedRole": "Muted",
     "modRole": "",
-    "owners": [""]
+    "owners": [""],
+    "dehoist": ["!", ":", "?", "$", "%", "&", "'", "(", ")", "#", "*", "+", ",", "-", ".", "/"]
 }

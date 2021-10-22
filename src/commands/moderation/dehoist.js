@@ -1,20 +1,9 @@
-const { Message } = require("discord.js");
-
-const symbols = ["!", ":", "?", "$", "%", "&", "'", "(", ")", "#", "*", "+", ",", "-", ".", "/"]
-
 module.exports = {
     name: 'dehoist',
     descritpion: 'Dehoists Users',
     usage: 'nickname [user mention or id] | username [user mention or id]',
     category: 'Moderation',
     permissions: ['MANAGE_NICKNAMES'],
-    /**
-     * 
-     * @param {*} client 
-     * @param {Message} msg 
-     * @param {*} args 
-     * @returns 
-     */
     async execute(client, msg, args) {
         const member = msg.mentions.members.first() || msg.guild.members.cache.get(args[0]);
         if (!member) {
@@ -23,7 +12,13 @@ module.exports = {
 
         if (!member.kickable) {
             return msg.channel.send('You cannot dehoist this user.');
-        };
+        }
+
+        if (client.config.modRole) {
+            if (member.roles.cache.find(r => r.id === client.settings.modRole)) {
+                return msg.channel.send('You cannot dehoist this user.');
+            }
+        }
 
         if (args[0] === 'nickname') {
             if (member.nickname === null) {
@@ -32,10 +27,10 @@ module.exports = {
 
             if (client.emoji.removeEmoji(member.nickname, false)) {
                 member.edit({ nick: 'No hoisting' });
-                return message.channel.send(`\`${member.user.tag}\` has been dehoisted.`);
+                return msg.channel.send(`\`${member.user.tag}\` has been dehoisted.`);
             }
 
-            const nick = symbols.find(s => member.nickname.startsWith(s));
+            const nick = client.config.dehoist.find(s => member.nickname.startsWith(s));
 
             if (nick) {
                 member.edit({ nick: 'No hoisting' });
@@ -61,7 +56,7 @@ module.exports = {
                 return msg.channel.send(`\`${member.user.tag}\` has been dehoisted.`);
             }
             
-            const user = symbols.find(s => member.user.username.startsWith(s));
+            const user = client.config.dehoist.find(s => member.user.username.startsWith(s));
             
             if (user) {
                 member.edit({ nick: 'No hoisting' });

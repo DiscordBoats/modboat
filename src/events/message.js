@@ -11,7 +11,7 @@ module.exports = (client, msg) => {
   }
 
   // automod
-  if (msg.content && client.automod.enabled === true) {
+  if (msg.content && client.settings.automod) {
     automodInvites(client, msg);
     automodSlurs(client, msg);
     automodMassmention(client, msg);

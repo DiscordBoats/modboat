@@ -26,8 +26,10 @@ module.exports = {
                 return msg.channel.send('You cannot undeafen the bot or yourself.');
             }
     
-            if (member.roles.cache.find(r => r.id === client.config.modRole)) {
-                return msg.channel.send('You cannot undeafen this user.');
+            if (client.config.modRole) {
+                if (member.roles.cache.find(r => r.id === client.settings.modRole)) {
+                    return msg.channel.send('You cannot undeafen this user.');
+                }
             }
     
             member.voice.setDeafen(false).then(() => { 

@@ -5,6 +5,10 @@ module.exports = {
     category: 'Moderation',
     permissions: ['MANAGE_ROLES'],
     execute(client, msg, args) {
+        if (!client.config.mutedRole) { 
+            return msg.channel.send(`The muted role has not been set up yet.`);
+        }
+
         const user = msg.mentions.users.first() || args[0];
         const member = msg.guild.member(user);
         if (member) {
@@ -12,11 +16,13 @@ module.exports = {
                 return msg.channel.send('You cannot unmute the bot or yourself.');
             }
 
-            if (member.roles.cache.find(r => r.id === client.config.modRole)) {
-                return msg.channel.send('You cannot unmute this user.');
+            if (client.config.modRole) {
+                if (member.roles.cache.find(r => r.id === client.settings.modRole)) {
+                    return msg.channel.send('You cannot unmute this user.');
+                }
             }
 
-            const muterole = msg.guild.roles.cache.find(r => r.name === 'Muted');
+            const muterole = msg.guild.roles.cache.find(r => r.id === client.settings.mutedRole);
             if (!member.roles.cache.has(muterole.id)) {
                 return msg.channel.send('This user is not muted.');
             }

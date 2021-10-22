@@ -16,8 +16,10 @@ module.exports = {
                 return msg.channel.send('You cannot kick the bot or yourself.');
             }
     
-            if (member.roles.cache.find(r => r.id === client.config.modRole)) {
-                return msg.channel.send('You cannot kick this user.');
+            if (client.config.modRole) {
+                if (member.roles.cache.find(r => r.id === client.settings.modRole)) {
+                    return msg.channel.send('You cannot kick this user.');
+                }
             }
     
             member.kick(args.slice(1).join(' ')).then(() => {

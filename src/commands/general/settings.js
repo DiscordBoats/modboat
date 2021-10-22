@@ -4,7 +4,7 @@ module.exports = {
     name: 'settings',
     category: 'General',
     description: 'Change bot settings here',
-    permissions: ['MANAGE_SERVER'],
+    permissions: ['BAN_MEMBERS'],
     async execute(client, msg, args) {
         const setSettings = () => {
             const settings = client.db.prepare('SELECT * FROM settings').all() || { name: '', value: '' };
@@ -14,6 +14,8 @@ module.exports = {
             });
             client.settings = list;
         }
+
+        let settings, list;
 
         switch (args[0]) {
             case 'prefix':
@@ -82,22 +84,59 @@ module.exports = {
                 msg.channel.send(`${args[0].charAt(0).toUpperCase() + args[0].slice(1)} role changed to ${args[1]}`);
                 break;
 
+            case 'automod':
+                switch (args[1]) {
+                    case 'false':
+                    case 'off':
+                    case 'true':
+                    case 'on':
+                        client.db.prepare('INSERT OR REPLACE INTO settings (name, value) VALUES (?, ?)').run('automod', args[1]);
+                        setSettings();
+                        msg.channel.send(`Automod is now ${args[1]}`);
+                        break;
+                    default:
+                        settings = client.db.prepare('SELECT * FROM settings').all() || { name: '', value: '' };
+                        list = {};
+                        settings.forEach(setting => {
+                            if (!setting.name.startsWith('automod_')) {
+                                return;
+                            }
+                            list[setting.name] = setting.value;
+                        });
+
+                        const embed = new MessageEmbed()
+                        .setTitle('Automod')
+                        .setDescription(`Automod is currently ${client.settings.automod ? 'enabled' : 'disabled'}. To see list of items in a automod category, run ``${client.settings.prefix || client.config.defaultPrefix}settings automod <item>``.`)
+                        .addField('Invites', list.automod_invites ? 'Enabled' : 'Disabled', true)
+                        .addField('Scams', list.automod_scams ? 'Enabled' : 'Disabled', true)
+                        .addField('Mass mentions', list.automod_massmentions ? 'Enabled' : 'Disabled', true)
+                        .addField('Blacklisted words', list.automod_blacklistedwords ? 'Enabled' : 'Disabled', true);
+                        msg.channel.send(embed);
+                }
+                break;
+
+
             default: 
-                const settings = client.db.prepare('SELECT * FROM settings').all() || { name: '', value: '' };
-                const list = {};
+                settings = client.db.prepare('SELECT * FROM settings').all() || { name: '', value: '' };
+                list = {};
                 settings.forEach(setting => {
+                    if (setting.name.startsWith('automod_')) {
+                        return;
+                    }
                     list[setting.name] = setting.value;
                 });
+
                 const embed = new MessageEmbed()
                     .setColor(0x00AE86)
                     .setTitle('Settings')
                     .setDescription('Current bot settings')
-                    .addField('Prefix', list.prefix || client.config.defaultPrefix)
-                    .addField('Mod log', list.modlog || 'None')
-                    .addField('Member log', list.memberlog || 'None')
-                    .addField('Message log', list.messagelog || 'None')
-                    .addField('Muted role', list.mutedrole || 'None')
-                    .addField('Mod role', list.modrole ||'None');
+                    .addField('Prefix', list.prefix || client.config.defaultPrefix, true)
+                    .addField('Mod log', list.modlog || 'None', true)
+                    .addField('Member log', list.memberlog || 'None', true)
+                    .addField('Message log', list.messagelog || 'None', true)
+                    .addField('Muted role', list.mutedrole || 'None', true)
+                    .addField('Mod role', list.modrole ||'None', true)
+                    .addField('Automod', list.automod ? 'Enabled' : 'Disabled', true);
                 msg.channel.send(embed);
         }
     }
