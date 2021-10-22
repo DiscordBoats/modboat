@@ -3,7 +3,8 @@ const { Permissions, MessageEmbed } = require('discord.js');
 
 module.exports = async (client, msg) => {
     const unix = Math.floor(new Date().getTime() / 1000);
-    const links = await superagent.get(`${client.automod.scamLinks}`); 
+    const links = await superagent
+    .get(`${client.automod.scamLinks}`); 
 
     const scam = links.body
     const scamRegex = !!scam.find((word) => {

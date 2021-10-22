@@ -1,7 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = (client, msg) => {
-    const slurCensor = client.automod.slurs;
+    const slurCensor = client.automod.blacklistedWords;
     const slurCheck = !!slurCensor.find((word) => {
         const regex = new RegExp(`\\b${word}\\b`, 'i');
         return regex.test(msg.content);
