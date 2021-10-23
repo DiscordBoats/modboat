@@ -5,7 +5,7 @@ module.exports = {
     category: 'Utility',
     permissions: ['BAN_MEMBERS'],
     async execute(_client, msg, args) {
-        const members = filter(await msg.guild.members.fetch(), (_k, v) => v.user.username.includes(args.join(' ')));
+        const members = filter(await msg.guild.members.fetch(), (_k, v) => v.user.username.toLowerCase().includes(args.join(' ')));
         let list = '';
         members.forEach(member => {
             list += `${member.user.username}#${member.user.discriminator} (${member.user.id})\n`;
@@ -13,7 +13,7 @@ module.exports = {
         const embed = {
             color: 'd35c5e',
             title: 'Results found',
-            description: list
+            description: list.substring(0, 4096)
         }
         msg.channel.send({
             embed
