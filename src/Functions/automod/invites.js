@@ -5,7 +5,7 @@ module.exports = (client, msg) => {
         return;
     }
 
-    const censor = client.automod.invites;
+    const censor = client.automod.invites || [];
     const censorChecks = !!censor.find((word) => {
         if (msg.member.roles.cache.find(r => r.id === client.settings.modrole)) {
             return;

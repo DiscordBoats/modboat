@@ -5,7 +5,7 @@ module.exports = (client, msg) => {
         return;
     }
 
-    const slurCensor = client.automod.blacklistedWords;
+    const slurCensor = client.automod.blacklistedWords || [];
     const slurCheck = !!slurCensor.find((word) => {
         const regex = new RegExp(`\\b${word}\\b`, 'i');
         return regex.test(msg.content);

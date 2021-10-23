@@ -8,7 +8,7 @@ module.exports = {
     permissions: ['MANAGE_ROLES'],
     execute(client, msg, args) {
         if (!client.settings.mutedrole) { 
-            return msg.channel.send(`The muted role has not been set up yet.`);
+            return msg.channel.send('The muted role has not been set up yet.');
         }
 
         const user = msg.mentions.users.first() || args[0];

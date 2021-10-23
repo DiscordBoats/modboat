@@ -41,4 +41,12 @@ const init = async () => {
 
 init();
 
+process.on('unhandledRejection', (err) => {
+  client.log.error(err);
+});
+
+client.on('error', (err) => { 
+  client.log.error(err);
+});
+
 client.login(client.config.token);

@@ -12,7 +12,7 @@ module.exports = (client, member) => {
     .setAuthor('📤 User Left')
     .setDescription(`<@${member.user.id}> | ${member.user.tag} (${member.user.id})\n\n**User Created:**\n<t:${unix}:f> (<t:${unix}:R>)\n**Roles**:${member.roles.cache.map(r => r).join(' | ')}`);
    
-    client.channels.fetch(client.config.memberlog).then(channel => {
+    client.channels.fetch(client.settings.memberlog).then(channel => {
         channel.send({ embed });
     });
 };

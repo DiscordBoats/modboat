@@ -106,7 +106,7 @@ module.exports = {
 
                         const embed = new MessageEmbed()
                         .setTitle('Automod')
-                        .setDescription(`Automod is currently ${client.settings.automod ? 'enabled' : 'disabled'}. To see list of items in a automod category, run ``${client.settings.prefix || client.config.defaultPrefix}settings automod <item>``.`)
+                        .setDescription(`Automod is currently ${client.settings.automod ? 'enabled' : 'disabled'}. To see list of items in a automod category, run \`\`${client.settings.prefix || client.config.defaultPrefix}settings automod <item>\`\`.`)
                         .addField('Invites', list.automod_invites ? 'Enabled' : 'Disabled', true)
                         .addField('Scams', list.automod_scams ? 'Enabled' : 'Disabled', true)
                         .addField('Mass mentions', list.automod_massmentions ? 'Enabled' : 'Disabled', true)
