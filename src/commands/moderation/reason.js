@@ -17,7 +17,7 @@ module.exports = {
         }
 
         const reason = args.slice(1).join(' ');
-        client.channels.fetch(client.config.modlog).then(channel => {
+        client.channels.fetch(client.settings.modlog).then(channel => {
             channel.messages.fetch(modlogCase.message_id).then(message => {
                 message.embeds[0].description = message.embeds[0].description.split('**Reason:**')[0] + '**Reason:** ' + reason;
                 message.edit(new MessageEmbed(message.embeds[0]));

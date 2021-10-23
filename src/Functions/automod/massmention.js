@@ -15,8 +15,7 @@ module.exports = (client, msg) => {
 
     if (validate) {
         const member = msg.member;
-        const mutedrole = msg.guild.roles.cache.find(r => r.id === client.settings.mutedrole);
-        member.roles.add(mutedrole).then(() => {
+        member.roles.add(client.settings.mutedrole).then(() => {
             setTimeout(() => {
                 msg.delete().catch((err) => {})
             }, 0);

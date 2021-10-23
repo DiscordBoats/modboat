@@ -10,7 +10,7 @@ module.exports = {
         const member = msg.guild.member(user);
         if (member) {
             if (client.settings.modrole) {
-                if (member.roles.cache.find(r => r.id === client.settings.modrole)) {
+                if (member.roles.cache.has(client.settings.modrole)) {
                     return msg.channel.send('You cannot change the nick of this user.');
                 }
             }

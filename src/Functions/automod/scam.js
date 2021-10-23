@@ -10,7 +10,7 @@ module.exports = async (client, msg) => {
     const scam = await fetch(client.automod.scamLinks).then(res => res.json()); 
 
     const scamRegex = !!scam.find((word) => {
-        if (msg.member.roles.cache.find(r => r.id === client.settings.modrole)) {
+        if (msg.member.roles.cache.has(client.settings.modrole)) {
             return;
         }
         const regex = new RegExp(`\\b${word}\\b`, 'i');
@@ -22,8 +22,7 @@ module.exports = async (client, msg) => {
             msg.delete()
         }, 0);
 
-        const mutedrole = msg.guild.roles.cache.find(r => r.id === client.settings.mutedrole);
-        msg.member.roles.add(mutedrole);
+        msg.member.roles.add(client.settings.mutedrole);
         const embed = new MessageEmbed()
         .setAuthor('❌ Phishing Link Detected')
         .setColor('RED')

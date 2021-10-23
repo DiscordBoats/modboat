@@ -7,7 +7,7 @@ module.exports = (client, msg) => {
 
     const censor = client.automod.invites || [];
     const censorChecks = !!censor.find((word) => {
-        if (msg.member.roles.cache.find(r => r.id === client.settings.modrole)) {
+        if (msg.member.roles.cache.has(client.settings.modrole)) {
             return;
         }
         const regex = new RegExp(`\\b${word}\\b`, 'i');

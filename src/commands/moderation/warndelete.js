@@ -17,7 +17,7 @@ module.exports = {
             }
     
             if (client.settings.modrole) {
-                if (member.roles.cache.find(r => r.id === client.settings.modrole)) {
+                if (member.roles.cache.has(client.settings.modrole)) {
                     return msg.channel.send('You cannot remove warnings from this user.');
                 }
             }
