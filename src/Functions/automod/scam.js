@@ -1,12 +1,16 @@
 const fetch = require('node-fetch');
-const { Permissions, MessageEmbed } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = async (client, msg) => {
+    if (!client.settings.modrole || !client.settings.muteRole) {
+        return;
+    }
+
     const unix = Math.floor(new Date().getTime() / 1000);
     const scam = await fetch(client.automod.scamLinks).then(res => res.json()); 
 
     const scamRegex = !!scam.find((word) => {
-        if (msg.member.roles.cache.find(r => r.id === client.config.modRole) || msg.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES) || msg.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
+        if (msg.member.roles.cache.find(r => r.id === client.settings.modrole)) {
             return;
         }
         const regex = new RegExp(`\\b${word}\\b`, 'i');
@@ -18,7 +22,7 @@ module.exports = async (client, msg) => {
             msg.delete()
         }, 0);
 
-        const muterole = msg.guild.roles.cache.find(r => r.name === client.config.muted);
+        const muterole = msg.guild.roles.cache.find(r => r.id === client.settings.mutedrole);
         msg.member.roles.add(muterole);
         const embed = new MessageEmbed()
         .setAuthor('❌ Phishing Link Detected')

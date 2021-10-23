@@ -1,12 +1,12 @@
 module.exports = async (client, guild, member) => {
     const logs = await guild.fetchAuditLogs({ limit: 1, type: 'MEMBER_BAN' });
     const log = logs.entries.first();
-    if (!log || !client.config.modlog) {
+    if (!log || !client.settings.modlog) {
         return;
     }
     
     if (log.executor && log.target.id === member.id) {
-        client.channels.fetch(client.config.modlog).then(channel => {
+        client.channels.fetch(client.settings.modlog).then(channel => {
             const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || { number: 0 };
             const embed = {
                 color: 'dc3b3b',

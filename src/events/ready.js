@@ -4,6 +4,10 @@ module.exports = async (client) => {
 
     // check for mutes
     setInterval(async () => {
+        if (!client.settings.mutedrole) {
+            return;
+        }
+
         const mutes = client.db.prepare('SELECT * FROM mutes').all();
         for (const mute of mutes) {
             if (mute.expires < Date.now()) {
@@ -15,7 +19,7 @@ module.exports = async (client) => {
                     member = guild.members.cache.get(mute.id);
                 }
                 if (member) {
-                    await member.roles.remove(guild.roles.cache.find(r => r.name === 'Muted').id);
+                    await member.roles.remove(client.settings.mutedrole);
                     client.db.prepare('DELETE FROM mutes WHERE id = ?').run(mute.id);
 
                     client.channels.fetch(client.config.modlog).then(channel => {

@@ -1,7 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = (client, member) => {
-    let censor = client.automod.swears;
+    let censor = client.automod.swears || [];
     const profane = !!censor.find((word) => {
         const regex = new RegExp(`\\b${word}\\b`, 'i'); 
         return regex.test(member.user.username);             
@@ -34,7 +34,7 @@ module.exports = (client, member) => {
     .setAuthor('📥 User Joined')
     .setDescription(`<@${member.user.id}> | ${member.user.tag} (${member.user.id})\n\n**User Created:**\n<t:${unix}:f> (<t:${unix}:R>)`);
    
-    client.channels.fetch(client.config.memberlog).then(channel => {
+    client.channels.fetch(client.settings.memberlog).then(channel => {
         channel.send({ embed });
     });
 };
