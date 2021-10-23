@@ -29,6 +29,7 @@ module.exports = {
             member.roles.remove(client.settings.mutedrole).then(() => {
                 msg.channel.send(`${user.tag} (${user.id}) has been unmuted.`);
                 client.db.prepare('DELETE FROM mutes WHERE id = ?').run(user.id);
+
                 if (!client.settings.modlog) {
                     return;
                 }

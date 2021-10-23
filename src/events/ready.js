@@ -22,7 +22,11 @@ module.exports = async (client) => {
                     await member.roles.remove(client.settings.mutedrole);
                     client.db.prepare('DELETE FROM mutes WHERE id = ?').run(mute.id);
 
-                    client.channels.fetch(client.config.modlog).then(channel => {
+                    if (!client.settings.modlog) {
+                        return;
+                    }
+
+                    client.channels.fetch(client.settings.modlog).then(channel => {
                         const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || { number: 0 };
                         const embed = {
                             color: '040d14',

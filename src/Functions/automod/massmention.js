@@ -1,7 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = (client, msg) => {
-    if (!client.settings.modrole || !client.settings.muteRole || !client.settings.messagelog) {
+    if (!client.settings.modrole || !client.settings.mutedrole || !client.settings.messagelog) {
         return;
     }
 
@@ -15,8 +15,8 @@ module.exports = (client, msg) => {
 
     if (validate) {
         const member = msg.member;
-        const muterole = msg.guild.roles.cache.find(r => r.id === client.settings.mutedrole);
-        member.roles.add(muterole).then(() => {
+        const mutedrole = msg.guild.roles.cache.find(r => r.id === client.settings.mutedrole);
+        member.roles.add(mutedrole).then(() => {
             setTimeout(() => {
                 msg.delete().catch((err) => {})
             }, 0);

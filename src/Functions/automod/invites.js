@@ -1,7 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = (client, msg) => {
-    if (!client.settings.modrole || !client.settings.muteRole || !client.settings.messagelog) {
+    if (!client.settings.modrole || !client.settings.mutedrole || !client.settings.messagelog) {
         return;
     }
 
