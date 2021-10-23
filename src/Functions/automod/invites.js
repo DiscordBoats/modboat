@@ -1,9 +1,13 @@
-const { Permissions, MessageEmbed } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = (client, msg) => {
+    if (!client.settings.modrole || !client.settings.muteRole || !client.settings.messagelog) {
+        return;
+    }
+
     const censor = client.automod.invites;
     const censorChecks = !!censor.find((word) => {
-        if (msg.member.roles.cache.find(r => r.id === client.config.modRole) || msg.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES) || msg.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
+        if (msg.member.roles.cache.find(r => r.id === client.settings.modrole)) {
             return;
         }
         const regex = new RegExp(`\\b${word}\\b`, 'i');
@@ -14,7 +18,7 @@ module.exports = (client, msg) => {
         setTimeout(() => {
             msg.delete().catch((err) => {})
         }, 0);
-        client.channels.fetch(client.config.messagelog).then(channel => {
+        client.channels.fetch(client.settings.messagelog).then(channel => {
             const embed = new MessageEmbed()
                 .setColor('RED')
                 .setThumbnail(msg.author.avatarURL({

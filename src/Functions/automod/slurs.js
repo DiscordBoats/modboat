@@ -1,6 +1,10 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = (client, msg) => {
+    if (!client.settings.messagelog) {
+        return;
+    }
+
     const slurCensor = client.automod.blacklistedWords;
     const slurCheck = !!slurCensor.find((word) => {
         const regex = new RegExp(`\\b${word}\\b`, 'i');
@@ -11,7 +15,7 @@ module.exports = (client, msg) => {
         setTimeout(() => {
             msg.delete().catch((err) => {})
         }, 0);
-        client.channels.fetch(client.config.messagelog).then(channel => {
+        client.channels.fetch(client.settings.messagelog).then(channel => {
             const embed = new MessageEmbed()
             .setColor('#fc5858')
             .setThumbnail(msg.author.avatarURL({

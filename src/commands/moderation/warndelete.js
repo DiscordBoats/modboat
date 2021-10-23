@@ -16,8 +16,8 @@ module.exports = {
                 return msg.channel.send('You cannot remove warnings from the bot or yourself.');
             }
     
-            if (client.config.modRole) {
-                if (member.roles.cache.find(r => r.id === client.settings.modRole)) {
+            if (client.settings.modrole) {
+                if (member.roles.cache.find(r => r.id === client.settings.modrole)) {
                     return msg.channel.send('You cannot remove warnings from this user.');
                 }
             }

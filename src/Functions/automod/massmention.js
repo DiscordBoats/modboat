@@ -1,6 +1,10 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = (client, msg) => {
+    if (!client.settings.modrole || !client.settings.muteRole || !client.settings.messagelog) {
+        return;
+    }
+
     const massmention = client.automod.massmention;
     const regex = /<@![0-9]{18}>/gm;
 
@@ -11,13 +15,13 @@ module.exports = (client, msg) => {
 
     if (validate) {
         const member = msg.member;
-        const muterole = msg.guild.roles.cache.find(r => r.name === client.config.muted);
+        const muterole = msg.guild.roles.cache.find(r => r.id === client.settings.mutedrole);
         member.roles.add(muterole).then(() => {
             setTimeout(() => {
                 msg.delete().catch((err) => {})
             }, 0);
             msg.channel.send(`\`${msg.author.tag}\` has been muted for mass mentions.`);
-            client.channels.fetch(client.config.messagelog).then(channel => {
+            client.channels.fetch(client.settings.messagelog).then(channel => {
                 const embed = new MessageEmbed()
                 .setColor('#fc5858')
                 .setThumbnail(msg.author.avatarURL({

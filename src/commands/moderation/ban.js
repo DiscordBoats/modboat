@@ -14,8 +14,10 @@ module.exports = {
                 return msg.channel.send('You cannot ban the bot or yourself.');
             }
     
-            if (user.roles.cache.find(r => r.id === client.config.modRole)) {
-                return msg.channel.send('You cannot ban this user.');
+            if (client.settings.modrole) {
+                if (member.roles.cache.find(r => r.id === client.settings.modrole)) {
+                    return msg.channel.send('You cannot ban this user.');
+                }
             }
 
             if (ban) {
