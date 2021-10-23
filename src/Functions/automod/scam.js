@@ -7,7 +7,7 @@ module.exports = async (client, msg) => {
     }
 
     const unix = Math.floor(new Date().getTime() / 1000);
-    const scam = await (await fetch(client.automod.scamLinks)).json();
+    const scam = await fetch(client.automod.scamLinks).then(res => res.json()); 
 
     const scamRegex = !!scam.find((word) => {
         if (msg.member.roles.cache.find(r => r.id === client.settings.modrole)) {
