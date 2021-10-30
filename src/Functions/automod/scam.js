@@ -1,4 +1,3 @@
-const fetch = require('node-fetch');
 const { MessageEmbed } = require('discord.js');
 
 module.exports = async (client, msg) => {
@@ -6,29 +5,31 @@ module.exports = async (client, msg) => {
         return;
     }
 
+
     const unix = Math.floor(new Date().getTime() / 1000);
-    const scam = await fetch(client.automod.scamLinks).then(res => res.json()); 
+    let scam = await require('node-fetch')(client.automod.scamLinks, {
+        method: "post",
+        body: JSON.stringify({ message: msg.content}),
+        headers: {
+            "Content-Type": "application/json",
+            "User-Agent": "Anti-phishing (Sasiko#1234 / 148619350700589056)",
+        },
 
-    const scamRegex = !!scam.find((word) => {
-        if (msg.member.roles.cache.has(client.settings.modrole)) {
-            return;
-        }
-        const regex = new RegExp(`\\b${word}\\b`, 'i');
-        return regex.test(msg.content);
-    });
+    }).then(res => res.json())
 
-    if (scamRegex) {
+    if (scam.match || /^((s[tl][era][ear]r?[amn].{0,2}.*\.)|(affix.*\.)|(cloud(9team|team9).*\.)|(cs-.*\.)|(csgo.*\.)|(discor.*\.)|(epicg.*\.)|(esl[-tpog].*\.)|(navi.*\.)|(natus-vin.*\.)|(pubg(-|\d).*\.)|(roblox.*\.)|(rust-.*\.)|(blox.*\.)|(robux.*\.))\w*$/i.test(msg.content)) {
+
         setTimeout(() => {
             msg.delete()
         }, 0);
 
-        msg.member.roles.add(client.settings.mutedrole);
+        await msg.member.roles.add(client.settings.mutedrole);
         const embed = new MessageEmbed()
-        .setAuthor('❌ Phishing Link Detected')
-        .setColor('RED')
-        .setThumbnail(msg.author.avatarURL({ dynamic: true }))
-        .setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id})\nhas been perm muted.\n\nMessage Deleted <t:${unix}:R>: ||${msg.content}||`)
-        .setFooter('Clicking on the link can expose your IP (location) and entering in any information details like your password or email address, will compromise your account(s).');
-        msg.channel.send(`${msg.author.id}`, embed);
+            .setAuthor('❌ Phishing Link Detected')
+            .setColor('RED')
+            .setThumbnail(msg.author.avatarURL({ dynamic: true }))
+            .setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id})\nhas been perm muted.\n\nMessage Deleted <t:${unix}:R>: ||${msg.content}||`)
+            .setFooter('Clicking on the link can expose your IP (location) and entering in any information details like your password or email address, will compromise your account(s).');
+        await msg.channel.send(`${msg.author.id}`, embed);
     }
 }
