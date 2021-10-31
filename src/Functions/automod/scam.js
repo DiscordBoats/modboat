@@ -22,13 +22,22 @@ module.exports = async (client, msg) => {
             msg.delete()
         }, 0);
 
-        msg.member.roles.add(client.settings.mutedrole);
+        await msg.member.roles.add(client.settings.mutedrole);
         const embed = new MessageEmbed()
         .setAuthor('❌ Phishing Link Detected')
         .setColor('RED')
         .setThumbnail(msg.author.avatarURL({ dynamic: true }))
         .setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id})\nhas been perm muted.\n\nMessage Deleted <t:${unix}:R>: ||${msg.content}||`)
         .setFooter('Clicking on the link can expose your IP (location) and entering in any information details like your password or email address, will compromise your account(s).');
-        msg.channel.send(`${msg.author.id}`, embed);
+        await msg.channel.send(`${msg.author.id}`, embed);
+
+        client.channels.fetch(client.settings.messagelog).then(channel => {
+            let modlogembed = new MessageEmbed()
+                .setColor('RED')
+                .setAuthor('❌ Phishing Link Found')
+                .setThumbnail(msg.author.avatarURL({ dynamic: true }))
+                .setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id})\nhas been perm muted for sending a phishing link in ${msg.channel.name}.\n\nMessage Deleted <t:${unix}:R>: ||${msg.content}||`)
+            channel.send(modlogembed);
+        });
     }
 }
