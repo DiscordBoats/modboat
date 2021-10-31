@@ -37,8 +37,13 @@ module.exports = {
             }
 
             client.db.prepare('INSERT OR REPLACE INTO warns (id, number) VALUES (?, ?)').run(member.id, currentWarnings.number - number);
+            msg.channel.send(`${user.tag} (${user.id}) has had ${number} warning(s) removed.`);
+
+            if (!client.settings.modlog) {
+                return;
+            }
     
-            client.channels.fetch(client.config.modlog).then(channel => {
+            client.channels.fetch(client.settings.modlog).then(channel => {
                 const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || { number: 0 };
                 const embed = {
                     color: '040d14',

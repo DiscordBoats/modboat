@@ -24,6 +24,7 @@ module.exports = {
 
             const currentWarnings = client.db.prepare('SELECT number FROM warns WHERE id = ?').get(member.id);
             client.db.prepare('INSERT OR REPLACE INTO warns (id, number) VALUES (?, ?)').run(member.id, currentWarnings ? currentWarnings.number + 1 : 1);
+            msg.channel.send(`${user.tag} (${user.id}) has been warned.`);
     
             if (!client.settings.modlog) {
                 return;
