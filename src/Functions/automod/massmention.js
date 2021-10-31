@@ -5,7 +5,7 @@ module.exports = (client, msg) => {
         return;
     }
 
-    const massmention = client.automod.massmention || [];
+    const massmention = client.automod.massmention;
     const regex = /<@![0-9]{18}>/gm;
 
     let validate;
