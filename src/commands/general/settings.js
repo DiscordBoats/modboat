@@ -54,7 +54,7 @@ module.exports = {
                    return msg.channel.send('Please specify a valid channel');
                 }
 
-                client.db.prepare('INSERT OR REPLACE INTO settings (name, value) VALUES (?, ?)').run(args[0], args[1]);
+                client.db.prepare('INSERT OR REPLACE INTO settings (name, value) VALUES (?, ?)').run(args[0], channel);
                 setSettings();
                 msg.channel.send(`${args[0].charAt(0).toUpperCase() + args[0].slice(1)} channel changed to ${args[1]}`);
                 break;
@@ -115,7 +115,6 @@ module.exports = {
                 }
                 break;
 
-
             default: 
                 settings = client.db.prepare('SELECT * FROM settings').all() || { name: '', value: '' };
                 list = {};
@@ -131,11 +130,11 @@ module.exports = {
                     .setTitle('Settings')
                     .setDescription('Current bot settings')
                     .addField('Prefix', list.prefix || client.config.defaultPrefix, true)
-                    .addField('Mod log', list.modlog || 'None', true)
-                    .addField('Member log', list.memberlog || 'None', true)
-                    .addField('Message log', list.messagelog || 'None', true)
-                    .addField('Muted role', list.mutedrole || 'None', true)
-                    .addField('Mod role', list.modrole ||'None', true)
+                    .addField('Mod log',  list.modlog ? `<#${list.modlog}>` : 'None', true)
+                    .addField('Member log', list.memberlog ? `<#${list.memberlog}>` : 'None', true)
+                    .addField('Message log', list.messagelog ? `<#${list.messagelog}>` : 'None', true)
+                    .addField('Muted role', list.mutedrole ? `<@${list.mutedrole}>` : 'None', true)
+                    .addField('Mod role', list.modrole ? `<@${list.modrole}>` : 'None', true)
                     .addField('Automod', list.automod ? 'Enabled' : 'Disabled', true);
                 await msg.channel.send(embed);
         }
