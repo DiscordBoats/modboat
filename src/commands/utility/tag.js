@@ -25,6 +25,6 @@ module.exports = {
                 url: tag.image
             };
         }
-        msg.channel.send({ embed });
+        await msg.channel.send({embed});
     }
 }; 

@@ -111,7 +111,7 @@ module.exports = {
                         .addField('Scams', list.automod_scams ? 'Enabled' : 'Disabled', true)
                         .addField('Mass mentions', list.automod_massmentions ? 'Enabled' : 'Disabled', true)
                         .addField('Blacklisted words', list.automod_blacklistedwords ? 'Enabled' : 'Disabled', true);
-                        msg.channel.send(embed);
+                        await msg.channel.send(embed);
                 }
                 break;
 
@@ -137,7 +137,7 @@ module.exports = {
                     .addField('Muted role', list.mutedrole || 'None', true)
                     .addField('Mod role', list.modrole ||'None', true)
                     .addField('Automod', list.automod ? 'Enabled' : 'Disabled', true);
-                msg.channel.send(embed);
+                await msg.channel.send(embed);
         }
     }
 }

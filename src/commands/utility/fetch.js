@@ -15,7 +15,7 @@ module.exports = {
             title: 'Results found',
             description: list.substring(0, 4096)
         }
-        msg.channel.send({
+        await msg.channel.send({
             embed
         });
     }

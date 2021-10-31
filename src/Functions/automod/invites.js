@@ -16,13 +16,13 @@ module.exports = (client, msg) => {
 
     if (censorChecks) {
         setTimeout(() => {
-            msg.delete().catch((err) => {})
+            msg.delete().catch((err) => {console.error(err)})
         }, 0);
         client.channels.fetch(client.settings.messagelog).then(channel => {
             const embed = new MessageEmbed()
                 .setColor('RED')
                 .setThumbnail(msg.author.avatarURL({
-                    dylanic: true
+                    dynamic: true
                 }))
                 .setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id}) tried to advertise in <#${msg.channel.id}>\n\n Message Deleted: ||${msg.content}||\n\n** **`);
             return channel.send({

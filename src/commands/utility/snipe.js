@@ -21,6 +21,6 @@ module.exports = {
             timestamp: snipe.timestamp
         }
 
-        msg.channel.send({ embed });
+        await msg.channel.send({embed});
     }
 };
