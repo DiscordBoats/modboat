@@ -14,7 +14,7 @@ module.exports = (client, member) => {
 
       const embed = new MessageEmbed()
       .setColor('YELLOW')
-      .setThumbnail(member.user.avatarURL({ dylanic: true, format: 'png' }))
+      .setThumbnail(member.user.avatarURL({ dynamic: true, format: 'png' }))
       .setAuthor('❌ User Kicked')
       .setDescription(`<@${member.user.id}> | ${member.user.tag} (${member.user.id})\nHas been kicked for having a blacklisted word/phrase in their name.\n\n**User Created:**\n<t:${unix}:f> (<t:${unix}:R>)`);
       client.channels.cache.get(client.config.memberlog).send({ embed });
@@ -30,7 +30,7 @@ module.exports = (client, member) => {
      
     const embed = new MessageEmbed()
     .setColor('GREEN')
-    .setThumbnail(member.user.avatarURL({ dylanic: true, format: 'png' }))
+    .setThumbnail(member.user.avatarURL({ dynamic: true, format: 'png' }))
     .setAuthor('📥 User Joined')
     .setDescription(`<@${member.user.id}> | ${member.user.tag} (${member.user.id})\n\n**User Created:**\n<t:${unix}:f> (<t:${unix}:R>)`);
    
