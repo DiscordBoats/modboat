@@ -1,9 +1,9 @@
-const { preconditions } = require('../functions/preconditions');
+const { preconditions } = require('../Functions/preconditions');
 
-const automodInvites = require('../functions/automod/invites');
-const automodSlurs = require('../functions/automod/slurs');
-const automodMassmention = require('../functions/automod/massmention');
-const automodScam = require('../functions/automod/scam');
+const automodInvites = require('../Functions/automod/invites');
+const automodSlurs = require('../Functions/automod/slurs');
+const automodMassmention = require('../Functions/automod/massmention');
+const automodScam = require('../Functions/automod/scam');
 
 module.exports = async (client, msg) => {
   if (msg.author.bot || !msg.guild) {
