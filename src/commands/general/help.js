@@ -20,7 +20,7 @@ module.exports = {
 				title: 'Commands List',
 				description: [
 					`To view documentation of a command, use \`${client.config.prefix}help <name>\`.`,
-					`**${client.commands.size}** command(s) avaliable.`
+					`**${client.commands.size}** command(s) available.`
 				].join('\n'),
 				fields: []
 			};
