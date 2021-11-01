@@ -13,7 +13,7 @@ module.exports = async (client, msg) => {
         body: JSON.stringify({ message: msg.content}),
         headers: {
             "Content-Type": "application/json",
-            "User-Agent": "Anti-phishing (Sasiko#1234 / 148619350700589056)",
+            "User-Agent": "Anti-phishing (Nek#2937 / 750510159289254008)",
         },
 
     }).then(res => res.json())
