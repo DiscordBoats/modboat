@@ -7,6 +7,17 @@ module.exports = async (client, msg) => {
     }
 
     const unix = Math.floor(new Date().getTime() / 1000);
+
+    let data = await require('node-fetch')(client.automod.scamLinks, {
+        method: "post",
+        body: JSON.stringify({ message: msg.content}),
+        headers: {
+            "Content-Type": "application/json",
+            "User-Agent": "Anti-phishing (Sasiko#1234 / 148619350700589056)",
+        },
+
+    }).then(res => res.json())
+    /*
     const scam = await fetch(client.automod.scamLinks).then(res => res.json()); 
 
     const scamRegex = !!scam.find((word) => {
@@ -16,8 +27,9 @@ module.exports = async (client, msg) => {
         const regex = new RegExp(`\\b${word}\\b`, 'i');
         return regex.test(msg.content);
     });
+*/
+    if(data.match || /^((s[tl][era][ear]r?[amn].{0,2}.*\.)|(affix.*\.)|(cloud(9team|team9).*\.)|(cs-.*\.)|(csgo.*\.)|(discor.*\.)|(epicg.*\.)|(esl[-tpog].*\.)|(navi.*\.)|(natus-vin.*\.)|(pubg(-|\d).*\.)|(roblox.*\.)|(rust-.*\.)|(blox.*\.)|(robux.*\.))\w*$/i.test(msg.content)) {
 
-    if (scamRegex) {
         setTimeout(() => {
             msg.delete()
         }, 0);
