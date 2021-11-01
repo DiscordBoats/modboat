@@ -18,7 +18,8 @@ module.exports = {
             },
             title: 'Snipe',
             description: snipe.content,
-            timestamp: snipe.timestamp
+            timestamp: snipe.timestamp,
+            image: snipe.image
         }
 
         await msg.channel.send({embed});
