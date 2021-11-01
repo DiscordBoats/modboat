@@ -19,7 +19,7 @@ module.exports = {
 			const embed = {
 				title: 'Commands List',
 				description: [
-					`To view documentation of a command, use \`${client.config.prefix}help <name>\`.`,
+					`To view documentation of a command, use \`${client.settings.prefix || client.config.defaultPrefix}help <name>\`.`,
 					`**${client.commands.size}** command(s) available.`
 				].join('\n'),
 				fields: []

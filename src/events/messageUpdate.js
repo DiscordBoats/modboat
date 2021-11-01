@@ -9,7 +9,7 @@ module.exports = (client, oldMsg, newMsg) => {
         const embed = new MessageEmbed()
         .setColor('YELLOW')
         .setDescription(`<@${oldMsg.author.id}> | ${oldMsg.author.tag} (${oldMsg.author.id})\na [message](https://discord.com/channels/${newMsg.guild.id}/${newMsg.channel.id}/${newMsg.id}) updated in <#${oldMsg.channel.id}>\n`).addField('Old Message:', `\`${oldMsg.content}\``)
-        .addField("New Message:", `\`${newMsg.content}\``)
+        .addField('New Message:', `\`${newMsg.content}\``)
         .setThumbnail(oldMsg.author.avatarURL({ dynamic: true }));
         return channel.send(embed);
     });
