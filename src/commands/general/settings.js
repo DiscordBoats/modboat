@@ -87,7 +87,9 @@ module.exports = {
             case 'automod':
                 switch (args[1]) {
                     case 'false':
+                    case 'disable':
                     case 'off':
+                    case 'enable':
                     case 'true':
                     case 'on':
                         client.db.prepare('INSERT OR REPLACE INTO settings (name, value) VALUES (?, ?)').run('automod', args[1]);

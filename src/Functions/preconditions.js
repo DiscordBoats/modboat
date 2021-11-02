@@ -1,5 +1,5 @@
 function preconditions(client, msg, command) {
-    if (command.ownerOnly && !msg.member.roles.cache.some(role => role.id === client.settings.modrole)) {
+    if (command.ownerOnly && !client.config.owners.includes(msg.author.id)) {
         return true;
     }
 
