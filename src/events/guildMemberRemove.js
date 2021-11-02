@@ -19,7 +19,7 @@ module.exports = (client, member) => {
         // Useless timeout
         setTimeout(async () => {
             await member.ban({reason: '[Auto Ban] Leaving after being muted.'})
-        }, 0);
+        }, 1000);
         channel.send({ embed });
         });
     }

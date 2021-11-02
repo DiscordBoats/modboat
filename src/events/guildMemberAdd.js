@@ -1,14 +1,16 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = (client, member) => {
+    const unix = Math.floor(new Date(`${member.user.createdAt}`).getTime() / 1000);
+
+    /*
     let censor = client.automod.swears || [];
     const profane = !!censor.find((word) => {
         const regex = new RegExp(`\\b${word}\\b`, 'i'); 
         return regex.test(member.user.username);             
     });
 
-    const unix = Math.floor(new Date(`${member.user.createdAt}`).getTime() / 1000);
-  
+
     if (profane) {
       member.send('[Auto Kick] - You have been automatically kicked from `Discord Boats` (https://discord.gg/tfQqub6) for having a blacklisted word or phrase in your username. \nIf you think this is a mistake, dm `Dots#1986`');
 
@@ -23,7 +25,7 @@ module.exports = (client, member) => {
         await member.kick('Having a blacklisted word/phrase as their username')
       }, 1000);
     }
-
+*/
     if (!client.settings.memberlog) {
       return;
     }

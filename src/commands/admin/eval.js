@@ -40,14 +40,14 @@ module.exports = {
 				.setDescription(`:outbox_tray: **Output** :outbox_tray:\n${dscformat('js', evaled)}`)
 				.addField('Time', ` \`\`\`js\n${hrDiff[0] > 0 ? `${hrDiff[0]}s` : ''}${hrDiff[1] / 1000000}\`\`\` `)
 				.addField('Type of', dscformat('css', `${typeof evaled}${isPromise ? ' (Originally Promise)' : ''}`))
-			msg.channel.send(embed);
+			await msg.channel.send(embed);
 		} catch (e) {
 			const embed = new MessageEmbed()
 				.setDescription(`:inbox_tray: **Input** :inbox_tray: ${dscformat('js',args.join(' ') )}\n:outbox_tray: **Output** :outbox_tray:\n${dscformat('js', e)}`)
 				.addField('Time', ` \`\`\`js\n${hrDiff[0] > 0 ? `${hrDiff[0]}s` : ''}${hrDiff[1] / 1000000}\`\`\` `)
 				.addField('Type', dscformat('css', `${typeof evaled}${isPromise ? ' (Originally Promise)' : ''}`))
 				.setColor('#FF0000')
-			msg.channel.send(embed);
+			await msg.channel.send(embed);
 		}
 	}
 }

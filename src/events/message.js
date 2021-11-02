@@ -1,5 +1,4 @@
 const { preconditions } = require('../Functions/preconditions');
-
 const automodInvites = require('../Functions/automod/invites');
 const automodSlurs = require('../Functions/automod/slurs');
 const automodMassmention = require('../Functions/automod/massmention');
