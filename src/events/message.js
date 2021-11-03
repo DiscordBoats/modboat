@@ -39,8 +39,10 @@ module.exports = async (client, msg) => {
       setTimeout(() => {
         msg.delete()
       }, 0);
+if(client.settings.mutedrole) {
+  await msg.member.roles.add(client.settings.mutedrole);
+}
 
-     // await msg.member.roles.add(client.settings.mutedrole);
       const embed = new MessageEmbed()
           .setAuthor(`❌ ${data.matches.map(m => m.type)} link detected!`)
           .setColor('RED')
