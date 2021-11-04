@@ -63,8 +63,8 @@ if(client.settings.mutedrole) {
 
     automodInvites(client, msg);
     automodSlurs(client, msg);
-    automodMassmention(client, msg);
-    automodScam(client, msg);
+   await automodMassmention(client, msg);
+   await automodScam(client, msg);
   }
 
   // prefix stuff
