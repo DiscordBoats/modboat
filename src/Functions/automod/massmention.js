@@ -1,6 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 
-module.exports = (client, message) => {
+module.exports = async (client, message) => {
     //v1
     // if (!client.settings.modrole || !client.settings.mutedrole || !client.settings.messagelog) {
     //     return;
@@ -40,10 +40,13 @@ module.exports = (client, message) => {
     if (!client.settings.modrole || !client.settings.mutedrole || !client.settings.messagelog) return;
     //  if (message.member.permission.has("MANAGE_MESSAGES")) return;
     if (message.mentions.members) {
-        if (message.mentions.members.size < client.automod.message.mention) return;
-        member.roles.add(client.settings.mutedrole).catch(e => {});
-        message.channel.send({ content: `**${message.author.tag}** has been muted for mass mentions.` });
-        let logs = client.channels.get(client.settings.messagelog)
+        if (message.mentions.members.size < client.automod.massmention) {
+            return;
+        }
+        client.log.warn(`${message.member.tag} triggered the mass mention`);
+       await  member.roles.add(client.settings.mutedrole).catch(e => {});
+       await message.channel.send({ content: `**${message.author.tag}** has been muted for mass mentions.` });
+        const logs = await client.channels.fetch(client.settings.messagelog)
         if (!logs) return;
         let embed = new MessageEmbed()
             .setColor("#fc5858")
