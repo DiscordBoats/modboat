@@ -37,23 +37,36 @@ module.exports = async (client, message) => {
 
     //v2
 
+    client.log.info("Mass mention function is running")
+
     if (!client.settings.modrole || !client.settings.mutedrole || !client.settings.messagelog) return;
     //  if (message.member.permission.has("MANAGE_MESSAGES")) return;
-    if (message.mentions.members) {
-        if (message.mentions.members.size < client.automod.massmention) {
-            return;
+
+    // write a regex to match all mentions
+    const member = await message.guild.members.fetch(message.author.id);
+    const regex = /<@![0-9]{18}>/gm;
+        if(regex.test(message.content)) {
+            if (message.content.match(regex)?.length < client.automod.massmention) {
+                client.log.warn("Mass mention is not being triggered due to not enough mentions.")
+                return;
+            }
+            client.log.warn(`${message.author.tag} triggered the mass mention`);
+            await member.roles.add(client.settings.mutedrole).catch(e => {
+            });
+            await message.channel.send({content: `**${message.author.tag}** has been muted for mass mentions.`});
+            const logs = await client.channels.fetch(client.settings.messagelog, true, true).then((channel) => {
+                if(!channel) {
+                    return;
+                }
+                let embed = new MessageEmbed()
+                    .setColor("#fc5858")
+                    .setThumbnail(message.author.avatarURL({dynamic: true}))
+                    .setDescription(`${message.author} | ${message.author.tag} (${message.author.id}) mass mention detected. User muted.`)
+                    .setAuthor(message.author.tag, message.author.avatarURL({dynamic: true}), `https://discord.com/channels/${message.guild.id}/${message.channel.id}`)
+                channel.send({ embed }).catch(() => null);
+            })
+        } else {
+            client.log.warn("Mass mention not firing due to regex fail")
         }
-        client.log.warn(`${message.member.tag} triggered the mass mention`);
-       await  member.roles.add(client.settings.mutedrole).catch(e => {});
-       await message.channel.send({ content: `**${message.author.tag}** has been muted for mass mentions.` });
-        const logs = await client.channels.fetch(client.settings.messagelog)
-        if (!logs) return;
-        let embed = new MessageEmbed()
-            .setColor("#fc5858")
-            .setThumbnail(message.author.avatarURL({ dynamic: true }))
-            .setDescription(`${message.author} | ${message.author.tag} (${message.author.id}) mass mention detected. User muted.`)
-            .setAuthor(message.author.tag, message.author.avatarURL({ dynamic: true }), `https://discord.com/channels/${message.guild.id}/${messgae.channel.id}`)
-        logs.send({ embeds: [embed] }).catch(e => {});
-    }
 
 }
