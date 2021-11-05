@@ -5,7 +5,7 @@ module.exports = {
     category: 'Moderation',
     permissions: ['BAN_MEMBERS'],
     async execute(client, msg, args) {
-        const user = msg.mentions.users.first() ? msg.mentions.users.first().id : args[0];
+        const user = msg.mentions.users.first() || msg.guild.members.cache.get(args[0])
         if (user) {
             const bans = await msg.guild.fetchBans();
             const ban = bans.find(b => b.user.id === user);
