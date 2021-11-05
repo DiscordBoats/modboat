@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const {MessageEmbed} = require('discord.js');
 
 module.exports = (client, member) => {
     const unix = Math.floor(new Date(`${member.user.createdAt}`).getTime() / 1000);
@@ -27,16 +27,16 @@ module.exports = (client, member) => {
     }
 */
     if (!client.settings.memberlog) {
-      return;
+        return;
     }
-     
+
     const embed = new MessageEmbed()
-    .setColor('GREEN')
-    .setThumbnail(member.user.avatarURL({ dynamic: true, format: 'png' }))
-    .setAuthor('📥 User Joined')
-    .setDescription(`<@${member.user.id}> | ${member.user.tag} (${member.user.id})\n\n**User Created:**\n<t:${unix}:f> (<t:${unix}:R>)`);
-   
+        .setColor('GREEN')
+        .setThumbnail(member.user.avatarURL({dynamic: true, format: 'png'}))
+        .setAuthor('📥 User Joined')
+        .setDescription(`<@${member.user.id}> | ${member.user.tag} (${member.user.id})\n\n**User Created:**\n<t:${unix}:f> (<t:${unix}:R>)`);
+
     client.channels.fetch(client.settings.memberlog).then(channel => {
-        channel.send({ embed });
+        channel.send({embed});
     });
 };

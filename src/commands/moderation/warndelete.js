@@ -11,11 +11,11 @@ module.exports = {
             if (!member.kickable) {
                 return msg.channel.send('You cannot remove warnings from this user.');
             }
-    
+
             if (member.id === msg.author.id || member.id === client.user.id) {
                 return msg.channel.send('You cannot remove warnings from the bot or yourself.');
             }
-    
+
             if (client.settings.modrole) {
                 if (member.roles.cache.has(client.settings.modrole)) {
                     return msg.channel.send('You cannot remove warnings from this user.');
@@ -23,12 +23,12 @@ module.exports = {
             }
 
             const currentWarnings = client.db.prepare('SELECT number FROM warns WHERE id = ?').get(member.id);
-            if (!currentWarnings || currentWarnings.number === 0) { 
+            if (!currentWarnings || currentWarnings.number === 0) {
                 return msg.channel.send('This user has no warnings.');
             }
 
             let number = args[1] ? parseInt(args[1]) : 1;
-            if (isNaN(number)) { 
+            if (isNaN(number)) {
                 number = currentWarnings;
             } else if (number > currentWarnings.number) {
                 number = currentWarnings.number;
@@ -42,9 +42,9 @@ module.exports = {
             if (!client.settings.modlog) {
                 return;
             }
-    
+
             client.channels.fetch(client.settings.modlog).then(channel => {
-                const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || { number: 0 };
+                const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || {number: 0};
                 const embed = {
                     color: '040d14',
                     author: {

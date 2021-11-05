@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const {MessageEmbed} = require('discord.js');
 
 module.exports = {
     name: 'settings',
@@ -7,7 +7,7 @@ module.exports = {
     permissions: ['BAN_MEMBERS'],
     async execute(client, msg, args) {
         const setSettings = () => {
-            const settings = client.db.prepare('SELECT * FROM settings').all() || { name: '', value: '' };
+            const settings = client.db.prepare('SELECT * FROM settings').all() || {name: '', value: ''};
             const list = {};
             settings.forEach(setting => {
                 list[setting.name] = setting.value;
@@ -32,7 +32,7 @@ module.exports = {
                 setSettings();
                 msg.channel.send(`Prefix changed to ${args[1]}`);
                 break;
-            
+
             case 'memberlog':
             case 'messagelog':
             case 'modlog':
@@ -51,7 +51,7 @@ module.exports = {
                 channel = channel.replace('>', '');
 
                 if (!msg.guild.channels.cache.find(c => c.id === channel)) {
-                   return msg.channel.send('Please specify a valid channel');
+                    return msg.channel.send('Please specify a valid channel');
                 }
 
                 client.db.prepare('INSERT OR REPLACE INTO settings (name, value) VALUES (?, ?)').run(args[0], channel);
@@ -97,7 +97,7 @@ module.exports = {
                         msg.channel.send(`Automod is now ${args[1]}`);
                         break;
                     default:
-                        settings = client.db.prepare('SELECT * FROM settings').all() || { name: '', value: '' };
+                        settings = client.db.prepare('SELECT * FROM settings').all() || {name: '', value: ''};
                         list = {};
                         settings.forEach(setting => {
                             if (!setting.name.startsWith('automod_')) {
@@ -107,18 +107,18 @@ module.exports = {
                         });
 
                         const embed = new MessageEmbed()
-                        .setTitle('Automod')
-                        .setDescription(`Automod is currently ${client.settings.automod ? 'enabled' : 'disabled'}. To see list of items in a automod category, run \`\`${client.settings.prefix || client.config.defaultPrefix}settings automod <item>\`\`.`)
-                        .addField('Invites', list.automod_invites ? 'Enabled' : 'Disabled', true)
-                        .addField('Scams', list.automod_scams ? 'Enabled' : 'Disabled', true)
-                        .addField('Mass mentions', list.automod_massmentions ? 'Enabled' : 'Disabled', true)
-                        .addField('Blacklisted words', list.automod_blacklistedwords ? 'Enabled' : 'Disabled', true);
+                            .setTitle('Automod')
+                            .setDescription(`Automod is currently ${client.settings.automod ? 'enabled' : 'disabled'}. To see list of items in a automod category, run \`\`${client.settings.prefix || client.config.defaultPrefix}settings automod <item>\`\`.`)
+                            .addField('Invites', list.automod_invites ? 'Enabled' : 'Disabled', true)
+                            .addField('Scams', list.automod_scams ? 'Enabled' : 'Disabled', true)
+                            .addField('Mass mentions', list.automod_massmentions ? 'Enabled' : 'Disabled', true)
+                            .addField('Blacklisted words', list.automod_blacklistedwords ? 'Enabled' : 'Disabled', true);
                         await msg.channel.send(embed);
                 }
                 break;
 
-            default: 
-                settings = client.db.prepare('SELECT * FROM settings').all() || { name: '', value: '' };
+            default:
+                settings = client.db.prepare('SELECT * FROM settings').all() || {name: '', value: ''};
                 list = {};
                 settings.forEach(setting => {
                     if (setting.name.startsWith('automod_')) {
@@ -132,7 +132,7 @@ module.exports = {
                     .setTitle('Settings')
                     .setDescription('Current bot settings')
                     .addField('Prefix', list.prefix || client.config.defaultPrefix, true)
-                    .addField('Mod log',  list.modlog ? `<#${list.modlog}>` : 'None', true)
+                    .addField('Mod log', list.modlog ? `<#${list.modlog}>` : 'None', true)
                     .addField('Member log', list.memberlog ? `<#${list.memberlog}>` : 'None', true)
                     .addField('Message log', list.messagelog ? `<#${list.messagelog}>` : 'None', true)
                     .addField('Muted role', list.mutedrole ? `<@${list.mutedrole}>` : 'None', true)

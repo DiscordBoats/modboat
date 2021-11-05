@@ -21,18 +21,18 @@ module.exports = {
             if (!member.kickable) {
                 return msg.channel.send('You cannot kick this user.');
             }
-    
+
             if (member.id === msg.author.id || member.id === client.user.id) {
                 return msg.channel.send('You cannot kick the bot or yourself.');
             }
-    
+
             if (client.settings.modrole) {
                 if (member.roles.cache.has(client.settings.modrole)) {
                     return msg.channel.send('You cannot kick this user.');
                 }
             }
-    
-            member.voice.kick().then(() => { 
+
+            member.voice.kick().then(() => {
                 msg.channel.send(`${user.tag} (${user.id}) has been kicked from voice chat.`);
             });
         } else {

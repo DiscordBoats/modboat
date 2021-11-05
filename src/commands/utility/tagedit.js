@@ -16,7 +16,7 @@ module.exports = {
 
         const tag = args.slice(1).join(' ').split(' | ');
         if (tag[2]) {
-            if (!tag[2].startsWith('http')) { 
+            if (!tag[2].startsWith('http')) {
                 return msg.channel.send('Image must be a link');
             }
         }

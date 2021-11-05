@@ -7,11 +7,11 @@ module.exports = {
     execute(_client, msg, args) {
         switch (args[0]) {
             case 'channel':
-                if (args[1] === 'off') { 
-                    msg.channel.updateOverwrite(msg.guild.id, { SEND_MESSAGES: null });
+                if (args[1] === 'off') {
+                    msg.channel.updateOverwrite(msg.guild.id, {SEND_MESSAGES: null});
                     return msg.channel.send(`:lock: ${msg.author} unlocked the channel.`);
                 }
-                msg.channel.updateOverwrite(msg.guild.id, { SEND_MESSAGES: false });
+                msg.channel.updateOverwrite(msg.guild.id, {SEND_MESSAGES: false});
                 msg.channel.send(`:lock: ${msg.author} locked the channel.`);
                 break;
             case 'server':

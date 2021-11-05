@@ -11,11 +11,11 @@ module.exports = {
             if (!member.kickable) {
                 return msg.channel.send('You cannot warn this user.');
             }
-    
+
             if (member.id === msg.author.id || member.id === client.user.id) {
                 return msg.channel.send('You cannot warn the bot or yourself.');
             }
-    
+
             if (client.settings.modrole) {
                 if (member.roles.cache.has(client.settings.modrole)) {
                     return msg.channel.send('You cannot warn this user.');
@@ -25,13 +25,13 @@ module.exports = {
             const currentWarnings = client.db.prepare('SELECT number FROM warns WHERE id = ?').get(member.id);
             client.db.prepare('INSERT OR REPLACE INTO warns (id, number) VALUES (?, ?)').run(member.id, currentWarnings ? currentWarnings.number + 1 : 1);
             msg.channel.send(`${user.tag} (${user.id}) has been warned.`);
-    
+
             if (!client.settings.modlog) {
                 return;
             }
 
             client.channels.fetch(client.settings.modlog).then(channel => {
-                const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || { number: 0 };
+                const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || {number: 0};
                 const embed = {
                     color: 'e67e22',
                     author: {

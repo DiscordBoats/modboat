@@ -19,7 +19,7 @@ module.exports = {
             }).catch(err => {
                 console.error(err);
                 msg.channel.send('Failed to change nickname.');
-            });        
+            });
         } else {
             msg.channel.send('No user provided');
         }

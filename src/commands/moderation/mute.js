@@ -7,7 +7,7 @@ module.exports = {
     category: 'Moderation',
     permissions: ['MANAGE_ROLES'],
     execute(client, msg, args) {
-        if (!client.settings.mutedrole) { 
+        if (!client.settings.mutedrole) {
             return msg.channel.send('The muted role has not been set up yet.');
         }
 
@@ -40,14 +40,14 @@ module.exports = {
                 }
 
                 client.channels.fetch(client.settings.modlog).then(channel => {
-                    const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || { number: 0 };
+                    const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || {number: 0};
                     const embed = {
                         color: '2e6cc2',
                         author: {
                             name: 'Mute | Case #' + (latest.number + 1),
                             icon_url: msg.author.avatarURL()
                         },
-                        description: `**User:** ${user.tag}\n**Moderator:** ${msg.author.tag}\n**Reason:** ${time[0] || 'No reason provided. To provide a reason run +reason ' + (latest.number + 1)}${time[1] ? `\n**Time:** ${ms(ms(time[1]), { long: true })}` : ''} `,
+                        description: `**User:** ${user.tag}\n**Moderator:** ${msg.author.tag}\n**Reason:** ${time[0] || 'No reason provided. To provide a reason run +reason ' + (latest.number + 1)}${time[1] ? `\n**Time:** ${ms(ms(time[1]), {long: true})}` : ''} `,
                         footer: {
                             text: msg.guild.name,
                             icon_url: msg.guild.iconURL()

@@ -9,8 +9,8 @@ module.exports = {
         const user = msg.mentions.users.first() ? msg.mentions.users.first().id : args[0];
         const member = msg.guild.member(user);
         if (member) {
-           const warnings = client.db.prepare('SELECT number FROM warns WHERE id = ?').all(member.id)[0].number;
-            
+            const warnings = client.db.prepare('SELECT number FROM warns WHERE id = ?').all(member.id)[0].number;
+
             if (!warnings || warnings === 0) {
                 return msg.channel.send(`${member.user.tag} has no warnings.`);
             }

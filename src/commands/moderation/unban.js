@@ -22,7 +22,7 @@ module.exports = {
                 }
 
                 client.channels.fetch(client.settings.modlog).then(channel => {
-                    const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || { number: 0 };
+                    const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || {number: 0};
                     const embed = {
                         color: '70bd92',
                         author: {
@@ -42,6 +42,7 @@ module.exports = {
                     });
                 });
             }).catch(e => {
+                console.log(e)
                 msg.channel.send('Failed to unban user');
             });
         } else {

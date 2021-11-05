@@ -4,7 +4,7 @@ function removeEmoji(input, includeBasic) {
     }
 
     for (const c of input) {
-        const cHex = ('' + c) ?.codePointAt(0) ?.toString(16);
+        const cHex = ('' + c)?.codePointAt(0)?.toString(16);
         const lHex = cHex.length;
         if (lHex > 3) {
 

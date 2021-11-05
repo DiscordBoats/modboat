@@ -9,15 +9,15 @@ module.exports = {
         const amount = args[0];
         if (isNaN(amount)) {
             return msg.channel.send('Use a valid number.');
-        } 
+        }
 
         msg.channel.bulkDelete(amount, true)
-        .then(messages => { 
-            msg.channel.send(`Deleted ${messages.size} messages.`);
-        })
-        .catch(err => {
-            console.error(err);
-            msg.channel.send('Failed to delete messages.');
-        });
+            .then(messages => {
+                msg.channel.send(`Deleted ${messages.size} messages.`);
+            })
+            .catch(err => {
+                console.error(err);
+                msg.channel.send('Failed to delete messages.');
+            });
     }
 };

@@ -1,7 +1,7 @@
 {
-    "invites": ["discord.gg"],
-    "slurs": [""],
-    "swears": [""],
-    "massmention": 5,
-    "scamLinks": []
+  "invites": ["discord.gg"],
+  "slurs": [""],
+  "swears": [""],
+  "massmention": 5,
+  "scamLinks": []
 }

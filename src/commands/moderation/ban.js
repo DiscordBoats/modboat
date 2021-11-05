@@ -13,7 +13,7 @@ module.exports = {
             if (user.id === msg.author.id || user.id === client.user.id) {
                 return msg.channel.send('You cannot ban the bot or yourself.');
             }
-    
+
             if (client.settings.modrole) {
                 if (member.roles.cache.has(client.settings.modrole)) {
                     return msg.channel.send('You cannot ban this user.');
@@ -33,7 +33,7 @@ module.exports = {
                 }
 
                 client.channels.fetch(client.settings.modlog).then(channel => {
-                    const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || { number: 0 };
+                    const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || {number: 0};
                     const embed = {
                         color: 'dc3b3b',
                         author: {

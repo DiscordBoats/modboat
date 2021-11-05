@@ -1,5 +1,4 @@
-const fetch = require('node-fetch');
-const { MessageEmbed } = require('discord.js');
+const {MessageEmbed} = require('discord.js');
 
 module.exports = async (client, msg) => {
     if (!client.settings.modrole || !client.settings.mutedrole) {
@@ -10,7 +9,7 @@ module.exports = async (client, msg) => {
 
     let data = await require('node-fetch')(client.automod.scamLinks, {
         method: "post",
-        body: JSON.stringify({ message: msg.content}),
+        body: JSON.stringify({message: msg.content}),
         headers: {
             "Content-Type": "application/json",
             "User-Agent": "Anti-phishing (Nek#2937 / 750510159289254008)",
@@ -28,7 +27,7 @@ module.exports = async (client, msg) => {
         return regex.test(msg.content);
     });
 */
-    if(data.match) {
+    if (data.match) {
 
         setTimeout(() => {
             msg.delete()
@@ -38,7 +37,7 @@ module.exports = async (client, msg) => {
         const embed = new MessageEmbed()
             .setAuthor(`❌ ${data.matches.map(m => m.type)} link detected!`)
             .setColor('RED')
-            .setThumbnail(msg.author.avatarURL({ dynamic: true }))
+            .setThumbnail(msg.author.avatarURL({dynamic: true}))
             .setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id})\n\n\nScam link found <t:${unix}:R>:\n ||${data.matches.map(m => m.domain)}||`)
             .setFooter('Clicking on the link can expose your IP (location) and entering in any information details like your password or email address, will compromise your account(s).');
         await msg.channel.send(`${msg.author.id}`, embed);
@@ -47,7 +46,7 @@ module.exports = async (client, msg) => {
             let modlogembed = new MessageEmbed()
                 .setColor('RED')
                 .setAuthor('❌ Phishing Link Found')
-                .setThumbnail(msg.author.avatarURL({ dynamic: true }))
+                .setThumbnail(msg.author.avatarURL({dynamic: true}))
                 .setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id})\nhas been perm muted for sending a phishing link in ${msg.channel.name}.\n\nMessage Deleted <t:${unix}:R>: ||${msg.content}||`)
             channel.send(modlogembed);
         });

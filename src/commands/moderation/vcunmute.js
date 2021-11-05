@@ -21,18 +21,18 @@ module.exports = {
             if (!member.kickable) {
                 return msg.channel.send('You cannot unmute this user.');
             }
-    
+
             if (member.id === msg.author.id || member.id === client.user.id) {
                 return msg.channel.send('You cannot unmute the bot or yourself.');
             }
-    
+
             if (client.settings.modrole) {
                 if (member.roles.cache.has(client.settings.modrole)) {
                     return msg.channel.send('You cannot unmute this user.');
                 }
             }
-    
-            member.voice.setMute(false).then(() => { 
+
+            member.voice.setMute(false).then(() => {
                 msg.channel.send(`${user.tag} (${user.id}) has been unmuted in voice chat.`);
             });
         } else {

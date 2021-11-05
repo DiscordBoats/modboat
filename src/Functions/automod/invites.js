@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const {MessageEmbed} = require('discord.js');
 
 module.exports = (client, msg) => {
     if (!client.settings.modrole || !client.settings.mutedrole || !client.settings.messagelog) {
@@ -16,7 +16,9 @@ module.exports = (client, msg) => {
 
     if (censorChecks) {
         setTimeout(() => {
-            msg.delete().catch((err) => {console.error(err)})
+            msg.delete().catch((err) => {
+                console.error(err)
+            })
         }, 0);
         client.channels.fetch(client.settings.messagelog).then(channel => {
             const embed = new MessageEmbed()

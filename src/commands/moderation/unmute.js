@@ -5,7 +5,7 @@ module.exports = {
     category: 'Moderation',
     permissions: ['MANAGE_ROLES'],
     execute(client, msg, args) {
-        if (!client.settings.mutedrole) { 
+        if (!client.settings.mutedrole) {
             return msg.channel.send('The muted role has not been set up yet.');
         }
 
@@ -35,7 +35,7 @@ module.exports = {
                 }
 
                 client.channels.fetch(client.settings.modlog).then(channel => {
-                    const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || { number: 0 };
+                    const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || {number: 0};
                     const embed = {
                         color: '040d14',
                         author: {

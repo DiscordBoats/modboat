@@ -11,17 +11,17 @@ module.exports = {
             if (!member.kickable) {
                 return msg.channel.send('You cannot kick this user.');
             }
-    
+
             if (member.id === msg.author.id || member.id === client.user.id) {
                 return msg.channel.send('You cannot kick the bot or yourself.');
             }
-    
+
             if (client.settings.modrole) {
                 if (member.roles.cache.has(client.settings.modrole)) {
                     return msg.channel.send('You cannot kick this user.');
                 }
             }
-    
+
             member.kick(args.slice(1).join(' ')).then(() => {
                 msg.channel.send(`${user.tag} (${user.id}) has been kicked.`);
                 if (!client.settings.modlog) {
@@ -29,7 +29,7 @@ module.exports = {
                 }
 
                 client.channels.fetch(client.settings.modlog).then(channel => {
-                    const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || { number: 0 };
+                    const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || {number: 0};
                     const embed = {
                         color: 'f1aeae',
                         author: {

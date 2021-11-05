@@ -1,6 +1,6 @@
 module.exports = async (client) => {
     client.log.info('Connected to Discord');
-    await client.user.setActivity('members', { type: 'WATCHING' });
+    await client.user.setActivity('members', {type: 'WATCHING'});
 
     // check for mutes
     setInterval(async () => {
@@ -27,7 +27,7 @@ module.exports = async (client) => {
                     }
 
                     client.channels.fetch(client.settings.modlog).then(channel => {
-                        const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || { number: 0 };
+                        const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || {number: 0};
                         const embed = {
                             color: '040d14',
                             author: {

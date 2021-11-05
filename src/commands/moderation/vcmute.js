@@ -21,18 +21,18 @@ module.exports = {
             if (!member.kickable) {
                 return msg.channel.send('You cannot mute this user.');
             }
-    
+
             if (member.id === msg.author.id || member.id === client.user.id) {
                 return msg.channel.send('You cannot mute the bot or yourself.');
             }
-    
+
             if (client.settings.modrole) {
                 if (member.roles.cache.has(client.settings.modrole)) {
                     return msg.channel.send('You cannot mute this user.');
                 }
             }
-    
-            member.voice.setMute(true).then(() => { 
+
+            member.voice.setMute(true).then(() => {
                 msg.channel.send(`${user.tag} (${user.id}) has been muted in voice chat.`);
             });
         } else {
