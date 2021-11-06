@@ -7,8 +7,8 @@ module.exports = {
     aliases: ['e', 'ev'],
     usage: '[code]',
     category: 'Admin',
+    ownerOnly: true,
     async execute(client, msg, args) {
-        if (msg.author.id === '750510159289254008' || msg.member.roles.cache.find(r => r.id === client.config.modrole) || msg.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
             let hrDiff = process.hrtime(process.hrtime());
             let isPromise = false;
 
@@ -50,9 +50,6 @@ module.exports = {
                     .setColor('#FF0000')
                 await msg.channel.send(embed);
             }
-        } else {
-            let funnyembedthingthatImade = new MessageEmbed().setColor('RANDOM').setImage('https://i.kym-cdn.com/photos/images/newsfeed/001/869/622/b0c.gif')
-            await msg.channel.send(funnyembedthingthatImade);
-        }
+
     }
 }
