@@ -2,7 +2,7 @@
 logs/
 .vscode/
 node_modules/
-
+.idea/
 # Files
 config.json
 database.db
