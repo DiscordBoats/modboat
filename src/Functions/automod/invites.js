@@ -1,6 +1,6 @@
 const {MessageEmbed} = require('discord.js');
 
-module.exports = (client, msg) => {
+module.exports = async (client, msg) => {
     if (!client.settings.modrole || !client.settings.mutedrole || !client.settings.messagelog) {
         return;
     }
@@ -15,21 +15,27 @@ module.exports = (client, msg) => {
     });
 
     if (censorChecks) {
-        setTimeout(() => {
-            msg.delete().catch((err) => {
-                console.error(err)
-            })
-        }, 0);
-        client.channels.fetch(client.settings.messagelog).then(channel => {
-            const embed = new MessageEmbed()
-                .setColor('RED')
-                .setThumbnail(msg.author.avatarURL({
-                    dynamic: true
-                }))
-                .setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id}) tried to advertise in <#${msg.channel.id}>\n\n Message Deleted: ||${msg.content}||\n\n** **`);
-            return channel.send({
-                embed
+        try {
+            setTimeout(async () => {
+                msg.channel.send(`Lmao, looks like <@${msg.author.id}> sent a discord invite link.`);
+                await msg.delete().catch((err) => {
+                    console.error(err)
+                })
+            }, 0);
+            client.channels.fetch(client.settings.messagelog).then(channel => {
+                const embed = new MessageEmbed()
+                    .setColor('RED')
+                    .setThumbnail(msg.author.avatarURL({
+                        dynamic: true
+                    }))
+                    .setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id}) tried to advertise in <#${msg.channel.id}>\n\n Message Deleted: ||${msg.content}||\n\n** **`);
+                return channel.send({
+                    embed
+                });
             });
-        });
+        } catch(err) {
+            console.error(err);
+        }
+
     }
 } 
