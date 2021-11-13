@@ -13,8 +13,8 @@ module.exports = async (client, msg) => {
     // && client.settings.automod
     if (msg.content) {
 
-        automodInvites(client, msg);
-        automodSlurs(client, msg);
+        await automodInvites(client, msg);
+        await automodSlurs(client, msg);
         await automodMassmention(client, msg);
         await automodScam(client, msg);
     }
