@@ -5,7 +5,8 @@ module.exports = {
     category: 'Moderation',
     permissions: ['BAN_MEMBERS'],
     async execute(client, msg, args) {
-        const user = msg.mentions.users.first() || msg.guild.members.cache.get(args[0])
+        const user = msg.mentions.members.first() || msg.guild.members.cache.get(args[0]) || msg.guild.members.cache.find(r => r.user.username.toLowerCase() === args[0].toLocaleLowerCase()) || msg.guild.members.cache.find(ro => ro.displayName.toLowerCase() === args[0].toLocaleLowerCase());
+
         if (user) {
             const bans = await msg.guild.fetchBans();
             const ban = bans.find(b => b.user.id === user);
@@ -23,13 +24,13 @@ module.exports = {
             if (ban) {
                 return msg.channel.send('User is already banned');
             }
-
+            await user.send(`You've been banned from \`${msg.guild.name}\` ( https://discord.gg/tfQqub6 ) for the reason: \`${args.slice(1).join(' ') || 'No reason provided.'}.`)
             msg.guild.members.ban(user, {
                 reason: args.slice(1).join(' ')
             }).then((banned) => {
-                msg.channel.send(`${user.tag} (${user.id}) has been banned.`);
+                msg.channel.send(`${user.user.tag} (${user.user.id}) has been banned.`);
                 if (!client.settings.modlog) {
-                    return;
+                    msg.channel.send(`Looks like a mod log channel hasn't been set!`);
                 }
 
                 client.channels.fetch(client.settings.modlog).then(channel => {

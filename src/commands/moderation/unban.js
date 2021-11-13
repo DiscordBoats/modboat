@@ -18,7 +18,7 @@ module.exports = {
             }).then(() => {
                 msg.channel.send(`${ban.user.tag} (${ban.user.id}) has been unbanned.`);
                 if (!client.settings.modlog) {
-                    return;
+                    msg.channel.send(`Looks like a mod log channel hasn't been set!`);
                 }
 
                 client.channels.fetch(client.settings.modlog).then(channel => {

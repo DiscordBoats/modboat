@@ -5,27 +5,29 @@ module.exports = {
     category: 'Moderation',
     permissions: ['KICK_MEMBERS'],
     execute(client, msg, args) {
-        const user = msg.mentions.users.first() ? msg.mentions.users.first().id : args[0];
-        const member = msg.guild.member(user);
-        if (member) {
-            if (!member.kickable) {
+        const user = msg.mentions.members.first() || msg.guild.members.cache.get(args[0]) || msg.guild.members.cache.find(r => r.user.username.toLowerCase() === args[0].toLocaleLowerCase()) || msg.guild.members.cache.find(ro => ro.displayName.toLowerCase() === args[0].toLocaleLowerCase());
+
+        if (user) {
+            /* Returns undefined either way.
+            if (!user.user.kickable) {
                 return msg.channel.send('You cannot kick this user.');
             }
+             */
 
-            if (member.id === msg.author.id || member.id === client.user.id) {
+            if (user.user.id === msg.author.id || user.user.id === client.user.id) {
                 return msg.channel.send('You cannot kick the bot or yourself.');
             }
 
             if (client.settings.modrole) {
-                if (member.roles.cache.has(client.settings.modrole)) {
+                if (user.user.roles.cache.has(client.settings.modrole)) {
                     return msg.channel.send('You cannot kick this user.');
                 }
             }
 
-            member.kick(args.slice(1).join(' ')).then(() => {
-                msg.channel.send(`${user.tag} (${user.id}) has been kicked.`);
+            user.kick(args.slice(1).join(' ')).then(() => {
+                msg.channel.send(`${user.user.tag} (${user.user.id}) has been kicked.`);
                 if (!client.settings.modlog) {
-                    return;
+                    msg.channel.send(`Looks like a mod log channel hasn't been set!`);
                 }
 
                 client.channels.fetch(client.settings.modlog).then(channel => {
