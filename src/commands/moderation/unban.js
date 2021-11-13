@@ -14,7 +14,7 @@ module.exports = {
             }
 
             msg.guild.members.unban(user, {
-                reason: args.slice(1).join(' ')
+                reason: `${args.slice(1).join(' ')} | Action by: ${msg.author.tag}`
             }).then(() => {
                 msg.channel.send(`${ban.user.tag} (${ban.user.id}) has been unbanned.`);
                 if (!client.settings.modlog) {

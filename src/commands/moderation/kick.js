@@ -4,7 +4,7 @@ module.exports = {
     usage: '[user mention or id] [reason]',
     category: 'Moderation',
     permissions: ['KICK_MEMBERS'],
-    execute(client, msg, args) {
+    async execute(client, msg, args) {
         const user = msg.mentions.members.first() || msg.guild.members.cache.get(args[0]) || msg.guild.members.cache.find(r => r.user.username.toLowerCase() === args[0].toLocaleLowerCase()) || msg.guild.members.cache.find(ro => ro.displayName.toLowerCase() === args[0].toLocaleLowerCase());
 
         if (user) {
@@ -23,8 +23,8 @@ module.exports = {
                     return msg.channel.send('You cannot kick this user.');
                 }
             }
-
-            user.kick(args.slice(1).join(' ')).then(() => {
+            await user.send(`You've been kicked from \`${msg.guild.name}\` for the reason: \`${args.slice(1).join(' ') || 'No reason provided.'}\`.`)
+            user.kick(`${args.slice(1).join(' ')} | Action by: ${msg.author.tag}`).then(() => {
                 msg.channel.send(`${user.user.tag} (${user.user.id}) has been kicked.`);
                 if (!client.settings.modlog) {
                     msg.channel.send(`Looks like a mod log channel hasn't been set!`);

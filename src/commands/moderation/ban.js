@@ -24,9 +24,9 @@ module.exports = {
             if (ban) {
                 return msg.channel.send('User is already banned');
             }
-            await user.send(`You've been banned from \`${msg.guild.name}\` ( https://discord.gg/tfQqub6 ) for the reason: \`${args.slice(1).join(' ') || 'No reason provided.'}.`)
+            await user.send(`You've been banned from \`${msg.guild.name}\` for the reason: \`${args.slice(1).join(' ') || 'No reason provided.'}\`.`)
             msg.guild.members.ban(user, {
-                reason: args.slice(1).join(' ')
+                reason: `${args.slice(1).join(' ')} | Action by: ${msg.author.tag}`
             }).then((banned) => {
                 msg.channel.send(`${user.user.tag} (${user.user.id}) has been banned.`);
                 if (!client.settings.modlog) {
