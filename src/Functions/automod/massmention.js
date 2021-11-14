@@ -53,7 +53,7 @@ module.exports = async (client, message) => {
         client.log.warn(`${message.author.tag} triggered the mass mention`);
         await member.roles.add(client.settings.mutedrole).catch(e => {
         });
-        setTimeout(() => message.delete(), 0)
+        setTimeout(() => message.delete(), 1000)
         await message.channel.send({content: `**${message.author.tag}** has been muted for mass mentions.`});
         const logs = await client.channels.fetch(client.settings.messagelog, true, true).then((channel) => {
             if (!channel) {

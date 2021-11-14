@@ -31,7 +31,7 @@ module.exports = async (client, msg) => {
 
         setTimeout(() => {
             msg.delete()
-        }, 0);
+        }, 1000);
 
        await msg.member.roles.add(client.settings.mutedrole);
         const embed = new MessageEmbed()
@@ -54,7 +54,7 @@ module.exports = async (client, msg) => {
     } else if(/^s[tl][era][ear]r{0,1}[amn].{0,2}co[mnr]{1,4}u[nmui]{1,3}[ltyujrei]*?/gi.test(msg.content) || /^(d(i[rs]|ls)co.*\.)?/gi.test(msg.content) || /^((s[tl][era][ear]r?[amn].{0,2}.*\.)|(affix.*\.)|(cloud(9team|team9).*\.)|(cs-.*\.)|(csgo.*\.)|(discor.*\.)|(epicg.*\.)|(esl[-tpog].*\.)|(navi.*\.)|(natus-vin.*\.)|(pubg(-|\d).*\.)|(roblox.*\.)|(rust-.*\.)|(blox.*\.)|(robux.*\.))?/gi.test(msg.content)){
         setTimeout(() => {
             msg.delete()
-        }, 0);
+        }, 1000);
 
         // await msg.member.roles.add(client.settings.mutedrole);
         const embed = new MessageEmbed()

@@ -13,8 +13,7 @@ module.exports = (client, msg) => {
 
     if (slurCheck) {
         setTimeout(() => {
-            msg.delete().catch((err) => {
-            })
+            msg.delete()
         }, 0);
         client.channels.fetch(client.settings.messagelog).then(channel => {
             const embed = new MessageEmbed()

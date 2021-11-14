@@ -18,10 +18,8 @@ module.exports = async (client, msg) => {
         try {
             setTimeout(async () => {
                 msg.channel.send(`Lmao, looks like <@${msg.author.id}> sent a discord invite link.`);
-                await msg.delete().catch((err) => {
-                    console.error(err)
-                })
-            }, 0);
+                await msg.delete()
+            }, 1000);
             client.channels.fetch(client.settings.messagelog).then(channel => {
                 const embed = new MessageEmbed()
                     .setColor('RED')
