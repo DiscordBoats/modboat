@@ -23,9 +23,7 @@ module.exports = async (client, msg) => {
             client.channels.fetch(client.settings.messagelog).then(channel => {
                 const embed = new MessageEmbed()
                     .setColor('RED')
-                    .setThumbnail(msg.author.avatarURL({
-                        dynamic: true
-                    }))
+                    .setThumbnail(msg.author.avatarURL({dynamic: true}))
                     .setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id}) tried to advertise in <#${msg.channel.id}>\n\n Message Deleted: ||${msg.content}||\n\n** **`);
                 return channel.send({
                     embed

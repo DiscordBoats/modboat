@@ -37,7 +37,6 @@ module.exports = async (client, message) => {
 
     //v2
 
-    client.log.info("Mass mention function is running")
 
     if (!client.settings.modrole || !client.settings.mutedrole || !client.settings.messagelog) return;
     //  if (message.member.permission.has("MANAGE_MESSAGES")) return;

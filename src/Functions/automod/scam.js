@@ -51,27 +51,5 @@ module.exports = async (client, msg) => {
             channel.send(modlogembed);
         });
 
-    } else if(/^s[tl][era][ear]r{0,1}[amn].{0,2}co[mnr]{1,4}u[nmui]{1,3}[ltyujrei]*?/gi.test(msg.content) || /^(d(i[rs]|ls)co.*\.)?/gi.test(msg.content) || /^((s[tl][era][ear]r?[amn].{0,2}.*\.)|(affix.*\.)|(cloud(9team|team9).*\.)|(cs-.*\.)|(csgo.*\.)|(discor.*\.)|(epicg.*\.)|(esl[-tpog].*\.)|(navi.*\.)|(natus-vin.*\.)|(pubg(-|\d).*\.)|(roblox.*\.)|(rust-.*\.)|(blox.*\.)|(robux.*\.))?/gi.test(msg.content)){
-        setTimeout(() => {
-            msg.delete()
-        }, 1000);
-
-        // await msg.member.roles.add(client.settings.mutedrole);
-        const embed = new MessageEmbed()
-            .setAuthor(`❌ Potential scam link detected!`)
-            .setColor('YELLOW')
-            .setThumbnail(msg.author.avatarURL({dynamic: true}))
-            .setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id})\n\n\nScam link found <t:${unix}:R>:\n ||${msg.content}||`)
-            .setFooter("These links are not verified scam links, but user discretion is advised when going to these links.");
-        await msg.channel.send(`${msg.author.id}`, embed);
-
-        client.channels.fetch(client.settings.messagelog).then(channel => {
-            let modprobe = new MessageEmbed()
-                .setColor('RED')
-                .setAuthor('❌ Potential scam link detected!')
-                .setThumbnail(msg.author.avatarURL({dynamic: true}))
-                .setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id})\nhas sent a Potential phishing link in ${msg.channel.name}.\n\nMessage Deleted <t:${unix}:R>: ||${msg.content}||`)
-            channel.send(modprobe);
-        });
     }
 }
