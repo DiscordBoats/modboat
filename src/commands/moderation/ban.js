@@ -1,3 +1,4 @@
+
 module.exports = {
     name: 'ban',
     description: 'Bans a user.',
@@ -5,6 +6,7 @@ module.exports = {
     category: 'Moderation',
     permissions: ['BAN_MEMBERS'],
     async execute(client, msg, args) {
+        client.settings.modlog = '910219087022555176';
         const user = msg.mentions.members.first() || msg.guild.members.cache.get(args[0]) || msg.guild.members.cache.find(r => r.user.username === args[0]) || msg.guild.members.cache.find(ro => ro.displayName === args[0]);
 
         if (user) {
@@ -26,14 +28,14 @@ module.exports = {
             }
             await user.send(`You've been banned from \`${msg.guild.name}\` for the reason: \`${args.slice(1).join(' ') || 'No reason provided.'}\`.`)
             msg.guild.members.ban(user, {
-                reason: `${args.slice(1).join(' ')} | Action by: ${msg.author.tag}`
+                reason: `${args.slice(1).join(' ') || 'No reason provided'} [${msg.author.tag}}`
             }).then((banned) => {
                 msg.channel.send(`${user.user.tag} (${user.user.id}) has been banned.`);
                 if (!client.settings.modlog) {
                     msg.channel.send(`Looks like a mod log channel hasn't been set!`);
                 }
 
-                client.channels.fetch(client.settings.modlog).then(channel => {
+                return client.channels.fetch(client.settings.modlog).then(channel => {
                     const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || {number: 0};
                     const embed = {
                         color: 'dc3b3b',
@@ -47,7 +49,7 @@ module.exports = {
                             icon_url: msg.guild.iconURL()
                         }
                     }
-                    channel.send({
+                    return channel.send({
                         embed
                     }).then(message => {
                         client.db.prepare('INSERT INTO cases (message_id) VALUES (?)').run(message.id);

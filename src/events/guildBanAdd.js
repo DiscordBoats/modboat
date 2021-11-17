@@ -6,7 +6,7 @@ module.exports = async (client, guild, member) => {
     }
 
     if (log.executor && log.target.id === member.id) {
-        client.channels.fetch(client.settings.modlog).then(channel => {
+        return client.channels.fetch(client.settings.modlog).then(channel => {
             const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || {number: 0};
             const embed = {
                 color: 'dc3b3b',
@@ -20,7 +20,7 @@ module.exports = async (client, guild, member) => {
                     icon_url: guild.iconURL()
                 }
             }
-            channel.send({
+            return channel.send({
                 embed
             }).then(message => {
                 client.db.prepare('INSERT INTO cases (message_id) VALUES (?)').run(message.id);
