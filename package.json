@@ -4,7 +4,9 @@
     "dependencies": {
         "better-sqlite3": "7.4.4",
         "discord.js": "12.5.3",
+        "fs": "^0.0.1-security",
         "leekslazylogger": "^4.1.3",
+        "moment": "^2.29.1",
         "ms": "^2.1.3",
         "node-fetch": "^2.6.5"
     },
