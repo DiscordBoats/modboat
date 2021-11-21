@@ -6,7 +6,6 @@ module.exports = {
     category: 'Moderation',
     permissions: ['BAN_MEMBERS'],
     async execute(client, msg, args) {
-        client.settings.modlog = '910219087022555176';
         const user = msg.mentions.members.first() || msg.guild.members.cache.get(args[0]) || msg.guild.members.cache.find(r => r.user.username === args[0]) || msg.guild.members.cache.find(ro => ro.displayName === args[0]);
 
         if (user) {
@@ -27,6 +26,17 @@ module.exports = {
                 return msg.channel.send('User is already banned');
             }
             await user.send(`You've been banned from \`${msg.guild.name}\` for the reason: \`${args.slice(1).join(' ') || 'No reason provided.'}\`.`)
+                .catch(() => {
+                    msg.channel.send(`I was unable to DM ${user.user.tag}.`);
+                });
+            msg.channel.messages.fetch({
+                limit: 120
+            }).then((messages) => {
+                const Messages = [];
+                messages.filter(m => m.author.id === user.user.id).forEach(msg => Messages.push(msg))
+                msg.channel.bulkDelete(Messages)
+            })
+
             msg.guild.members.ban(user, {
                 reason: `${args.slice(1).join(' ') || 'No reason provided'} [${msg.author.tag}}`
             }).then((banned) => {
