@@ -17,8 +17,8 @@ module.exports = async (client, msg) => {
     if (censorChecks) {
         try {
             setTimeout(async () => {
-                msg.channel.send(`Lmao, looks like <@${msg.author.id}> sent a discord invite link.`);
-                await msg.delete()
+                msg.channel.send(`Lmao, looks like <@${msg.author.id}> sent a discord invite link to .`);
+                await msg.delete({reason: 'Sent a invite link'})
             }, 1000);
             client.channels.fetch(client.settings.messagelog).then(channel => {
                 const embed = new MessageEmbed()
