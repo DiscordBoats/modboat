@@ -5,7 +5,7 @@ module.exports = {
     category: 'Moderation',
     permissions: ['KICK_MEMBERS'],
     async execute(client, msg, args) {
-        const user = msg.mentions.members.first() || msg.guild.members.cache.get(args[0]) || msg.guild.members.cache.find(r => r.user.username === args[0]) || msg.guild.members.cache.find(ro => ro.displayName === args[0]);
+        const user = msg.mentions.members.first() || msg.guild.members.cache.get(args[0])
 
         if (user) {
             /* Returns undefined either way.
