@@ -9,10 +9,10 @@ module.exports = {
             return msg.channel.send('The muted role has not been set up yet.');
         }
 
-        const user = msg.mentions.users.first() || args[0];
+        const user = msg.mentions.members.first() || msg.guild.members.cache.get(args[0]) || args[0]
         const member = msg.guild.member(user);
         if (member) {
-            if (user.id === msg.author.id || user.id === client.user.id) {
+            if (user.user.id === msg.author.id || user.user.id === client.user.id) {
                 return msg.channel.send('You cannot unmute the bot or yourself.');
             }
 
@@ -27,7 +27,7 @@ module.exports = {
             }
 
             member.roles.remove(client.settings.mutedrole).then(() => {
-                msg.channel.send(`${user.tag} (${user.id}) has been unmuted.`);
+                msg.channel.send(`${user.user.tag} (${user.user.id}) has been unmuted.`);
                 client.db.prepare('DELETE FROM mutes WHERE id = ?').run(user.id);
 
                 if (!client.settings.modlog) {
@@ -42,7 +42,7 @@ module.exports = {
                             name: 'Unmute | Case #' + (latest.number + 1),
                             icon_url: msg.author.avatarURL()
                         },
-                        description: `**User:** ${user.tag} (${user.id})\n**Moderator:** ${msg.author.tag} (${msg.author.id})\n**Reason:** ${args.slice(1).join(' ') || 'No reason provided. To provide a reason run +reason ' + (latest.number + 1)}`,
+                        description: `**User:** ${user.user.tag} (${user.user.id})\n**Moderator:** ${msg.author.tag} (${msg.author.id})\n**Reason:** ${args.slice(1).join(' ') || 'No reason provided. To provide a reason run +reason ' + (latest.number + 1)}`,
                         footer: {
                             text: msg.guild.name,
                             icon_url: msg.guild.iconURL()

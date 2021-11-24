@@ -5,7 +5,7 @@ module.exports = {
     category: 'Moderation',
     permissions: ['MANAGE_ROLES'],
     async execute(client, msg, args) {
-        const user = msg.mentions.users.first() ? msg.mentions.users.first().id : args[0];
+        const user = msg.mentions.members.first() || msg.guild.members.cache.get(args[0]) || args[0]
 
         if (user === 'all') {
             msg.guild.members.cache.forEach(async (member) => {
@@ -33,7 +33,7 @@ module.exports = {
             }
 
             member.voice.setMute(false).then(() => {
-                msg.channel.send(`${user.tag} (${user.id}) has been unmuted in voice chat.`);
+                msg.channel.send(`${user.user.tag} (${user.user.id}) has been unmuted in voice chat.`);
             });
         } else {
             msg.channel.send('No user provided');

@@ -15,10 +15,20 @@ module.exports = {
                 msg.channel.send(`:lock: ${msg.author} locked the channel.`);
                 break;
             case 'server':
-                msg.channel.send('Not implemented yet.');
+                const channels = msg.guild.channels.cache.filter(ch => ch.type !== 'category');
+                channels.forEach(channel => {
+                    channel.updateOverwrite(msg.guild.roles.everyone, {
+                        SEND_MESSAGES: false
+                    })
+                })
+                msg.channel.send('Locked all channels.');
+                if (args[1] === 'off') {
+                    msg.channel.updateOverwrite(msg.guild.id, {SEND_MESSAGES: null});
+                    return msg.channel.send(`:lock: ${msg.author} unlocked the channel.`);
+                }
                 break;
             default:
-                msg.channel.send('Must be channel or server');
+                msg.channel.send(`You can either lock a \`channel\` or the \`server\`.\nUsage: +lockdown [type] [off]`);
         }
     }
 }

@@ -5,7 +5,7 @@ module.exports = {
     category: 'Moderation',
     permissions: ['KICK_MEMBERS'],
     execute(client, msg, args) {
-        const user = msg.mentions.users.first() ? msg.mentions.users.first().id : args[0];
+        const user = msg.mentions.members.first() || msg.guild.members.cache.get(args[0]) || args[0]
         const member = msg.guild.member(user);
         if (member) {
             if (!member.kickable) {
@@ -24,7 +24,7 @@ module.exports = {
 
             const currentWarnings = client.db.prepare('SELECT number FROM warns WHERE id = ?').get(member.id);
             client.db.prepare('INSERT OR REPLACE INTO warns (id, number) VALUES (?, ?)').run(member.id, currentWarnings ? currentWarnings.number + 1 : 1);
-            msg.channel.send(`${user.tag} (${user.id}) has been warned.`);
+            msg.channel.send(`${user.user.tag} (${user.user.id}) has been warned.`);
 
             if (!client.settings.modlog) {
                 return;
@@ -38,7 +38,7 @@ module.exports = {
                         name: 'Warn | Case #' + (latest.number + 1),
                         icon_url: msg.author.avatarURL()
                     },
-                    description: `**User:** ${user.tag} (${user.id})\n**Moderator:** ${msg.author.tag} (${msg.author.id})\n**Reason:** ${args.slice(1).join(' ') || 'No reason provided. To provide a reason run +reason ' + (latest.number + 1)}`,
+                    description: `**User:** ${user.user.tag} (${user.user.id})\n**Moderator:** ${msg.author.tag} (${msg.author.id})\n**Reason:** ${args.slice(1).join(' ') || 'No reason provided. To provide a reason run +reason ' + (latest.number + 1)}`,
                     footer: {
                         text: msg.guild.name,
                         icon_url: msg.guild.iconURL()

@@ -11,15 +11,15 @@ module.exports = {
             return msg.channel.send('The muted role has not been set up yet.');
         }
 
-        const user = msg.mentions.users.first() || args[0];
+        const user = msg.mentions.members.first() || msg.guild.members.cache.get(args[0]) || args[0]
         const member = msg.guild.member(user);
         if (member) {
-            if (user.id === msg.author.id || user.id === client.user.id) {
+            if (user.user.id === msg.author.id || user.user.id === client.user.id) {
                 return msg.channel.send('You cannot mute the bot or yourself.');
             }
 
             if (client.settings.modrole) {
-                if (member.roles.cache.has(client.settings.modrole)) {
+                if (member.user.roles.cache.has(client.settings.modrole)) {
                     return msg.channel.send('You cannot mute this user.');
                 }
             }
@@ -29,7 +29,7 @@ module.exports = {
             }
 
             member.roles.add(client.settings.mutedrole).then(() => {
-                msg.channel.send(`${user.tag} (${user.id}) has been muted.`);
+                msg.channel.send(`${user.user.tag} (${user.user.id}) has been muted.`);
                 const time = args.slice(1).join(' ').split('| ');
                 if (time[1]) {
                     client.db.prepare('INSERT INTO mutes (id, expires) VALUES (?, ?)').run(member.id, Date.now() + ms(time[1]));
@@ -47,7 +47,7 @@ module.exports = {
                             name: 'Mute | Case #' + (latest.number + 1),
                             icon_url: msg.author.avatarURL()
                         },
-                        description: `**User:** ${user.tag}\n**Moderator:** ${msg.author.tag}\n**Reason:** ${time[0] || 'No reason provided. To provide a reason run +reason ' + (latest.number + 1)}${time[1] ? `\n**Time:** ${ms(ms(time[1]), {long: true})}` : ''} `,
+                        description: `**User:** ${user.user.tag}\n**Moderator:** ${msg.author.tag}\n**Reason:** ${time[0] || 'No reason provided. To provide a reason run +reason ' + (latest.number + 1)}${time[1] ? `\n**Time:** ${ms(ms(time[1]), {long: true})}` : ''} `,
                         footer: {
                             text: msg.guild.name,
                             icon_url: msg.guild.iconURL()
