@@ -6,7 +6,7 @@ module.exports = {
     category: 'Utility',
     permissions: ['BAN_MEMBERS'],
     async execute(_client, msg, args) {
-        const members = filter(await msg.guild.members.fetch(), (_k, v) => v.user.username.toLowerCase().includes(args.join(' ')));
+        const members = filter(await msg.guild.members.fetch(), (_k, v) => v.user.username.toLowerCase().includes(args.join(' ').toLowerCase()));
         if(!args[0]) {
             let embed2 = new MessageEmbed()
                 .setColor('RANDOM')
@@ -20,7 +20,8 @@ module.exports = {
                 let gloUserEmbed = new MessageEmbed()
                     .setTitle('Fetch')
                     .setDescription(`${(await globaluser).username}#${(await globaluser).discriminator} | ${(await globaluser).id}`)
-                    .addField('Bot:', `${(await globaluser).bot}`)
+                    .addField('Bot:', `${(await globaluser).bot}`, true)
+                    .addField('Created At:', `${require('moment')((await globaluser).createdAt).format('LLL')} (<t:${require('moment')((await globaluser).createdAt).format('X')}:R>)`, true)
                     .setThumbnail((await globaluser).displayAvatarURL({ dynamic: true }))
                     .setColor('#0099ff')
                 return msg.channel.send(gloUserEmbed)

@@ -18,7 +18,7 @@ module.exports = {
 
         let day = Number(days);
 
-        if (day > 300) return msg.channel.send("You may only find accounts up to 300 days.");
+        if (day > 5000) return msg.channel.send("You may only find accounts up to 5000 days.");
 
         let array = []
 
@@ -39,7 +39,7 @@ module.exports = {
         const interval = 10;
 
         const embed = new discord.MessageEmbed()
-            .setTitle(`Found ${array.length} alt${array.length === 1 ? '' : 's'}`)
+            .setTitle(`Found ${array.length} account${array.length === 1 ? '' : 's'}`)
             .setDescription(array.join("\n\n") || "No alts found")
             .setThumbnail(msg.guild.iconURL({dynamic: true}))
             .setColor("RANDOM")
@@ -48,15 +48,16 @@ module.exports = {
 
             const range = (array.length === 1) ? '[1]' : `[1 - ${array.length}]`;
             await msg.channel.send(embed
-                .setTitle(`Found ${array.length} alt${array.length === 1 ? '' : 's'}`)
-                .setDescription(array.join('\n\n'))
+                .setTitle(`Found ${array.length} account${array.length === 1 ? '' : 's'}`)
+                .setDescription(array.join("\n\n") || "No alts found")
                 .setThumbnail(msg.guild.iconURL({dynamic: true}))
                 .setColor("RANDOM")
             );
 
         } else {
             let altEm = new Discord.MessageEmbed()
-                .setDescription(`No accounts were discovered.`)
+                .setTitle(`Found ${array.length} account${array.length === 1 ? '' : 's'}`)
+                .setDescription('Unable to show all accounts since it exceeds the maximum amount of characters.')
                 .setThumbnail(msg.guild.iconURL({dynamic: true}))
                 .setColor("RANDOM")
             await msg.channel.send(altEm);
