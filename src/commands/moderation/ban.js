@@ -26,18 +26,16 @@ module.exports = {
                 return msg.channel.send('User is already banned');
             }
 
-            if(args.join(" ").toLowerCase().includes(`-c`)) {
-                msg.channel.messages.fetch({
-                    limit: 100
-                }).then((messages) => {
-                    const Messages = [];
-                    messages.filter(m => m.author.id === user.user.id).forEach(msg => Messages.push(msg))
-                    msg.channel.bulkDelete(Messages)
-                })
-            }
+            msg.channel.messages.fetch({
+                limit: 100
+            }).then((messages) => {
+                const Messages = [];
+                messages.filter(m => m.author.id === user.user.id).forEach(msg => Messages.push(msg))
+                msg.channel.bulkDelete(Messages)
+            })
 
             msg.guild.members.ban(user, {
-                reason: `${args.slice(1).join(' ') || 'No reason provided'} [${msg.author.tag}}`
+                reason: `${args.slice(1).join(' ') || 'No reason provided'} [${msg.author.tag}]`
             }).then((banned) => {
                 msg.channel.send(`${user.user.tag} (${user.user.id}) has been banned.`);
                 if (!client.settings.modlog) {
