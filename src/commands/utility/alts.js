@@ -56,7 +56,8 @@ module.exports = {
 
         } else {
             let altEm = new Discord.MessageEmbed()
-                .setDescription(`Found ${array.length} account${array.length === 1 ? '' : 's'}`)
+                .setTitle(`Found ${array.length} account${array.length === 1 ? '' : 's'}`)
+                .setDescription('Unable to show all accounts since it exceeds the maximum amount of characters.')
                 .setThumbnail(msg.guild.iconURL({dynamic: true}))
                 .setColor("RANDOM")
             await msg.channel.send(altEm);
