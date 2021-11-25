@@ -28,7 +28,7 @@ module.exports = async (client, msg) => {
     });
 */
     if (data.match) {
-
+        if (msg.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES) || msg.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR) || msg.member.permissions.has(Permissions.FLAGS.MANAGE_GUILD) || msg.member.permissions.has(Permissions.FLAGS.MANAGE_CHANNELS)) return;
         setTimeout(() => {
             msg.delete()
         }, 1000);
