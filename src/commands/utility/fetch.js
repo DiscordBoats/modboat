@@ -22,6 +22,11 @@ module.exports = {
                         }
                     }).then(async body => {
                         const res = await body.json()
+                        switch (null) {
+                            case res.bot_server_count:
+                                res.bot_server_count = 0
+                                break;
+                        }
                         if (res.error === true) return msg.channel.send(res.message)
                         if (res.bot_short_desc.length > 100) {
                             const embed = new MessageEmbed()
