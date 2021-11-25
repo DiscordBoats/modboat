@@ -46,12 +46,14 @@ module.exports = {
                                 "Content-Type": "application/json"
                             }
                         }).then(async body => {
+                            const p = _client.users.fetch(args[1])
                             const res = await body.json()
                             const embed = new MessageEmbed()
                             .setURL(`https://discord.boats/user/${args[1]}`)
                             .setTitle(`${res.user_name} (${res.user_id})`)
-                            .setColor('#0099ff')
                             .setDescription(`**Bio:** \`\`\`${res.user_bio}\`\`\`\n **Premium:** ${res.user_premium ? null : 'false'}\n **Website:** **[Click Here](${res.user_website})**\n **Twitter:** **[Click Here](${res.user_twitter})**\n **Github:** **[Click Here](${res.user_github})**\n **Instagram:** **[Click Here](${res.user_instagram})**\n **Reddit:** **[Click Here](${res.user_reddit})**`)
+                            .setThumbnail((await p).displayAvatarURL({ dynamic: true }))
+                            .setColor('#0099ff')
                             msg.channel.send(embed)
                         }).catch((err) => {
                             msg.channel.send('Ok so bascially Roee fucked up and forgot to make an error message thing for the user part of the the api so...this message means the user wasn\'t found')
