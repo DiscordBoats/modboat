@@ -49,32 +49,33 @@ module.exports = {
                 break;
 
             case 'user':
-                if(args[1]) {
+                if (args[1]) {
                     fetch(`https://discord.boats/api/user/${args[1]}`, {
                         method: 'GET',
                         headers: {
                             "Content-Type": "application/json"
                         }
                     }).then(async body => {
-                            const p = _client.users.fetch(args[1])
+                        const p = _client.users.fetch(args[1])
                         const member = msg.guild.member(args[1]);
                         const inServer = !!member;
-                            const res = await body.json()
-                            const embed = new MessageEmbed()
-                                .setURL(`https://discord.boats/user/${args[1]}`)
-                                .setTitle(`${res.user_name} (${res.user_id})`)
-                                .setDescription(`**Bio:** \`\`\`${res.user_bio}\`\`\`\n **Premium:** ${res.user_premium ? null : 'false'}\n**In server** ${inServer}\n **Website:** **[Click Here](${res.user_website})**\n **Twitter:** **[Click Here](${res.user_twitter})**\n **Github:** **[Click Here](${res.user_github})**\n **Instagram:** **[Click Here](${res.user_instagram})**\n **Reddit:** **[Click Here](${res.user_reddit})**`)
-                                .setThumbnail((await p).displayAvatarURL({dynamic: true}))
-                                .setColor('#0099ff')
-                            await msg.channel.send(embed)
+                        const res = await body.json()
+                        const embed = new MessageEmbed()
+                            .setURL(`https://discord.boats/user/${args[1]}`)
+                            .setTitle(`${res.user_name} (${res.user_id})`)
+                            .setDescription(`**Bio:** \`\`\`${res.user_bio}\`\`\`\n **Premium:** ${res.user_premium ? null : 'false'}\n**In server** ${inServer}\n **Website:** **[Click Here](${res.user_website})**\n **Twitter:** **[Click Here](${res.user_twitter})**\n **Github:** **[Click Here](${res.user_github})**\n **Instagram:** **[Click Here](${res.user_instagram})**\n **Reddit:** **[Click Here](${res.user_reddit})**`)
+                            .setThumbnail((await p).displayAvatarURL({ dynamic: true }))
+                            .setColor('#0099ff')
+                        await msg.channel.send(embed)
 
                     }).catch(async (err) => {
-                        const globaluser =  _client.users.fetch(args[1])
+                        const globaluser = _client.users.fetch(args[1])
                         const member = msg.guild.member(args[1]);
                         const inServer = !!member;
 
-                        if(globaluser) {
+                        if (globaluser) {
                             const gloUserEmbed = new MessageEmbed()
+                            .setURL(`https://discord.com/users/${args[1]}`)
                                 .setTitle(`${(await globaluser).username}#${(await globaluser).discriminator} | ${(await globaluser).id}`)
                                 .setDescription(`**Bot**: ${(await globaluser).bot}\n**Created at**: ${require('moment')((await globaluser).createdAt).format('LLL')} (<t:${require('moment')((await globaluser).createdAt).format('X')}:R>)\n**In server**: ${inServer}`)
                                 .setThumbnail((await globaluser).displayAvatarURL({ dynamic: true }))
@@ -85,31 +86,31 @@ module.exports = {
                     })
                 }
                 break;
-                case 'list':
-                    if(args[1]) {
-                        const members = filter(await msg.guild.members.fetch(), (_k, v) => v.user.username.toLowerCase().includes(args[1].toLowerCase()))
-                        let list = '';
-                        members.forEach(member => {
-                            list += `${member.user.username}#${member.user.discriminator} (${member.user.id})\n`;
-                        });
+            case 'list':
+                if (args[1]) {
+                    const members = filter(await msg.guild.members.fetch(), (_k, v) => v.user.username.toLowerCase().includes(args[1].toLowerCase()))
+                    let list = '';
+                    members.forEach(member => {
+                        list += `${member.user.username}#${member.user.discriminator} (${member.user.id})\n`;
+                    });
 
-                        if (list === '') {
-                            return msg.channel.send('No users found.');
-                        }
-
-                        const embed = {
-                            color: 'd35c5e',
-                            title: 'Results found',
-                            description: list.substring(0, 4096)
-                        }
-
-                        await msg.channel.send({
-                            embed
-                        });
+                    if (list === '') {
+                        return msg.channel.send('No users found.');
                     }
-                    break;
+
+                    const embed = {
+                        color: 'd35c5e',
+                        title: 'Results found',
+                        description: list.substring(0, 4096)
+                    }
+
+                    await msg.channel.send({
+                        embed
+                    });
+                }
+                break;
             case 'alt':
-                if(args[1]) {
+                if (args[1]) {
                     const Discord = require('discord.js');
 
                     let days = args[1];
@@ -142,7 +143,7 @@ module.exports = {
                     const embed = new discord.MessageEmbed()
                         .setAuthor(`Found ${array.length} account${array.length === 1 ? '' : 's'} that have been created within the last ${days} day${days === 1 ? '' : 's'}`)
                         .setDescription(array.join("\n\n") || "No alts found")
-                        .setThumbnail(msg.guild.iconURL({dynamic: true}))
+                        .setThumbnail(msg.guild.iconURL({ dynamic: true }))
                         .setColor("RANDOM")
 
                     if (array.length <= interval) {
@@ -151,7 +152,7 @@ module.exports = {
                         await msg.channel.send(embed
                             .setAuthor(`Found ${array.length} account${array.length === 1 ? '' : 's'} that have been created within the last ${days} day${days === 1 ? '' : 's'}`)
                             .setDescription(array.join("\n\n") || "No alts found")
-                            .setThumbnail(msg.guild.iconURL({dynamic: true}))
+                            .setThumbnail(msg.guild.iconURL({ dynamic: true }))
                             .setColor("RANDOM")
                         );
 
@@ -159,7 +160,7 @@ module.exports = {
                         let altEm = new Discord.MessageEmbed()
                             .setAuthor(`Found ${array.length} account${array.length === 1 ? '' : 's'} that have been created within the last ${days} day${days === 1 ? '' : 's'}`)
                             .setDescription('Unable to show all accounts since it exceeds the maximum amount of characters.')
-                            .setThumbnail(msg.guild.iconURL({dynamic: true}))
+                            .setThumbnail(msg.guild.iconURL({ dynamic: true }))
                             .setColor("RANDOM")
                         await msg.channel.send(altEm);
                     }
@@ -172,24 +173,24 @@ module.exports = {
                 return msg.channel.send(embed2);
         }
 
-        }
+    }
 
-        }
-        /*
-        if(args[0] === 'id') {
-            let globaluser =  _client.users.fetch(args[1])
-            if(globaluser) {
-                let gloUserEmbed = new MessageEmbed()
-                    .setTitle('Fetch')
-                    .setDescription(`${(await globaluser).username}#${(await globaluser).discriminator} | ${(await globaluser).id}`)
-                    .addField('Bot:', `${(await globaluser).bot}`, true)
-                    .addField('Created At:', `${require('moment')((await globaluser).createdAt).format('LLL')} (<t:${require('moment')((await globaluser).createdAt).format('X')}:R>)`, true)
-                    .setThumbnail((await globaluser).displayAvatarURL({ dynamic: true }))
-                    .setColor('#0099ff')
-                return msg.channel.send(gloUserEmbed)
-            }
-        }
-         */
+}
+/*
+if(args[0] === 'id') {
+    let globaluser =  _client.users.fetch(args[1])
+    if(globaluser) {
+        let gloUserEmbed = new MessageEmbed()
+            .setTitle('Fetch')
+            .setDescription(`${(await globaluser).username}#${(await globaluser).discriminator} | ${(await globaluser).id}`)
+            .addField('Bot:', `${(await globaluser).bot}`, true)
+            .addField('Created At:', `${require('moment')((await globaluser).createdAt).format('LLL')} (<t:${require('moment')((await globaluser).createdAt).format('X')}:R>)`, true)
+            .setThumbnail((await globaluser).displayAvatarURL({ dynamic: true }))
+            .setColor('#0099ff')
+        return msg.channel.send(gloUserEmbed)
+    }
+}
+ */
 
 
 
