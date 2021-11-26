@@ -35,7 +35,10 @@ module.exports = {
                 messages.filter(m => m.author.id === user.user.id).forEach(msg => Messages.push(msg))
                 msg.channel.bulkDelete(Messages)
             })
-
+            await user.send(`You've been kicked from \`${msg.guild.name}\` for the reason: \`${args.slice(1).join(' ') || 'No reason provided.'}\`.`)
+                .catch(() => {
+                    msg.channel.send(`I was unable to DM \`${user.user.tag}\` to inform them of your kick.`);
+                });
             msg.guild.members.ban(user, {
                 reason: `${args.slice(1).join(' ') || 'No reason provided'} [${msg.author.tag}]`
             }).then((banned) => {
