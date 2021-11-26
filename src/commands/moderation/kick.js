@@ -31,7 +31,7 @@ module.exports = {
                     msg.channel.send(`I was unable to DM \`${user.user.tag}\` to inform them of your kick.`);
                 });
             msg.channel.messages.fetch({
-                limit: 120
+                limit: 100
             }).then((messages) => {
                 const Messages = [];
                 messages.filter(m => m.author.id === user.user.id).forEach(msg => Messages.push(msg))
