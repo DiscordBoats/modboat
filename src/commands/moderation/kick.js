@@ -5,6 +5,9 @@ module.exports = {
     category: 'Moderation',
     permissions: ['KICK_MEMBERS'],
     async execute(client, msg, args) {
+        try {
+
+
         const user = msg.mentions.members.first() || msg.guild.members.cache.get(args[0])
 
         if (user) {
@@ -62,6 +65,9 @@ module.exports = {
             });
         } else {
             msg.channel.send('No user provided');
+        }
+        } catch(err) {
+            msg.channel.send(err)
         }
     }
 };
