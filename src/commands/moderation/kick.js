@@ -39,7 +39,7 @@ module.exports = {
                 messages.filter(m => m.author.id === user.user.id).forEach(msg => Messages.push(msg))
                 msg.channel.bulkDelete(Messages)
             })
-            user.kick(`${args.slice(1).join(' ') || 'No reason provided'} [${msg.author.tag}}`).then(() => {
+            user.kick(`${args.slice(1).join(' ') ? args.slice(1).join(' ') : 'No reason provided'} [${msg.author.tag}}`).then(() => {
                 msg.channel.send(`${user.user.tag} (${user.user.id}) has been kicked.`);
                 if (!client.settings.modlog) {
                     msg.channel.send(`Looks like a mod log channel hasn't been set!`);
