@@ -40,7 +40,7 @@ module.exports = {
             })
 
             msg.guild.members.ban(user, {
-                reason: `${args.slice(1).join(' ') ? args.slice(1).join(' ') : 'No reason provided'} [${msg.author.tag}}`
+                reason: `${args.slice(1).join(' ') ? args.slice(1).join(' ') : 'No reason provided'} [${msg.author.tag}]`
             }).then((banned) => {
                 msg.channel.send(`${user.user.tag} (${user.user.id}) has been banned.`);
                 if (!client.settings.modlog) {
