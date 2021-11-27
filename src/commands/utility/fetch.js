@@ -3,6 +3,7 @@ const fetch = require('cross-fetch')
 const moment = require("moment");
 const discord = require("discord.js");
 const Discord = require("discord.js");
+const fs = require("fs");
 module.exports = {
     name: 'fetch',
     description: 'Find users whose username contains some characters.',
@@ -123,6 +124,7 @@ module.exports = {
                     if (day > 5000) return msg.channel.send("You may only find accounts up to 5000 days.");
 
                     let array = []
+                    let txtArray = []
 
                     msg.guild.members.cache.forEach(async (user) => {
 
@@ -134,6 +136,7 @@ module.exports = {
                         if (day >= created) {
 
                             array.push(`${user} (${user.user.tag} | ${user.id})\n__Created At__: <t:${moment(user.user.createdAt).format('X')}:F> (<t:${moment(user.user.createdAt).format('X')}:R>)`)
+                            txtArray.push(`${user} (${user.user.tag} | ${user.id})\nCreated At: ${moment(user.user.createdAt).format('LLL')} (${moment(user.user.createdAt).fromNow()})`)
                         }
 
                     })
@@ -157,12 +160,27 @@ module.exports = {
                         );
 
                     } else {
+                        require('fs').writeFile(`./fetchAccounts.txt`, txtArray.join("\n\n"), function (err) {
+                            if (err) {
+                                msg.channel.send("Unable to write to file.");
+                            }
+                        });
+
                         let altEm = new Discord.MessageEmbed()
                             .setAuthor(`Found ${array.length} account${array.length === 1 ? '' : 's'} that have been created within the last ${days} day${days === 1 ? '' : 's'}`)
                             .setDescription('Unable to show all accounts since it exceeds the maximum amount of characters.')
                             .setThumbnail(msg.guild.iconURL({ dynamic: true }))
                             .setColor("RANDOM")
-                        await msg.channel.send(altEm);
+                        await msg.channel.send({files: ['./fetchAccounts.txt']});
+
+                        setTimeout(async () => {
+                            fs.unlink(`./fetchAccounts.txt`, function (err) {
+                                if (err) {
+                                    msg.channel.send(err)
+                                }
+                            });
+                        }, 10000)
+
                     }
                 }
                 break;

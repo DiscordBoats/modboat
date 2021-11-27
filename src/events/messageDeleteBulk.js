@@ -24,5 +24,5 @@ module.exports = async (client, messages) => {
                 messages.first().channel.send(err)
             }
         });
-    }, 20000)
+    }, 10000)
 }
