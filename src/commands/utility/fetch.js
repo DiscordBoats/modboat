@@ -64,7 +64,7 @@ module.exports = {
                         const embed = new MessageEmbed()
                             .setURL(`https://discord.boats/user/${args[1]}`)
                             .setTitle(`${res.user_name} (${res.user_id})`)
-                            .setDescription(`**Bio:** \`\`\`${res.user_bio}\`\`\`\n **Premium:** ${res.user_premium ? null : 'false'}\n**In server** ${inServer}\n **Website:** **[Click Here](${res.user_website})**\n **Twitter:** **[Click Here](${res.user_twitter})**\n **Github:** **[Click Here](${res.user_github})**\n **Instagram:** **[Click Here](${res.user_instagram})**\n **Reddit:** **[Click Here](${res.user_reddit})**`)
+                            .setDescription(`**Bio:** \`\`\`${res.user_bio}\`\`\`\n **Premium:** ${res.user_premium ? null : 'false'}\n **In server** ${inServer}\n **Joined at** ${moment(member.member.joinedAt).format('LLL') ? moment(member.member.joinedAt).format('LLL') : "Unknown"} (<t:${moment(member.member.joinedAt).format("X")}:R>)\n **Website:** **[Click Here](${res.user_website})**\n **Twitter:** **[Click Here](${res.user_twitter})**\n **Github:** **[Click Here](${res.user_github})**\n **Instagram:** **[Click Here](${res.user_instagram})**\n **Reddit:** **[Click Here](${res.user_reddit})**`)
                             .setThumbnail((await p).displayAvatarURL({ dynamic: true }))
                             .setColor('#0099ff')
                         await msg.channel.send(embed)
@@ -171,7 +171,7 @@ module.exports = {
                             .setDescription('Unable to show all accounts since it exceeds the maximum amount of characters.')
                             .setThumbnail(msg.guild.iconURL({ dynamic: true }))
                             .setColor("RANDOM")
-                        await msg.channel.send({files: ['./fetchAccounts.txt']});
+                        await msg.channel.send({content: "Found ${array.length} account${array.length === 1 ? '' : 's'} that have been created within the last ${days} day${days === 1 ? '' : 's'}",files: ['./fetchAccounts.txt']});
 
                         setTimeout(async () => {
                             fs.unlink(`./fetchAccounts.txt`, function (err) {

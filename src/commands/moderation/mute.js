@@ -7,8 +7,8 @@ module.exports = {
     category: 'Moderation',
     permissions: ['MANAGE_ROLES'],
     execute(client, msg, args) {
-        if (!client.settings.mutedrole) {
-            return msg.channel.send('The muted role has not been set up yet.');
+        if (!client.settings.mutedrole && !client.settings.modrole) {
+            return msg.channel.send('The muted role / mod role has not been set up yet.');
         }
 
         const user = msg.mentions.members.first() || msg.guild.members.cache.get(args[0]) || args[0]
@@ -19,7 +19,7 @@ module.exports = {
             }
 
             if (client.settings.modrole) {
-                if (member.user.roles.cache.has(client.settings.modrole)) {
+                if (member.roles.cache.has(client.settings.modrole)) {
                     return msg.channel.send('You cannot mute this user.');
                 }
             }
