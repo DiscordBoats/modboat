@@ -3,6 +3,26 @@ const {MessageEmbed} = require('discord.js');
 module.exports = (client, member) => {
     const unix = Math.floor(new Date(`${member.user.createdAt}`).getTime() / 1000);
 
+    let day = Number('30');
+    let x = Date.now() - member.user.createdAt;
+    let created = Math.floor(x / 86400000);
+
+    if (day >= created) {
+        member.send(`You have been kicked from \`${member.guild.name}\` for having a young account. Feel free to join back in 30 or less days.`).then(() => {
+            member.kick('Account created less than 30 days ago.').then(r => {
+                client.channels.fetch(client.settings.memberlog).then(channel => {
+                    channel.send(new MessageEmbed()
+                        .setColor('YELLOW')
+                        .setThumbnail(member.user.avatarURL({dynamic: true, format: 'png'}))
+                        .setDescription(`🔰 <@${member.user.id}> | ${member.user.tag} (${member.user.id}) has been automatically **kicked** - Their account is too young.\n\n**User Created:**\n<t:${unix}:f> (<t:${unix}:R>)`)
+                    );
+                })
+            });
+        });
+
+
+    }
+
     /*
     let censor = client.automod.swears || [];
     const profane = !!censor.find((word) => {
