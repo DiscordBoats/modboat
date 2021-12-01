@@ -1,4 +1,4 @@
-const {MessageEmbed} = require('discord.js');
+const {MessageEmbed, Permissions} = require('discord.js');
 
 module.exports = async (client, message) => {
     //v1
@@ -42,6 +42,7 @@ module.exports = async (client, message) => {
     //  if (message.member.permission.has("MANAGE_MESSAGES")) return;
 
     // write a regex to match all mentions
+    if (message.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES) || message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR) || message.member.permissions.has(Permissions.FLAGS.MANAGE_GUILD) || message.member.permissions.has(Permissions.FLAGS.MANAGE_CHANNELS)) return;
     const member = await message.guild.members.fetch(message.author.id);
     const regex = /<@![0-9]{18}>/gm;
     if (regex.test(message.content)) {
@@ -53,7 +54,7 @@ module.exports = async (client, message) => {
         await member.roles.add(client.settings.mutedrole).catch(e => {
         });
         setTimeout(() => message.delete(), 1000)
-        await message.channel.send({content: `**${message.author.tag}** has been muted for mass mentions.`});
+        await message.channel.send(`**${message.author.tag}** has been muted for mass mentions.`);
         const logs = await client.channels.fetch(client.settings.messagelog, true, true).then((channel) => {
             if (!channel) {
                 return;

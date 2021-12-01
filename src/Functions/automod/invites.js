@@ -1,4 +1,4 @@
-const {MessageEmbed} = require('discord.js');
+const {MessageEmbed, Permissions} = require('discord.js');
 
 module.exports = async (client, msg) => {
     if (!client.settings.modrole || !client.settings.mutedrole || !client.settings.messagelog) {
@@ -10,6 +10,7 @@ module.exports = async (client, msg) => {
         if (msg.member.roles.cache.has(client.settings.modrole)) {
             return;
         }
+        if (msg.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES) || msg.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR) || msg.member.permissions.has(Permissions.FLAGS.MANAGE_GUILD) || msg.member.permissions.has(Permissions.FLAGS.MANAGE_CHANNELS)) return;
         const regex = new RegExp(`\\b${word}\\b`, 'i');
         return regex.test(msg.content);
     });

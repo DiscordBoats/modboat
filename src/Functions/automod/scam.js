@@ -1,4 +1,4 @@
-const {MessageEmbed} = require('discord.js');
+const {MessageEmbed, Permissions} = require('discord.js');
 
 module.exports = async (client, msg) => {
     if (!client.settings.modrole || !client.settings.mutedrole) {
@@ -33,7 +33,9 @@ module.exports = async (client, msg) => {
             msg.delete()
         }, 1000);
 
-       await msg.member.roles.add(client.settings.mutedrole);
+       await msg.member.roles.add(client.settings.mutedrole).catch(e => {
+           msg.channel.send(`I'm having trouble adding the muted role to ${msg.author.tag}\n\`\`\`${e}\`\`\``);
+       })
         const embed = new MessageEmbed()
             .setAuthor(`❌ ${data.matches.map(m => m.type)} link detected!`)
             .setColor('RED')

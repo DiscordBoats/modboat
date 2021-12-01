@@ -1,4 +1,5 @@
 const {MessageEmbed} = require('discord.js');
+const moment = require("moment");
 
 module.exports = (client, member) => {
     const unix = Math.floor(new Date(`${member.user.createdAt}`).getTime() / 1000);
@@ -8,7 +9,7 @@ module.exports = (client, member) => {
     let created = Math.floor(x / 86400000);
 
     if (day >= created) {
-        member.send(`You have been kicked from \`${member.guild.name}\` for having a young account. Feel free to join back in 30 or less days.`).then(() => {
+        member.send(`You have been kicked from \`${member.guild.name}\` for having a young account. You can join back once your account is older than 30 days. ( https://discord.gg/tfQqub6 )`).then(() => {
             member.kick('Account created less than 30 days ago.').then(r => {
                 client.channels.fetch(client.settings.memberlog).then(channel => {
                     channel.send(new MessageEmbed()
@@ -19,6 +20,7 @@ module.exports = (client, member) => {
                 })
             });
         });
+
 
 
     }
