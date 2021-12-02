@@ -4,6 +4,7 @@ module.exports = async (client, guild, member) => {
     if (!log || !client.settings.modlog) {
         return;
     }
+    if(log.executor.id === client.user.id) return;
 
     if (log.executor && log.target.id === member.id) {
         return client.channels.fetch(client.settings.modlog).then(channel => {
