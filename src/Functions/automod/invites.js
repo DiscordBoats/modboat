@@ -16,11 +16,16 @@ module.exports = async (client, msg) => {
     });
 
     if (censorChecks) {
+        const expression = /(https?:\/\/[^\s]+)/gi; const regex = new RegExp(expression); // Shit to get the invite link
+
         try {
             setTimeout(async () => {
-                msg.channel.send(`Lmao, looks like <@${msg.author.id}> sent a discord invite - User Muted.`);
-                await msg.delete({reason: 'Sent a invite link'})
-                await msg.member.roles.add(client.settings.mutedrole);
+                await client.fetchInvite(msg.content.match(regex)).then(async inv => {
+                    msg.channel.send(`Lmao, looks like <@${msg.author.id}> sent a discord invite to ||\`${inv.guild.name}\`||- User Muted.`);
+                    await msg.delete({reason: 'Sent a invite link'})
+                    await msg.member.roles.add(client.settings.mutedrole);
+                })
+
             }, 1000);
             client.channels.fetch(client.settings.messagelog).then(channel => {
                 const embed = new MessageEmbed()
