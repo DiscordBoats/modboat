@@ -15,7 +15,7 @@ module.exports = async (client, guild, member) => {
                     name: 'Ban | Case #' + (latest.number + 1),
                     icon_url: log.executor.avatarURL()
                 },
-                description: `**User:** ${log.target.tag} (${log.target.id})\n**Moderator:** ${log.executor.tag} (${log.executor.id})\n**Reason:** ${log.reason || 'No reason provided. To provide a reason run +reason ' + (latest.number + 1)}`,
+                description: `**User:** ${log.target.tag} (${log.target.id})\n**Moderator:** ${log.executor.tag} (${log.executor.id})\n**Reason:** ${log.reason || `No reason provided. To provide a reason run \`+reason ${latest.number + 1}\`  `} `,
                 footer: {
                     text: guild.name,
                     icon_url: guild.iconURL()
