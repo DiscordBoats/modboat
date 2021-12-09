@@ -1,5 +1,5 @@
 module.exports = async (client) => {
-    client.log.info('Connected to Discord');
+    client.log.info(`Connected to ${client.user.tag}`);
     await client.user.setActivity('members', {type: 'WATCHING'});
 
     // check for mutes

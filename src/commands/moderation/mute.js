@@ -47,7 +47,7 @@ module.exports = {
                             name: 'Mute | Case #' + (latest.number + 1),
                             icon_url: msg.author.avatarURL()
                         },
-                        description: `**User:** ${user.user.tag}\n**Moderator:** ${msg.author.tag}\n**Reason:** ${time[0] || 'No reason provided. To provide a reason run +reason ' + (latest.number + 1)}${time[1] ? `\n**Time:** ${ms(ms(time[1]), {long: true})}` : ''} `,
+                        description: `**User:** ${user.user.tag}\n**Moderator:** ${msg.author.tag}\n**Reason:** ${time[0] || `No reason provided. To provide a reason run \`+reason ${(latest.number + 1)}\``}${time[1] ? `\n**Time:** ${ms(ms(time[1]), {long: true})}` : ''} `,
                         footer: {
                             text: msg.guild.name,
                             icon_url: msg.guild.iconURL()

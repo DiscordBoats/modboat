@@ -1,3 +1,4 @@
+const {Permissions} = require("discord.js");
 
 module.exports = {
     name: 'ban',
@@ -23,12 +24,12 @@ module.exports = {
                     return msg.channel.send('You cannot ban this user.');
                 }
             }
-
             if (ban) {
                 return msg.channel.send('User is already banned');
             }
             await user.send('You have been banned from **' + msg.guild.name + '** for: ' + args.slice(1).join(' '))
                 .catch(() => {
+                    if(user.user.bot) return;
                     return msg.channel.send('Unable to send ban message to user.');
                 });
             msg.channel.messages.fetch({
