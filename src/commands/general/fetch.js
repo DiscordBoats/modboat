@@ -104,6 +104,12 @@ module.exports = {
                         } else {
                             banner = us.data.bannerURL + '?size=2048'
                         }
+                        let joined = ''
+                        if(member) {
+                            joined = `${moment(member.joinedAt).format('LLL')} (<t:${moment(member.joinedAt).format("X")}:R>)\n`
+                        } else {
+                            joined = "**Joined at** `Unknown`\n"
+                        }
 
                         if (globaluser) {
                             const gloUserEmbed = new MessageEmbed()
