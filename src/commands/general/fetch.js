@@ -148,7 +148,7 @@ module.exports = {
                     });
                 }
                 break;
-            case 'alt':
+            case 'accounts':
                 if (args[1]) {
 
                     let days = args[1];
@@ -219,7 +219,7 @@ module.exports = {
             default:
                 let embed2 = new MessageEmbed()
                     .setColor('RANDOM')
-                    .setDescription(`Fetch usage example:\n\`\`\`fetch [user/bot/list/alt] [id/name/days]\`\`\``)
+                    .setDescription(`Fetch usage example:\n\`\`\`fetch [user/bot/list/accounts] [id/name/days]\`\`\``)
                 return msg.channel.send(embed2);
         }
 
