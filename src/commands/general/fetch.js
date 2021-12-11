@@ -180,7 +180,7 @@ module.exports = {
                     const interval = 10;
 
                     const embed = new discord.MessageEmbed()
-                        .setAuthor(`Found ${array.length} account${array.length === 1 ? '' : 's'} that have been created within the last ${days} day${days === 1 ? '' : 's'}`)
+                        .setAuthor(`Found ${array.length.toLocaleString()} account${array.length === 1 ? '' : 's'} that have been created within the last ${days.toLocaleString()} day${days === 1 ? '' : 's'}`)
                         .setDescription(array.join("\n\n") || "No alts found")
                         .setThumbnail(msg.guild.iconURL({ dynamic: true }))
                         .setColor("RANDOM")
@@ -189,7 +189,7 @@ module.exports = {
 
                        // const range = (array.length === 1) ? '[1]' : `[1 - ${array.length}]`;
                         await msg.channel.send(embed
-                            .setAuthor(`Found ${array.length} account${array.length === 1 ? '' : 's'} that have been created within the last ${days} day${days === 1 ? '' : 's'}`)
+                            .setAuthor(`Found ${array.length.toLocaleString()} account${array.length === 1 ? '' : 's'} that have been created within the last ${days.toLocaleString()} day${days === 1 ? '' : 's'}`)
                             .setDescription(array.join("\n\n") || "No alts found")
                             .setThumbnail(msg.guild.iconURL({ dynamic: true }))
                             .setColor("RANDOM")
@@ -203,7 +203,7 @@ module.exports = {
                         });
 
 
-                        await msg.channel.send({content: `Found ${array.length} account${array.length === 1 ? '' : 's'} that have been created within the last ${days} day${days === 1 ? '' : 's'}`,files: ['./fetchAccounts.txt']});
+                        await msg.channel.send({content: `Found ${array.length.toLocaleString()} account${array.length === 1 ? '' : 's'} that have been created within the last ${days.toLocaleString()} day${days === 1 ? '' : 's'}`,files: ['./fetchAccounts.txt']});
 
                         setTimeout(async () => {
                             fs.unlink(`./fetchAccounts.txt`, function (err) {
