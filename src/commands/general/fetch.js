@@ -61,18 +61,27 @@ module.exports = {
                         const member = msg.guild.member(args[1]);
                         const inServer = !!member;
                         const res = await body.json()
-                        let bannerthing = await fetch(`https://japi.rest/discord/v1/user/${(await p).id}`).then(res => res.json())
-                        let banner = bannerthing.data.bannerURL
+                        let us = await fetch(`https://japi.rest/discord/v1/user/${(await p).id}`).then(res => res.json())
+                        let banner = us.data.bannerURL
                         if(!banner) {
                             banner = "https://media.discordapp.net/attachments/854794095066349618/919104448201117706/unknown.png"
                         } else {
-                            banner = bannerthing.data.bannerURL + '?size=2048'
+                            banner = us.data.bannerURL + '?size=2048'
                         }
+                        let flags = us.data.public_flags_array.join(' | ')
+                        if(flags.length > 100) {
+                            flags = "User has too many flags to display."
+                        }
+                        if(!flags) {
+                            flags = "User has no flags, or I can't find them."
+                        }
+                        let website = `**Website:** **[Click Here](${res.user_website})**\n`; if(!res.user_website) {website = ""}let twitter = `**Twitter:** **[Click Here](https://twitter.com/${res.user_twitter})**\n`;if(!res.user_twitter) {twitter = ""}let github = `**Github:** **[Click Here](https://github.com/${res.user_github})**\n`;if(!res.user_github) {github = ""}let inst = `**Instagram:** **[Click Here](${res.user_instagram}) <This is broken lmao>**\n`;if(!res.user_instagram) {inst = ""}let reddit = `**Reddit:** **[Click Here](${res.user_reddit})**\n`;if(!res.user_reddit) {reddit = ""}
+
                         const embed = new MessageEmbed()
                             .setURL(`https://discord.boats/user/${args[1]}`)
                             .setTitle(`${res.user_name} (${res.user_id})`)
                             .setImage(banner)
-                            .setDescription(`**Bio:** \`\`\`${res.user_bio}\`\`\`\n **Premium:** ${res.user_premium ? null : 'false'}\n **In server** ${inServer}\n **Created at** ${require('moment')((await p).createdAt).format('LLL')} (<t:${require('moment')((await p).createdAt).format('X')}:R>)}\n **Joined** ${moment(member.joinedAt).format('LLL') ? moment(member.joinedAt).format('LLL') : "Unknown"} (<t:${moment(member.joinedAt).format("X") ? moment(member.joinedAt).format("X") : moment(Date.now()).format("X")}:R>)\n **Website:** **[Click Here](${res.user_website})**\n **Twitter:** **[Click Here](${res.user_twitter})**\n **Github:** **[Click Here](${res.user_github})**\n **Instagram:** **[Click Here](${res.user_instagram})**\n **Reddit:** **[Click Here](${res.user_reddit})**`)
+                            .setDescription(`**Bio:** \`\`\`${res.user_bio}\`\`\`\n **Premium:** \`${res.user_premium ? null : 'false'}\`\n **In server** \`${inServer}\`\n **Created at** \`${require('moment')((await p).createdAt).format('LLL')}\` (<t:${require('moment')((await p).createdAt).format('X')}:R>)\n **Joined** \`${moment(member.joinedAt).format('LLL') ? moment(member.joinedAt).format('LLL') : "Unknown"}\` (<t:${moment(member.joinedAt).format("X") ? moment(member.joinedAt).format("X") : moment(Date.now()).format("X")}:R>)\n **User flags** \`${flags}\`\n ${website} ${twitter} ${github} ${inst} ${reddit}`)
                             .setThumbnail((await p).displayAvatarURL({ dynamic: true }))
                             .setColor('#0099ff')
                         await msg.channel.send(embed)
@@ -81,24 +90,26 @@ module.exports = {
                         const globaluser = _client.users.fetch(args[1])
                         const member = msg.guild.member(args[1]);
                         const inServer = !!member;
-                        let bannerthing = await fetch(`https://japi.rest/discord/v1/user/${(await globaluser).id}`).then(res => res.json())
-                        let banner = bannerthing.data.bannerURL
+                        let us = await fetch(`https://japi.rest/discord/v1/user/${(await globaluser).id}`).then(res => res.json())
+                        let flags = us.data.public_flags_array.join(' | ')
+                        if(flags.length > 200) {
+                            flags = "User has too many flags to display."
+                        }
+                        if(!flags) {
+                            flags = "User has no flags, or I can't find them."
+                        }
+                        let banner = us.data.bannerURL
                         if(!banner) {
                             banner = "https://media.discordapp.net/attachments/854794095066349618/919104448201117706/unknown.png"
                         } else {
-                            banner = bannerthing.data.bannerURL + '?size=2048'
+                            banner = us.data.bannerURL + '?size=2048'
                         }
-                        let joined = member.joinedAt
-                        if(!joined) {
-                            joined = "Unknown"
-                        } else {
-                            joined = `${moment(member.joinedAt).format('LLL')} (<t:${moment(member.joinedAt).format("X")}:R>)`
-                        }
+
                         if (globaluser) {
                             const gloUserEmbed = new MessageEmbed()
                             .setURL(`https://discord.com/users/${args[1]}`)
                                 .setTitle(`${(await globaluser).username}#${(await globaluser).discriminator} | ${(await globaluser).id}`)
-                                .setDescription(`**Bot**: ${(await globaluser).bot}\n**Created at**: ${require('moment')((await globaluser).createdAt).format('LLL')} (<t:${require('moment')((await globaluser).createdAt).format('X')}:R>)\n**Joined**: ${joined}\n**In server**: ${inServer}`)
+                                .setDescription(`**Bot**: \`${(await globaluser).bot}\`\n**Created at**: \`${require('moment')((await globaluser).createdAt).format('LLL')}\` (<t:${require('moment')((await globaluser).createdAt).format('X')}:R>)\n${joined}**In server**: \`${inServer}\`\n**User flags** \`${flags}\``)
                                 .setThumbnail((await globaluser).displayAvatarURL({ dynamic: true }))
                                 .setColor('#0099ff')
                                 .setImage(banner)
