@@ -2,14 +2,12 @@ const { MessageEmbed } = require('discord.js')
 const fetch = require('cross-fetch')
 const moment = require("moment");
 const discord = require("discord.js");
-const Discord = require("discord.js");
 const fs = require("fs");
 module.exports = {
     name: 'fetch',
     description: 'Find users whose username contains some characters.',
     usage: '[search]',
     category: 'Utility',
-    permissions: ['BAN_MEMBERS'],
     async execute(_client, msg, args) {
 
         switch (args[0]) {
@@ -51,36 +49,59 @@ module.exports = {
 
             case 'user':
                 if (args[1]) {
-                    fetch(`https://discord.boats/api/user/${args[1]}`, {
+
+                    await fetch(`https://discord.boats/api/user/${args[1]}`, {
                         method: 'GET',
                         headers: {
                             "Content-Type": "application/json"
                         }
                     }).then(async body => {
+
                         const p = _client.users.fetch(args[1])
                         const member = msg.guild.member(args[1]);
                         const inServer = !!member;
                         const res = await body.json()
+                        let bannerthing = await fetch(`https://japi.rest/discord/v1/user/${(await p).id}`).then(res => res.json())
+                        let banner = bannerthing.data.bannerURL
+                        if(!banner) {
+                            banner = "https://media.discordapp.net/attachments/854794095066349618/919104448201117706/unknown.png"
+                        } else {
+                            banner = bannerthing.data.bannerURL + '?size=2048'
+                        }
                         const embed = new MessageEmbed()
                             .setURL(`https://discord.boats/user/${args[1]}`)
                             .setTitle(`${res.user_name} (${res.user_id})`)
-                            .setDescription(`**Bio:** \`\`\`${res.user_bio}\`\`\`\n **Premium:** ${res.user_premium ? null : 'false'}\n **In server** ${inServer}\n **Joined at** ${moment(member.member.joinedAt).format('LLL') ? moment(member.member.joinedAt).format('LLL') : "Unknown"} (<t:${moment(member.member.joinedAt).format("X")}:R>)\n **Website:** **[Click Here](${res.user_website})**\n **Twitter:** **[Click Here](${res.user_twitter})**\n **Github:** **[Click Here](${res.user_github})**\n **Instagram:** **[Click Here](${res.user_instagram})**\n **Reddit:** **[Click Here](${res.user_reddit})**`)
+                            .setImage(banner)
+                            .setDescription(`**Bio:** \`\`\`${res.user_bio}\`\`\`\n **Premium:** ${res.user_premium ? null : 'false'}\n **In server** ${inServer}\n **Created at** ${require('moment')((await p).createdAt).format('LLL')} (<t:${require('moment')((await p).createdAt).format('X')}:R>)}\n **Joined** ${moment(member.joinedAt).format('LLL') ? moment(member.joinedAt).format('LLL') : "Unknown"} (<t:${moment(member.joinedAt).format("X") ? moment(member.joinedAt).format("X") : moment(Date.now()).format("X")}:R>)\n **Website:** **[Click Here](${res.user_website})**\n **Twitter:** **[Click Here](${res.user_twitter})**\n **Github:** **[Click Here](${res.user_github})**\n **Instagram:** **[Click Here](${res.user_instagram})**\n **Reddit:** **[Click Here](${res.user_reddit})**`)
                             .setThumbnail((await p).displayAvatarURL({ dynamic: true }))
                             .setColor('#0099ff')
                         await msg.channel.send(embed)
 
-                    }).catch(async (err) => {
+                    }).catch(async () => {
                         const globaluser = _client.users.fetch(args[1])
                         const member = msg.guild.member(args[1]);
                         const inServer = !!member;
-
+                        let bannerthing = await fetch(`https://japi.rest/discord/v1/user/${(await globaluser).id}`).then(res => res.json())
+                        let banner = bannerthing.data.bannerURL
+                        if(!banner) {
+                            banner = "https://media.discordapp.net/attachments/854794095066349618/919104448201117706/unknown.png"
+                        } else {
+                            banner = bannerthing.data.bannerURL + '?size=2048'
+                        }
+                        let joined = member.joinedAt
+                        if(!joined) {
+                            joined = "Unknown"
+                        } else {
+                            joined = `${moment(member.joinedAt).format('LLL')} (<t:${moment(member.joinedAt).format("X")}:R>)`
+                        }
                         if (globaluser) {
                             const gloUserEmbed = new MessageEmbed()
                             .setURL(`https://discord.com/users/${args[1]}`)
                                 .setTitle(`${(await globaluser).username}#${(await globaluser).discriminator} | ${(await globaluser).id}`)
-                                .setDescription(`**Bot**: ${(await globaluser).bot}\n**Created at**: ${require('moment')((await globaluser).createdAt).format('LLL')} (<t:${require('moment')((await globaluser).createdAt).format('X')}:R>)\n**In server**: ${inServer}`)
+                                .setDescription(`**Bot**: ${(await globaluser).bot}\n**Created at**: ${require('moment')((await globaluser).createdAt).format('LLL')} (<t:${require('moment')((await globaluser).createdAt).format('X')}:R>)\n**Joined**: ${joined}\n**In server**: ${inServer}`)
                                 .setThumbnail((await globaluser).displayAvatarURL({ dynamic: true }))
                                 .setColor('#0099ff')
+                                .setImage(banner)
                             return msg.channel.send(gloUserEmbed)
                         }
 
@@ -112,7 +133,6 @@ module.exports = {
                 break;
             case 'alt':
                 if (args[1]) {
-                    const Discord = require('discord.js');
 
                     let days = args[1];
                     if (!days) return msg.channel.send("Please provide a valid days duration");
@@ -128,7 +148,6 @@ module.exports = {
 
                     msg.guild.members.cache.forEach(async (user) => {
 
-                        let math = day * 86400000
 
                         let x = Date.now() - user.user.createdAt;
                         let created = Math.floor(x / 86400000);
@@ -151,7 +170,7 @@ module.exports = {
 
                     if (array.length <= interval) {
 
-                        const range = (array.length === 1) ? '[1]' : `[1 - ${array.length}]`;
+                       // const range = (array.length === 1) ? '[1]' : `[1 - ${array.length}]`;
                         await msg.channel.send(embed
                             .setAuthor(`Found ${array.length} account${array.length === 1 ? '' : 's'} that have been created within the last ${days} day${days === 1 ? '' : 's'}`)
                             .setDescription(array.join("\n\n") || "No alts found")
@@ -166,12 +185,8 @@ module.exports = {
                             }
                         });
 
-                        let altEm = new Discord.MessageEmbed()
-                            .setAuthor(`Found ${array.length} account${array.length === 1 ? '' : 's'} that have been created within the last ${days} day${days === 1 ? '' : 's'}`)
-                            .setDescription('Unable to show all accounts since it exceeds the maximum amount of characters.')
-                            .setThumbnail(msg.guild.iconURL({ dynamic: true }))
-                            .setColor("RANDOM")
-                        await msg.channel.send({content: "Found ${array.length} account${array.length === 1 ? '' : 's'} that have been created within the last ${days} day${days === 1 ? '' : 's'}",files: ['./fetchAccounts.txt']});
+
+                        await msg.channel.send({content: `Found ${array.length} account${array.length === 1 ? '' : 's'} that have been created within the last ${days} day${days === 1 ? '' : 's'}`,files: ['./fetchAccounts.txt']});
 
                         setTimeout(async () => {
                             fs.unlink(`./fetchAccounts.txt`, function (err) {
