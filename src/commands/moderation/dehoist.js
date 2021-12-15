@@ -1,3 +1,4 @@
+const {MessageEmbed} = require("discord.js");
 module.exports = {
     name: 'dehoist',
     descritpion: 'Dehoists Users',
@@ -5,74 +6,51 @@ module.exports = {
     category: 'Moderation',
     permissions: ['MANAGE_NICKNAMES'],
     async execute(client, msg, args) {
-        const member = msg.mentions.members.first() || msg.guild.members.cache.get(args[0]);
-        if (!member) {
-            return msg.channel.send('You must say either nickname or username including the user mention.');
-        }
-
-        if (!member.kickable) {
-            return msg.channel.send('You cannot dehoist this user.');
-        }
-
-        if (client.settings.modrole) {
-            if (member.roles.cache.has(client.settings.modrole)) {
-                return msg.channel.send('You cannot dehoist this user.');
-            }
-        }
-
+let int = 0
         switch (args[0]) {
-            case 'nickname':
-                if (member.nickname === null) {
-                    return msg.channel.send('This user doesn\'t seem to be hoisting.');
-                }
-
-                if (client.emoji.removeEmoji(member.nickname, false)) {
-                    member.edit({nick: 'No hoisting'});
-                    return msg.channel.send(`\`${member.user.tag}\` has been dehoisted.`);
-                }
-
-                const nick = client.config.dehoist.find(s => member.nickname.startsWith(s));
-
-                if (nick) {
-                    member.edit({nick: 'No hoisting'});
-                    return msg.channel.send(`\`${member.user.tag}\` has been dehoisted.`);
-                }
-
-                if (!nick) {
-                    return msg.channel.send('This user doesn\'t seem to be hoisting.');
-                }
-
-                if (member.nickname[0] < '0') {
-                    member.edit({nick: 'No hoisting'});
-                    return msg.channel.send(`\`${member.user.tag}\` has been dehoisted.`);
-                }
-                break;
             case 'username':
-                if (member.user.username === null) {
-                    return msg.channel.send('This user doesn\'t seem to be hoisting.');
-                }
+                msg.guild.members.cache.forEach( (us) => {
+                    const member = msg.guild.member(us.user)
+                    if(!member.user.username) return;
+                    if(member.user.username.charAt(0).startsWith(`!`) || member.user.username.charAt(0).startsWith(`:`) || member.user.username.charAt(0).startsWith("?") || member.user.username.charAt(0).startsWith("$") || member.user.username.charAt(0).startsWith("#") || member.user.username.charAt(0).startsWith("@") || member.user.username.charAt(0).startsWith("&") || member.user.username.charAt(0).startsWith("%") || member.user.username.charAt(0).startsWith("^") || member.user.username.charAt(0).startsWith("*") || member.user.username.charAt(0).startsWith("(") || member.user.username.charAt(0).startsWith(")") || member.user.username.charAt(0).startsWith("-") || member.user.username.charAt(0).startsWith("_") || member.user.username.charAt(0).startsWith("+") || member.user.username.charAt(0).startsWith("=") || member.user.username.charAt(0).startsWith("[") || member.user.username.charAt(0).startsWith("]") || member.user.username.charAt(0).startsWith("{") || member.user.username.charAt(0).startsWith("}") || member.user.username.charAt(0).startsWith("|") || member.user.username.charAt(0).startsWith("\\") || member.user.username.charAt(0).startsWith(";") || member.user.username.charAt(0).startsWith(":") || member.user.username.charAt(0).startsWith("'") || member.user.username.charAt(0).startsWith("\"") || member.user.username.charAt(0).startsWith("<") || member.user.username.charAt(0).startsWith(">") || member.user.username.charAt(0).startsWith("?") || member.user.username.charAt(0).startsWith("/") || member.user.username.charAt(0).startsWith(".")) { // I hate myself
 
-                if (client.emoji.removeEmoji(member.user.username, false)) {
-                    member.edit({nick: 'No hoisting'});
-                    return msg.channel.send(`\`${member.user.tag}\` has been dehoisted.`);
-                }
+                        /*
+                        for(const a of member.user.username) {
 
-                const user = client.config.dehoist.find(s => member.user.username.startsWith(s));
+                            int = a.length
+                        }
+                         */
+                        member.setNickname(`Z Hoisting Bad`)
+                    }
 
-                if (user) {
-                    member.edit({nick: 'No hoisting'});
-                    return msg.channel.send(`\`${member.user.tag}\` has been dehoisted.`);
-                }
+                })
+                msg.channel.send(`${int} users dehoisted.`)
+                break;
+            case 'nick':
+                msg.guild.members.cache.forEach( (user) => {
+                    const member = msg.guild.member(user.user);
+                    if(!member.nickname) return;
+                    if(member.nickname.charAt(0).startsWith(`!`) || member.nickname.charAt(0).startsWith(`:`) || member.nickname.charAt(0).startsWith("?") || member.nickname.charAt(0).startsWith("$") || member.nickname.charAt(0).startsWith("#") || member.nickname.charAt(0).startsWith("@") || member.nickname.charAt(0).startsWith("&") || member.nickname.charAt(0).startsWith("%") || member.nickname.charAt(0).startsWith("^") || member.nickname.charAt(0).startsWith("*") || member.nickname.charAt(0).startsWith("(") || member.nickname.charAt(0).startsWith(")") || member.nickname.charAt(0).startsWith("-") || member.nickname.charAt(0).startsWith("_") || member.nickname.charAt(0).startsWith("+") || member.nickname.charAt(0).startsWith("=") || member.nickname.charAt(0).startsWith("[") || member.nickname.charAt(0).startsWith("]") || member.nickname.charAt(0).startsWith("{") || member.nickname.charAt(0).startsWith("}") || member.nickname.charAt(0).startsWith("|") || member.nickname.charAt(0).startsWith("\\") || member.nickname.charAt(0).startsWith(";") || member.nickname.charAt(0).startsWith(":") || member.nickname.charAt(0).startsWith("'") || member.nickname.charAt(0).startsWith("\"") || member.nickname.charAt(0).startsWith("<") || member.nickname.charAt(0).startsWith(">") || member.nickname.charAt(0).startsWith("?") || member.nickname.charAt(0).startsWith("/") || member.nickname.charAt(0).startsWith(".")) { // I hate myself
+                        /*
+                        for(const a of member.user.username) {
+                           int = a.length
+                        }
 
-                if (!user) {
-                    return msg.channel.send('This user doesn\'t seem to be hoisting.');
-                }
+                         */
+                        member.setNickname('Z Hoisting bad')
+                    }
+                })
+                msg.channel.send(`${int} users dehoisted.`)
+                break;
 
-                if (member.user.username[0] < '0') {
-                    member.edit({nick: 'No hoisting'});
-                    return msg.channel.send(`\`${member.user.tag}\` has been dehoisted.`);
-                }
-
+            case 'list':
+                / alksdnafkinasf
+                break;
+            default:
+                let embed2 = new MessageEmbed()
+                    .setColor('RANDOM')
+                    .setDescription(`Dehoist usage example:\n\`\`\`dehoist [nick/username]\`\`\``)
+                return msg.channel.send(embed2);
         }
     }
 }
