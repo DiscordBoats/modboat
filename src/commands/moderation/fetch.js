@@ -8,6 +8,7 @@ module.exports = {
     description: 'Find users whose username contains some characters.',
     usage: '[search]',
     category: 'Utility',
+    permissions: ['MANAGE_MESSAGES'],
     async execute(_client, msg, args) {
 
         switch (args[0]) {
