@@ -24,32 +24,57 @@ module.exports = async (client, msg) => {
     });
 */
     if (data.match) {
-       if (msg.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES) || msg.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR) || msg.member.permissions.has(Permissions.FLAGS.MANAGE_GUILD) || msg.member.permissions.has(Permissions.FLAGS.MANAGE_CHANNELS)) return;
+        if (msg.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES) || msg.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR) || msg.member.permissions.has(Permissions.FLAGS.MANAGE_GUILD) || msg.member.permissions.has(Permissions.FLAGS.MANAGE_CHANNELS)) return;
         client.time.timeOut(client, msg.guild.id, msg.author.id)
-       setTimeout(() => {
+        setTimeout(() => {
             !msg.deleted ? msg.delete() : null;
         }, 1000);
 
-        const row = new MessageActionRow()
+        const remRow = new MessageActionRow()
             .addComponents(new MessageButton()
                 .setCustomId('ban')
                 .setLabel('Ban User')
                 .setStyle('DANGER'),
             )
             .addComponents(new MessageButton()
-                .setCustomId('remove')
+                .setCustomId('removeTimeout')
                 .setLabel('Remove Timeout')
+                .setStyle('PRIMARY'),
+            )
+        const addRow = new MessageActionRow()
+            .addComponents(new MessageButton()
+                .setCustomId('ban')
+                .setLabel('Ban User')
+                .setStyle('DANGER'),
+            )
+            .addComponents(new MessageButton()
+                .setCustomId('addTimeout')
+                .setLabel('Add Timeout')
                 .setStyle('PRIMARY'),
             )
         client.on('interactionCreate', async interaction => {
             if (!interaction.isButton()) return;
-            if(interaction.customId === 'remove') {
+            if(interaction.customId === 'removeTimeout') {
                 if(!interaction.member.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return interaction.reply({content: 'You do not have permission to remove timeouts.', ephemeral: true});
 
+                const remEmbed = interaction.message.embeds[0]
+                remEmbed.setFields([{name: 'User\'s timeout removed by:', value: `${interaction.member}`}])
+
                 client.time.timeIn(client, msg.guild.id, msg.author.id)
+                interaction.message.edit({content: `${interaction.message.content}`, embeds: [remEmbed], components: [addRow]})
                 interaction.reply({content: 'Timeout removed.', ephemeral: true})
 
-              
+
+            }
+            if(interaction.customId === 'addTimeout') {
+                if(!interaction.member.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return interaction.reply({content: 'You do not have permission to add timeouts.', ephemeral: true});
+                const addEmbed = interaction.message.embeds[0]
+                addEmbed.setFields([{name: 'User timed out by:', value: `${interaction.member}`}])
+                client.time.timeOut(client, msg.guild.id, msg.author.id)
+                interaction.message.edit({content: `${interaction.message.content}`, embeds: [addEmbed], components: [remRow]})
+                interaction.reply({content: 'Timeout added.', ephemeral: true})
+
+
             }
             if(interaction.customId === 'ban') {
                 const bans = await msg.guild.bans.fetch();
@@ -76,12 +101,12 @@ module.exports = async (client, msg) => {
         });
 
 
-            let modlogembed = new MessageEmbed()
-                .setColor('RED')
-                .setAuthor('❌ Phishing Link Found')
-                .setThumbnail(msg.author.avatarURL({dynamic: true}))
-                .setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id})\nhas been perm muted for sending a phishing link in ${msg.channel.name}.\n\nMessage Deleted <t:${unix}:R>: ||${msg.content}||`)
-            client.channels.cache.get(client.settings.messagelog).send({embeds: [modlogembed], components: [row], content: `<@1727s97182565416962>`})
+        let modlogembed = new MessageEmbed()
+            .setColor('RED')
+            .setAuthor('❌ Phishing Link Found')
+            .setThumbnail(msg.author.avatarURL({dynamic: true}))
+            .setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id})\nhas been perm muted for sending a phishing link in ${msg.channel.name}.\n\nMessage Deleted <t:${unix}:R>: ||${msg.content}||`)
+        client.channels.cache.get(client.settings.messagelog).send({embeds: [modlogembed], components: [remRow], content: `<@172797182565416962>`})
 
     }
 }
