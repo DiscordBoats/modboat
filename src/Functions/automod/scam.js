@@ -3,7 +3,7 @@ const {MessageEmbed, Permissions, MessageActionRow, MessageButton} = require('di
 module.exports = async (client, msg) => {
     const unix = Math.floor(new Date().getTime() / 1000);
 
-    let data = await require('node-fetch')(`https://anti-fish.bitflow.dev/check`, {
+    let data = await require('node-fetch')(client.automod.scamLinks, {
         method: "post",
         body: JSON.stringify({message: msg.content}),
         headers: {
