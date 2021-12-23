@@ -33,7 +33,7 @@ module.exports = async (client, msg) => {
 
     const args = msg.content.slice(prefix.length).trim().split(/ +/g);
     const name = args.shift();
-    const command = client.commands.filter(x => x.name === name).first();
+    const command = client.commands.get(name) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(name));
 
     const runPreconditions = preconditions(client, msg, command);
     if (runPreconditions) {

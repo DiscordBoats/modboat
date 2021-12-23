@@ -15,9 +15,8 @@ client.automod = require('./automod.json');
 client.config = require('./config.json');
 client.emoji = require('./Functions/emoji');
 client.time = require('./Functions/timeout')
-
-client.commands = new Collection();
 client.snipes = new Collection();
+["aliases", "commands"].forEach((x) => (client[x] = new Collection()));
 
 const settings = client.db.prepare('SELECT * FROM settings').all() || {name: '', value: ''};
 const list = {};
@@ -34,10 +33,13 @@ const init = async () => {
     });
 
     const categories = await readdir('./commands');
-    categories.forEach(async category => {
+    for (const category of categories) {
         const commands = await readdir(`./commands/${category}`);
-        commands.forEach(file => client.commands.set(file.split('.')[0], require(`./commands/${category}/${file}`)));
-    });
+        for (const file of commands) {
+            await client.commands.set(file.split('.')[0], require(`./commands/${category}/${file}`));
+
+        }
+    }
 }
 
 init().then(r => r);

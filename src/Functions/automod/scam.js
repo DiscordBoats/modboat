@@ -32,14 +32,15 @@ module.exports = async (client, msg) => {
 
         const remRow = new MessageActionRow()
             .addComponents(new MessageButton()
-                .setCustomId('ban')
-                .setLabel('Ban User')
-                .setStyle('DANGER'),
+                .setCustomId('unban')
+                .setLabel('Unban User')
+                .setStyle('SUCCESS'),
             )
             .addComponents(new MessageButton()
-                .setCustomId('removeTimeout')
-                .setLabel('Remove Timeout')
+                .setCustomId('addTimeout')
+                .setLabel('Add Timeout')
                 .setStyle('PRIMARY'),
+
             )
         const addRow = new MessageActionRow()
             .addComponents(new MessageButton()
@@ -48,28 +49,46 @@ module.exports = async (client, msg) => {
                 .setStyle('DANGER'),
             )
             .addComponents(new MessageButton()
-                .setCustomId('addTimeout')
-                .setLabel('Add Timeout')
-                .setStyle('PRIMARY'),
+                .setCustomId('removeTimeout')
+                .setLabel('Remove Timeout')
+                .setStyle('SUCCESS')
             )
         client.on('interactionCreate', async interaction => {
             if (!interaction.isButton()) return;
+            if(interaction.customId === 'unban') {
+                const bans = await msg.guild.bans.fetch();
+                const ban = bans.find(b => b.user.id === msg.author.id);
+                if (!ban) {
+                    return interaction.reply({content: 'User is not banned', ephemeral: true});
+                }
+                msg.guild.members.unban(msg.author.id, {
+                    reason: `Unbanned by ${interaction.member.user.tag} (${interaction.member.user.id}) by the unban scam button`
+                }).then(() => {
+                    interaction.reply({content: 'User has been unbanned', ephemeral: true});
+                })
+                const remEmbed = interaction.message.embeds[0]
+                remEmbed.addFields([{name: 'User unbanned by:', value: `${interaction.member.user.tag}`}])
+                interaction.message.edit({content: `${interaction.message.content}`, embeds: [remEmbed], components: [addRow]})
+                interaction.channel.send({content: 'User unbanned.'})
+
+            }
             if(interaction.customId === 'removeTimeout') {
                 if(!interaction.member.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return interaction.reply({content: 'You do not have permission to remove timeouts.', ephemeral: true});
 
                 const remEmbed = interaction.message.embeds[0]
-                remEmbed.setFields([{name: 'User\'s timeout removed by:', value: `${interaction.member}`}])
-
+                remEmbed.addFields([{name: 'User\'s timeout removed by:', value: `${interaction.member.user.tag}`}])
                 client.time.timeIn(client, msg.guild.id, msg.author.id)
                 interaction.message.edit({content: `${interaction.message.content}`, embeds: [remEmbed], components: [addRow]})
                 interaction.reply({content: 'Timeout removed.', ephemeral: true})
-
+                const addEmbed = interaction.message.embeds[0]
+                addEmbed.addFields([{name: 'User\'s timeout removed by:', value: `${interaction.member.user.tag}`}])
+                interaction.message.edit({content: `${interaction.message.content}`, embeds: [addEmbed], components: [remRow]})
 
             }
             if(interaction.customId === 'addTimeout') {
                 if(!interaction.member.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return interaction.reply({content: 'You do not have permission to add timeouts.', ephemeral: true});
                 const addEmbed = interaction.message.embeds[0]
-                addEmbed.setFields([{name: 'User timed out by:', value: `${interaction.member}`}])
+                addEmbed.addFields([{name: 'User timed out by:', value: `${interaction.member.user.tag}`}])
                 client.time.timeOut(client, msg.guild.id, msg.author.id)
                 interaction.message.edit({content: `${interaction.message.content}`, embeds: [addEmbed], components: [remRow]})
                 interaction.reply({content: 'Timeout added.', ephemeral: true})
@@ -81,6 +100,7 @@ module.exports = async (client, msg) => {
                 const ban = bans.find(b => b.user.id === msg.author.id);
                 if(ban) return interaction.reply({content: 'They are already banned', ephemeral: true});
                 if (!interaction.member.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return interaction.reply({content: `You don't have the permissions to ban`, ephemeral: true});
+                client.time.timeIn(client, msg.guild.id, msg.author.id)
                 await msg.guild.members.ban(msg.author, {reason: `Banned by the anti phish button`})
                 const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || {number: 0};
                 const embed = {
@@ -97,6 +117,9 @@ module.exports = async (client, msg) => {
                 }
                 client.channels.cache.get(client.settings.modlog).send({embeds: [embed]}).then(message => client.db.prepare('INSERT INTO cases (message_id) VALUES (?)').run(message.id))
                 interaction.reply('Banned');
+                const addEmbed = interaction.message.embeds[0]
+                addEmbed.addFields([{name: 'User banned by:', value: `${interaction.member.user.tag}`}])
+                interaction.message.edit({content: `${interaction.message.content}`, embeds: [addEmbed], components: [remRow]})
             }
         });
 
@@ -106,7 +129,7 @@ module.exports = async (client, msg) => {
             .setAuthor('❌ Phishing Link Found')
             .setThumbnail(msg.author.avatarURL({dynamic: true}))
             .setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id})\nhas been perm muted for sending a phishing link in ${msg.channel.name}.\n\nMessage Deleted <t:${unix}:R>: ||${msg.content}||`)
-        client.channels.cache.get(client.settings.messagelog).send({embeds: [modlogembed], components: [remRow], content: `<@172797182565416962>`})
+        client.channels.cache.get(client.settings.messagelog).send({embeds: [modlogembed], components: [addRow], content: `<@17s2797182565416962>`})
 
     }
 }

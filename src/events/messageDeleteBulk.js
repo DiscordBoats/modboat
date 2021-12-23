@@ -1,7 +1,7 @@
 const Discord = require('discord.js')
 const fs = require("fs");
 module.exports = async (client, messages) => {
-    const length = messages.array().length;
+    const length = [...messages.values()].length;
     const channel = messages.first().channel.name;
 
     require('fs').writeFile(`./bulkDeleteLog.txt`, `${messages.map(message => `[${message.author.tag} (${message.author.id}) | ${require('moment')(message.createdAt).format('LLL')}]\n${message.content ? message.content : "<No messages found, maybe a embed or attachment>"}\n\n`).join(" ")}`, function (err) {
@@ -12,11 +12,7 @@ module.exports = async (client, messages) => {
     const embed = new Discord.MessageEmbed()
         .setDescription(`${length} messages were deleted in ${channel}`)
         .setColor('YELLOW')
-    setTimeout(async () => {
-        client.channels.fetch(client.settings.messagelog).then(channel => {
-          channel.send({embeds: [embed], files: [`./bulkDeleteLog.txt`]});
-        })
-    }, 10000)
+          client.channels.cache.get(client.settings.messagelog).send({embeds: [embed], files: [`./bulkDeleteLog.txt`]});
 
     setTimeout(async () => {
         fs.unlink(`./bulkDeleteLog.txt`, function (err) {
@@ -24,5 +20,5 @@ module.exports = async (client, messages) => {
                 messages.first().channel.send(err)
             }
         });
-    }, 10000)
+    }, 5000);
 }

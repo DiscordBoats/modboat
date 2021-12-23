@@ -6,7 +6,7 @@ module.exports = {
     permissions: ['MANAGE_GUILD'],
     async execute(_client, msg, args) {
         if (_client.settings.modrole) {
-            const member = msg.mentions.members.first() || msg.guild.members.cache.get(args[0]);
+            const member = msg.mentions.members.first() || msg.guild.members.cache.get(args[0])
             if (member.roles.cache.has(_client.settings.modrole)) {
                 return msg.channel.send('You cannot time in this user.');
             }

@@ -4,6 +4,7 @@ logs/
 node_modules/
 .idea/
 # Files
+./src/bulkDeleteLog.txt
 config.json
 database.db
 database.db-shm
