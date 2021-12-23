@@ -22,6 +22,6 @@ module.exports = {
             image: snipe.image
         }
 
-        await msg.channel.send({embed});
+        await msg.channel.send({embeds: [embed]});
     }
 };

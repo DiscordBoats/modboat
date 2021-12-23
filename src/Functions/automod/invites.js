@@ -31,7 +31,7 @@ module.exports = async (client, msg) => {
                     .setThumbnail(msg.author.avatarURL({dynamic: true}))
                     .setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id}) tried to advertise in <#${msg.channel.id}>\n\n Message Deleted: ||${msg.content}||\n\n** **`);
                 return channel.send({
-                    embed
+                    embeds: [embed]
                 });
             });
         } catch(err) {

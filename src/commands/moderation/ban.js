@@ -12,7 +12,7 @@ module.exports = {
         const user = msg.mentions.members.first() || msg.guild.members.cache.get(args[0]) || args[0]
 
         if (user) {
-            const bans = await msg.guild.fetchBans();
+            const bans = await msg.guild.bans.fetch();
             const ban = bans.find(b => b.user.id === user);
 
             if (user.id === msg.author.id || user.id === client.user.id) {
@@ -63,7 +63,7 @@ module.exports = {
                         }
                     }
                     return channel.send({
-                        embed
+                        embeds: [embed]
                     }).then(message => {
                         client.db.prepare('INSERT INTO cases (message_id) VALUES (?)').run(message.id);
                     });

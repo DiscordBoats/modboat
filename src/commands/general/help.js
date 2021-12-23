@@ -37,7 +37,7 @@ module.exports = {
             }
 
             return msg.channel.send({
-                embed
+                embeds: [embed]
             });
         } else {
             const name = args[0];
@@ -67,7 +67,7 @@ module.exports = {
                 }
 
                 return msg.channel.send({
-                    embed
+                    embeds: [embed]
                 });
             }
         }

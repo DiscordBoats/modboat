@@ -17,10 +17,13 @@ module.exports = {
         }
 
         const reason = args.slice(1).join(' ');
+        if(!reason) {
+            return msg.channel.send('You must provide a reason.');
+        }
         client.channels.fetch(client.settings.modlog).then(channel => {
             channel.messages.fetch(modlogCase.message_id).then(message => {
                 message.embeds[0].description = message.embeds[0].description.split('**Reason:**')[0] + '**Reason:** ' + reason;
-                message.edit(new MessageEmbed(message.embeds[0]));
+                message.edit({embeds: [new MessageEmbed(message.embeds[0])]});
                 msg.channel.send(`Reason for case ${args[0]} has been updated.`);
             });
         });

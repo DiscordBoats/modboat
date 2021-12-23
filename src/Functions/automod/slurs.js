@@ -23,7 +23,7 @@ module.exports = (client, msg) => {
                 }))
                 .setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id}) tried to say a blacklisted word/phrase in <#${msg.channel.id}>\n\n Message Deleted: ||${msg.content}||\n\n** **`);
             return channel.send({
-                embed
+                embeds: [embed]
             });
         });
     }

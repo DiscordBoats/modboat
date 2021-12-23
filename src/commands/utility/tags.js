@@ -16,6 +16,6 @@ module.exports = {
             description: tags.map(x => `\`${x.name}\``).join(', ')
         }
 
-        await msg.channel.send({embed});
+        await msg.channel.send({embeds: [embed]});
     }
 };

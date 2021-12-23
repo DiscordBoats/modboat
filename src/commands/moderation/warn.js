@@ -45,7 +45,7 @@ module.exports = {
                     }
                 }
                 channel.send({
-                    embed
+                    embeds: [embed]
                 }).then(message => {
                     client.db.prepare('INSERT INTO cases (message_id) VALUES (?)').run(message.id);
                 });

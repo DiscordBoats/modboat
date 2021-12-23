@@ -20,7 +20,7 @@ module.exports = (client, member) => {
             setTimeout(async () => {
                 await member.ban({reason: '[Auto Ban] Leaving after being muted.'})
             }, 1000);
-            channel.send({embed});
+            channel.send({embeds: [embed]});
         });
     }
 
@@ -32,6 +32,6 @@ module.exports = (client, member) => {
         .setDescription(`<@${member.user.id}> | ${member.user.tag} (${member.user.id})\n\n**User Created:**\n<t:${unix}:f> (<t:${unix}:R>)\n**Roles**:${member.roles.cache.map(r => r).join(' | ')}`);
 
     client.channels.fetch(client.settings.memberlog).then(channel => {
-        channel.send({embed});
+        channel.send({embeds: [embed]});
     });
 };

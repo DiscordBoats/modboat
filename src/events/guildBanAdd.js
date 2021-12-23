@@ -1,5 +1,8 @@
 module.exports = async (client, guild, member) => {
-    const logs = await guild.fetchAuditLogs({limit: 1, type: 'MEMBER_BAN'});
+    try {
+
+
+    const logs = await guild.fetchAuditLogs({limit: 1, type: 'MEMBER_BAN_ADD'});
     const log = logs.entries.first();
     if (!log || !client.settings.modlog) {
         return;
@@ -7,7 +10,6 @@ module.exports = async (client, guild, member) => {
     if(log.executor.id === client.user.id) return;
 
     if (log.executor && log.target.id === member.id) {
-        return client.channels.fetch(client.settings.modlog).then(channel => {
             const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || {number: 0};
             const embed = {
                 color: 'dc3b3b',
@@ -21,11 +23,13 @@ module.exports = async (client, guild, member) => {
                     icon_url: guild.iconURL()
                 }
             }
-            return channel.send({
-                embed
+            return client.channels.cache.get(client.settings.modlog).send({
+                embeds: [embed]
             }).then(message => {
                 client.db.prepare('INSERT INTO cases (message_id) VALUES (?)').run(message.id);
-            });
         });
+    }
+    } catch(e) {
+        return;
     }
 };

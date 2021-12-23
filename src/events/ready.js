@@ -1,14 +1,14 @@
 module.exports = async (client) => {
     client.log.info(`Connected to ${client.user.tag}`);
-    await client.user.setActivity('members', {type: 'WATCHING'});
-
+    await client.user.setActivity("members", { type: "WATCHING", url: "https://bluefoxhost.com/" });
     // check for mutes
     setInterval(async () => {
         if (!client.settings.mutedrole) {
             return;
         }
+    })
 
-        const mutes = client.db.prepare('SELECT * FROM mutes').all();
+/*         const mutes = client.db.prepare('SELECT * FROM mutes').all();
         for (const mute of mutes) {
             if (mute.expires < Date.now()) {
                 const guild = client.guilds.cache.get('439866052684283905');
@@ -41,7 +41,7 @@ module.exports = async (client) => {
                             }
                         }
                         channel.send({
-                            embed
+                            embeds: [embed]
                         }).then(message => {
                             client.db.prepare('INSERT INTO cases (message_id) VALUES (?)').run(message.id);
                         });
@@ -49,5 +49,5 @@ module.exports = async (client) => {
                 }
             }
         }
-    }, 5000);
+    }, 5000); */
 };

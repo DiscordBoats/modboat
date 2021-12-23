@@ -35,7 +35,7 @@ module.exports = {
                                 .setDescription(`**Prefix:** \`\`${res.bot_prefix}\`\`\n **Library:** \`\`${res.bot_library}\`\`\n **Short Desc:** \`\`\`Short description over 100 chars.\`\`\`\n **Owners:** \`\`${res.bot_owners.join(' | ')}\`\`\n **Ceritied:** \`\`${res.bot_certified}\`\`\n **In Queue:** \`\`${res.bot_in_queue}\`\`\n **Categories:** \`\`${res.bot_categories.join(' | ')}\`\`\n **Server Count:** \`\`${res.bot_server_count}\`\`\n **Vote Count:** \`\`${res.bot_vote_count}\`\`\n **Invite:** **[Click Here](${res.bot_invite_link})**\n **Support Server:** **[Click Here](${res.bot_support_discord})**\n **Website:** **[Click Here](${res.bot_website})**\n **Github:** **[Click Here](${res.bot_github_repo})**`)
                                 .setThumbnail(`https://cdn.discordapp.com/avatars/${args[1]}/${res.bot_avatar}`)
                                 .setColor('#0099ff')
-                            return msg.channel.send(embed)
+                            return msg.channel.send({embeds: [embed]})
                         }
                         const embed = new MessageEmbed()
                             .setURL(`https://discord.boats/bot/${args[1]}`)
@@ -43,7 +43,7 @@ module.exports = {
                             .setDescription(`**Prefix:** \`\`${res.bot_prefix}\`\`\n **Library:** \`\`${res.bot_library}\`\`\n **Short Desc:** \`\`\`${res.bot_short_desc}\`\`\`\n **Owners:** \`\`${res.bot_owners.join(' | ')}\`\`\n **Ceritied:** \`\`${res.bot_certified}\`\`\n **In Queue:** \`\`${res.bot_in_queue}\`\`\n **Categories:** \`\`${res.bot_categories.join(' | ')}\`\`\n **Server Count:** \`\`${res.bot_server_count}\`\`\n **Vote Count:** \`\`${res.bot_vote_count}\`\`\n **Invite:** **[Click Here](${res.bot_invite_link})**\n **Support Server:** **[Click Here](${res.bot_support_discord})**\n **Website:** **[Click Here](${res.bot_website})**\n **Github:** **[Click Here](${res.bot_github_repo})**`)
                             .setThumbnail(`https://cdn.discordapp.com/avatars/${args[1]}/${res.bot_avatar}`)
                             .setColor('#0099ff')
-                        await msg.channel.send(embed)
+                        await msg.channel.send({embeds: [embed]})
                     })
                 }
                 break;
@@ -59,7 +59,7 @@ module.exports = {
                     }).then(async body => {
 
                         const p = _client.users.fetch(args[1])
-                        const member = msg.guild.member(args[1]);
+                        const member = msg.guild.members.cache.get(args[1]);
                         const inServer = !!member;
                         const res = await body.json()
                         let us = await fetch(`https://japi.rest/discord/v1/user/${(await p).id}`).then(res => res.json())
@@ -85,11 +85,11 @@ module.exports = {
                             .setDescription(`**Bio:** \`\`\`${res.user_bio}\`\`\`\n **Premium:** \`${res.user_premium ? null : 'false'}\`\n **In server** \`${inServer}\`\n **Created at** \`${require('moment')((await p).createdAt).format('LLL')}\` (<t:${require('moment')((await p).createdAt).format('X')}:R>)\n **Joined** \`${moment(member.joinedAt).format('LLL') ? moment(member.joinedAt).format('LLL') : "Unknown"}\` (<t:${moment(member.joinedAt).format("X") ? moment(member.joinedAt).format("X") : moment(Date.now()).format("X")}:R>)\n **User flags** \`${flags}\`\n ${website} ${twitter} ${github} ${inst} ${reddit}`)
                             .setThumbnail((await p).displayAvatarURL({ dynamic: true }))
                             .setColor('#0099ff')
-                        await msg.channel.send(embed)
+                        await msg.channel.send({embeds: [embed]})
 
                     }).catch(async () => {
                         const globaluser = _client.users.fetch(args[1])
-                        const member = msg.guild.member(args[1]);
+                        const member = msg.guild.members.cache.get(args[1]);
                         const inServer = !!member;
                         let us = await fetch(`https://japi.rest/discord/v1/user/${(await globaluser).id}`).then(res => res.json())
                         let flags = us.data.public_flags_array.join(' | ')
@@ -120,7 +120,7 @@ module.exports = {
                                 .setThumbnail((await globaluser).displayAvatarURL({ dynamic: true }))
                                 .setColor('#0099ff')
                                 .setImage(banner)
-                            return msg.channel.send(gloUserEmbed)
+                            return msg.channel.send({embeds: [gloUserEmbed]})
                         }
 
                     })
@@ -145,7 +145,7 @@ module.exports = {
                     }
 
                     await msg.channel.send({
-                        embed
+                        embeds: [embed]
                     });
                 }
                 break;
@@ -189,12 +189,13 @@ module.exports = {
                     if (array.length <= interval) {
 
                        // const range = (array.length === 1) ? '[1]' : `[1 - ${array.length}]`;
-                        await msg.channel.send(embed
-                            .setAuthor(`Found ${array.length.toLocaleString()} account${array.length === 1 ? '' : 's'} that have been created within the last ${days.toLocaleString()} day${days === 1 ? '' : 's'}`)
-                            .setDescription(array.join("\n\n") || "No alts found")
-                            .setThumbnail(msg.guild.iconURL({ dynamic: true }))
-                            .setColor("RANDOM")
-                        );
+                        await msg.channel.send({embeds: [
+                        embed
+                        .setAuthor(`Found ${array.length.toLocaleString()} account${array.length === 1 ? '' : 's'} that have been created within the last ${days.toLocaleString()} day${days === 1 ? '' : 's'}`)
+                        .setDescription(array.join("\n\n") || "No alts found")
+                        .setThumbnail(msg.guild.iconURL({ dynamic: true }))
+                        .setColor("RANDOM")
+                    ]} );
 
                     } else {
                         require('fs').writeFile(`./fetchAccounts.txt`, txtArray.join("\n\n"), function (err) {
@@ -221,7 +222,7 @@ module.exports = {
                 let embed2 = new MessageEmbed()
                     .setColor('RANDOM')
                     .setDescription(`Fetch usage example:\n\`\`\`fetch [user/bot/list/accounts] [id/name/days]\`\`\``)
-                return msg.channel.send(embed2);
+                return msg.channel.send({ embeds: [embed2] });
         }
 
     }

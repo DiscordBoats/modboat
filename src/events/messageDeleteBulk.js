@@ -14,7 +14,7 @@ module.exports = async (client, messages) => {
         .setColor('YELLOW')
     setTimeout(async () => {
         client.channels.fetch(client.settings.messagelog).then(channel => {
-          channel.send({embed, files: [`./bulkDeleteLog.txt`]});
+          channel.send({embeds: [embed], files: [`./bulkDeleteLog.txt`]});
         })
     }, 10000)
 

@@ -64,7 +64,7 @@ module.exports = async (client, message) => {
                 .setThumbnail(message.author.avatarURL({dynamic: true}))
                 .setDescription(`${message.author} | ${message.author.tag} (${message.author.id}) mass mention detected. User muted.`)
                 .setAuthor(message.author.tag, message.author.avatarURL({dynamic: true}), `https://discord.com/channels/${message.guild.id}/${message.channel.id}`)
-            channel.send({embed}).catch(() => null);
+            channel.send({embeds: [embed]}).catch(() => null);
         })
     } else {
         client.log.warn("Mass mention not firing due to regex fail")

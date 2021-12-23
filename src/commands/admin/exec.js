@@ -24,7 +24,7 @@ module.exports = {
                             .setDescription(`\`\`\`${err}\`\`\``)
                             .setColor("RED")
                             .setFooter("Ooooo an error.")
-                        return msg.channel.send(errorembed);
+                        return msg.channel.send({embeds: [errorembed]});
                     }
 
 
@@ -34,7 +34,7 @@ module.exports = {
                 let errorEmbed = new MessageEmbed()
                     .setDescription(`Looks like you got an internal error:\n\n${codebook}${err}${codebook}`)
                     .setColor("RED");
-                await msg.channel.send(errorEmbed);
+                await msg.channel.send({embeds: [errorEmbed]});
             }
             setTimeout(() => executing.delete(), 0);
 

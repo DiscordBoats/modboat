@@ -1,7 +1,7 @@
 const {MessageEmbed} = require('discord.js');
 
 module.exports = (client, oldMsg, newMsg) => {
-    if (oldMsg.author.bot === true || !client.settings.messagelog) {
+    if (oldMsg.author.bot || !client.settings.messagelog) {
         return;
     }
 
@@ -11,6 +11,6 @@ module.exports = (client, oldMsg, newMsg) => {
             .setDescription(`<@${oldMsg.author.id}> | ${oldMsg.author.tag} (${oldMsg.author.id})\na [message](https://discord.com/channels/${newMsg.guild.id}/${newMsg.channel.id}/${newMsg.id}) updated in <#${oldMsg.channel.id}>\n`).addField('Old Message:', `\`${oldMsg.content}\``)
             .addField('New Message:', `\`${newMsg.content}\``)
             .setThumbnail(oldMsg.author.avatarURL({dynamic: true}));
-        return channel.send(embed);
+        return channel.send({embeds: [embed]});
     });
 };
