@@ -25,17 +25,32 @@ module.exports = async (client, msg) => {
 */
     if (data.match) {
        if (msg.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES) || msg.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR) || msg.member.permissions.has(Permissions.FLAGS.MANAGE_GUILD) || msg.member.permissions.has(Permissions.FLAGS.MANAGE_CHANNELS)) return;
-        setTimeout(() => {
+        client.time.timeOut(client, msg.guild.id, msg.author.id)
+       setTimeout(() => {
             !msg.deleted ? msg.delete() : null;
         }, 1000);
+
         const row = new MessageActionRow()
             .addComponents(new MessageButton()
                 .setCustomId('ban')
                 .setLabel('Ban User')
                 .setStyle('DANGER'),
             )
+            .addComponents(new MessageButton()
+                .setCustomId('remove')
+                .setLabel('Remove Timeout')
+                .setStyle('PRIMARY'),
+            )
         client.on('interactionCreate', async interaction => {
             if (!interaction.isButton()) return;
+            if(interaction.customId === 'remove') {
+                if(!interaction.member.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return interaction.reply({content: 'You do not have permission to remove timeouts.', ephemeral: true});
+
+                client.time.timeIn(client, msg.guild.id, msg.author.id)
+                interaction.reply({content: 'Timeout removed.', ephemeral: true})
+
+              
+            }
             if(interaction.customId === 'ban') {
                 const bans = await msg.guild.bans.fetch();
                 const ban = bans.find(b => b.user.id === msg.author.id);
@@ -59,20 +74,14 @@ module.exports = async (client, msg) => {
                 interaction.reply('Banned');
             }
         });
-        const embed = new MessageEmbed()
-            .setAuthor(`❌ ${data.matches.map(m => m.type)} link detected!`)
-            .setColor('RED')
-            .setThumbnail(msg.author.avatarURL({dynamic: true}))
-            .setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id})\n\n\nScam link found <t:${unix}:R>:\n ||${data.matches.map(m => m.domain)}||`)
-            .setFooter('Clicking on the link can expose your IP (location) and entering in any information details like your password or email address, will compromise your account(s).');
-       // await msg.channel.send({content: msg.author.id, embeds: [embed], components: [row]});
+
 
             let modlogembed = new MessageEmbed()
                 .setColor('RED')
                 .setAuthor('❌ Phishing Link Found')
                 .setThumbnail(msg.author.avatarURL({dynamic: true}))
                 .setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id})\nhas been perm muted for sending a phishing link in ${msg.channel.name}.\n\nMessage Deleted <t:${unix}:R>: ||${msg.content}||`)
-            client.channels.cache.get(client.settings.messagelog).send({embeds: [modlogembed], components: [row], content: `<@172797182565416962>`});
+            client.channels.cache.get(client.settings.messagelog).send({embeds: [modlogembed], components: [row], content: `<@1727s97182565416962>`})
 
     }
 }

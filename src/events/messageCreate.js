@@ -6,9 +6,14 @@ const automodScam = require('../Functions/automod/scam');
 const {MessageEmbed} = require("discord.js");
 
 module.exports = async (client, msg) => {
-    if (msg.author.bot || !msg.guild) {
+    try {
+        if (msg.author.bot || !msg.guild) {
+            return;
+        }
+    }catch(e) {
         return;
     }
+
     // automod
     // && client.settings.automod
     if (msg.content) {
@@ -29,13 +34,13 @@ module.exports = async (client, msg) => {
     const args = msg.content.slice(prefix.length).trim().split(/ +/g);
     const name = args.shift();
     const command = client.commands.filter(x => x.name === name).first();
-    /*
+
     const runPreconditions = preconditions(client, msg, command);
     if (runPreconditions) {
         return;
     }
 
-     */
+
 
     try {
         client.log.info('Attempting to run cmd ' + command.name + ' (ran by ' + msg.author.id + ')');
