@@ -14,6 +14,7 @@ client.log = new Logger();
 client.automod = require('./automod.json');
 client.config = require('./config.json');
 client.emoji = require('./Functions/emoji');
+client.time = require('./Functions/timeout')
 
 client.commands = new Collection();
 client.snipes = new Collection();
