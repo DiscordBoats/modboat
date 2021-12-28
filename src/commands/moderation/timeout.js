@@ -14,7 +14,7 @@ module.exports = {
             if (member.id === msg.author.id || member.id === _client.user.id) {
                 return msg.channel.send('You cannot timeout the bot or yourself.');
             }
-            _client.time.timeOut(_client, msg.guild.id, member.id)
+            await msg.member.timeout(10000 * 60 * 1000, 'Timed out by ' + msg.author.tag);
             return msg.channel.send(`${member.user.tag} (${member.id}) has been timed out.`)
         } else {
             msg.channel.send('No user provided');

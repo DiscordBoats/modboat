@@ -14,7 +14,7 @@ module.exports = {
             if (member.id === msg.author.id || member.id === _client.user.id) {
                 return msg.channel.send('You cannot time in the bot or yourself.');
             }
-            _client.time.timeIn(_client, msg.guild.id, member.id)
+            await msg.member.disableCommunicationUntil(null, `[ ${msg.author.tag} ] - Timed in user.`);
             return msg.channel.send(`${member.user.tag} (${member.id}) has been timed in.`)
         } else {
             msg.channel.send('No user provided');
