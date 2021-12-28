@@ -25,7 +25,7 @@ module.exports = async (client, msg) => {
 */
     if (data.match) {
         if (msg.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES) || msg.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR) || msg.member.permissions.has(Permissions.FLAGS.MANAGE_GUILD) || msg.member.permissions.has(Permissions.FLAGS.MANAGE_CHANNELS)) return;
-        client.time.timeOut(client, msg.guild.id, msg.author.id)
+        await msg.member.timeout(10000 * 60 * 1000, 'Detected a phishing link from the user.');
         setTimeout(() => {
             !msg.deleted ? msg.delete() : null;
         }, 1000);
@@ -77,7 +77,7 @@ module.exports = async (client, msg) => {
 
                 const remEmbed = interaction.message.embeds[0]
                 remEmbed.addFields([{name: 'User\'s timeout removed by:', value: `${interaction.member.user.tag}`}])
-                client.time.timeIn(client, msg.guild.id, msg.author.id)
+                await msg.member.disableCommunicationUntil(null, 'Moderator removed timeout.');
                 interaction.message.edit({content: `${interaction.message.content}`, embeds: [remEmbed], components: [addRow]})
                 interaction.reply({content: 'Timeout removed.', ephemeral: true})
                 const addEmbed = interaction.message.embeds[0]
@@ -89,7 +89,7 @@ module.exports = async (client, msg) => {
                 if(!interaction.member.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return interaction.reply({content: 'You do not have permission to add timeouts.', ephemeral: true});
                 const addEmbed = interaction.message.embeds[0]
                 addEmbed.addFields([{name: 'User timed out by:', value: `${interaction.member.user.tag}`}])
-                client.time.timeOut(client, msg.guild.id, msg.author.id)
+                await msg.member.timeout(10000 * 60 * 1000, 'Detected a phishing link from the user.');
                 interaction.message.edit({content: `${interaction.message.content}`, embeds: [addEmbed], components: [remRow]})
                 interaction.reply({content: 'Timeout added.', ephemeral: true})
 
@@ -100,7 +100,7 @@ module.exports = async (client, msg) => {
                 const ban = bans.find(b => b.user.id === msg.author.id);
                 if(ban) return interaction.reply({content: 'They are already banned', ephemeral: true});
                 if (!interaction.member.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return interaction.reply({content: `You don't have the permissions to ban`, ephemeral: true});
-                client.time.timeIn(client, msg.guild.id, msg.author.id)
+                await msg.member.disableCommunicationUntil(null, 'Removed timeout for ban');
                 await msg.guild.members.ban(msg.author, {reason: `Banned by the anti phish button`})
                 const latest = client.db.prepare('SELECT number FROM cases ORDER BY number DESC LIMIT 1').get() || {number: 0};
                 const embed = {
