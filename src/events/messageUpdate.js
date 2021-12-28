@@ -1,7 +1,7 @@
 const {MessageEmbed} = require('discord.js');
 
 module.exports = (client, oldMsg, newMsg) => {
-    if (oldMsg.author.bot || !client.settings.messagelog) {
+    if (oldMsg.bot || !client.settings.messagelog) {
         return;
     }
 
