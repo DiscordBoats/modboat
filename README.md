@@ -12,7 +12,6 @@ Simple moderation bot for Discord.
 * Multi-guild support
 * More database support
 * Settings command instead of using config.json for everything
-* Update to discord.js v13
 
 ## Credits
 Special thanks to [August](https://github.com/auguwu) for helping me with the help command and message event that was originally used in another bot of mine.
