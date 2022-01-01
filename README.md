@@ -1,4 +1,4 @@
-# modboat
+# Modboat
 Simple moderation bot for Discord.
 
 ## Installation
