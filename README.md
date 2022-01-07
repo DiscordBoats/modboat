@@ -2,7 +2,7 @@
 Simple moderation bot for Discord.
 
 ## Installation
-1. ``git clone https://github.com/davidcralph/modboat && cd modboat``
+1. ``git clone https://github.com/DiscordBoats/modboat && cd modboat``
 2. ``npm i`` (or ``yarn``)
 3. ``cd src && node setupdatabase.js``
 4. Remove the ``.example`` from the config and example files, or ``mv config-example.json config.json`` and fill out the config
