@@ -12,7 +12,7 @@ module.exports = {
         }
 
         const user = msg.mentions.members.first() || msg.guild.members.cache.get(args[0]) || args[0]
-        const member = msg.guild.member(user);
+        const member = msg.guild.cache.member(user);
         if (member) {
             if (user.user.id === msg.author.id || user.user.id === client.user.id) {
                 return msg.channel.send('You cannot mute the bot or yourself.');

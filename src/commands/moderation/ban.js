@@ -27,7 +27,7 @@ module.exports = {
             if (ban) {
                 return msg.channel.send('User is already banned');
             }
-            await user.send('You have been banned from **' + msg.guild.name + '** for: ' + args.slice(1).join(' '))
+            await user.send('You have been banned from **' + msg.guild.name + '** for: ' + args.slice(1).join(' ') ? args.slice(1).join(" ") : "No reason provided.")
                 .catch(() => {
                     if(user.user.bot) return;
                     return msg.channel.send('Unable to send ban message to user.');
