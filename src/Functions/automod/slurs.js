@@ -1,9 +1,10 @@
-const {MessageEmbed} = require('discord.js');
+const {MessageEmbed, Permissions} = require('discord.js');
 
 module.exports = (client, msg) => {
     if (!client.settings.messagelog) {
         return;
     }
+    if (msg.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES) || msg.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR) || msg.member.permissions.has(Permissions.FLAGS.MANAGE_GUILD) || msg.member.permissions.has(Permissions.FLAGS.MANAGE_CHANNELS)) return;
 
     const slurCensor = client.automod.blacklistedWords || [];
     const slurCheck = !!slurCensor.find((word) => {

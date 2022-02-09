@@ -38,13 +38,13 @@ module.exports = async (client, msg) => {
             }, 1000);
             client.on('interactionCreate', async (interaction) => {
                 if(interaction.customId === 'remTime') {
-                    if(!interaction.member.permissions.has(Permissions.FLAGS.MODERATE_MEMBERS)) return interaction.reply({content: 'You do not have permission to remove timeouts.', ephemeral: true});
+                    if(!interaction.member.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return interaction.reply({content: 'You do not have permission to remove timeouts.', ephemeral: true});
                     await user.disableCommunicationUntil(null, 'Moderator removed timeout.');
                     return interaction.reply({content: 'Timeout removed.', ephemeral: true})
 
                 }
                 if(interaction.customId === 'invite') {
-                    interaction.reply({content: `The invite leads to a server called \`${invite.guild.name}\` with a member count of \`${invite.guild.memberCount}\` *${invite.guild.memberCount < 30 ? 'What a lonely server': " "}*`, ephemeral: true})
+                    interaction.reply({content: `The invite leads to a server called \`${invite.guild.name}\``, ephemeral: true})
                 }
             })
             client.channels.fetch(client.settings.messagelog).then(channel => {

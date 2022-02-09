@@ -27,8 +27,8 @@ module.exports = async (client, msg) => {
         if (msg.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES) || msg.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR) || msg.member.permissions.has(Permissions.FLAGS.MANAGE_GUILD) || msg.member.permissions.has(Permissions.FLAGS.MANAGE_CHANNELS)) return;
         await msg.member.timeout(10000 * 60 * 1000, 'Detected a phishing link from the user.');
         setTimeout(() => {
-            !msg.deleted ? msg.delete() : null;
-        }, 1000);
+            msg.delete()
+        }, 0);
 
         const remRow = new MessageActionRow()
             .addComponents(new MessageButton()
@@ -96,9 +96,6 @@ module.exports = async (client, msg) => {
 
             }
             if(interaction.customId === 'ban') {
-                const bans = await msg.guild.bans.fetch();
-                const ban = bans.find(b => b.user.id === msg.author.id);
-                if(ban) return interaction.reply({content: 'They are already banned', ephemeral: true});
                 if (!interaction.member.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return interaction.reply({content: `You don't have the permissions to ban`, ephemeral: true});
                 await msg.member.disableCommunicationUntil(null, 'Removed timeout for ban');
                 await msg.guild.members.ban(msg.author, {reason: `Banned by the anti phish button`})
@@ -109,7 +106,7 @@ module.exports = async (client, msg) => {
                         name: 'Ban | Case #' + (latest.number + 1),
                         icon_url: interaction.user.avatarURL({dynamic: true})
                     },
-                    description: `**User:** ${msg.author.tag} (${msg.author.id})\n**Moderator:** ${interaction.user.tag} (${interaction.user.id})\n**Reason:** ${`No reason provided. To provide a reason run \`+reason ${latest.number + 1}\`  `} `,
+                    description: `**User:** ${msg.author.tag} (${msg.author.id})\n**Moderator:** ${interaction.user.tag} (${interaction.user.id})\n**Reason:** [ Ban Button ] sending a malicious link `,
                     footer: {
                         text: msg.guild.name,
                         icon_url: msg.guild.iconURL()
@@ -129,7 +126,7 @@ module.exports = async (client, msg) => {
             .setAuthor('❌ Phishing Link Found')
             .setThumbnail(msg.author.avatarURL({dynamic: true}))
             .setDescription(`<@${msg.author.id}> | ${msg.author.tag} (${msg.author.id})\nhas been perm muted for sending a phishing link in ${msg.channel.name}.\n\nMessage Deleted <t:${unix}:R>: ||${msg.content}||`)
-        client.channels.cache.get(client.settings.messagelog).send({embeds: [modlogembed], components: [addRow], content: `<@17s2797182565416962>`})
+        client.channels.cache.get(client.settings.messagelog).send({embeds: [modlogembed], components: [addRow], content: `<@172797182565416962>`})
 
     }
 }
