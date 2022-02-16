@@ -59,6 +59,6 @@ module.exports = (client, member) => {
         .setDescription(`<@${member.user.id}> | ${member.user.tag} (${member.user.id})\n\n**User Created:**\n<t:${unix}:f> (<t:${unix}:R>)`);
 
     client.channels.fetch(client.settings.memberlog).then(channel => {
-        channel.send({embed});
+        channel.send({embeds: [embed]});
     });
 };
