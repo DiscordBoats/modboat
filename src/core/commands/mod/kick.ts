@@ -81,7 +81,8 @@ export default class Kick extends Command {
                 user: String(member.user.tag),
                 userid: String(member.user.id),
                 title: 'Kick',
-                color: '#ff7f50'
+                color: '#ff7f50',
+                warn: true
             })
             return message.reply({
                 content: "User has been kicked."

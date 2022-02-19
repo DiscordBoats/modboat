@@ -29,7 +29,7 @@ export default class Timein extends Command {
                 user: String(member.user.tag),
                 userid: String(member.user.id),
                 title: 'Timed In',
-                color: '#70bd92',
+                color: '#70bd92'
             })
         })
     }

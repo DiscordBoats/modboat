@@ -1,5 +1,6 @@
 import { Discord } from "../../Client";
 import Schema from "../../../models/guild";
+import WarnSchema from "../../../models/warn";
 
 
 
@@ -93,6 +94,18 @@ export class Update {
         })
     }
 
+    addwarning(options: addwarningopts) {
+        WarnSchema.find({ Guild: options.GuildId }).sort([['descending']]).exec((err, data) => {
+            const warns = new WarnSchema({
+                User: options.UserId,
+                Guild: options.GuildId,
+                Reason: options.Reason,
+                WarnNum: data.length + 1
+            })
+            warns.save()
+        })
+    }
+
 };
 
 
@@ -107,3 +120,9 @@ export type Automod = "Automodnword"
 | "Automodmasscaps" 
 | "Automodipv4" 
 | "Automodipv6" 
+
+interface addwarningopts {
+    UserId: string,
+    GuildId: string,
+    Reason: string | 'No reason provided'
+}

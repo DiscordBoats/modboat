@@ -60,7 +60,7 @@ export class Logger {
         };
         if (channel) {
            options.client.service.timeout(options.message.guildId, options.message.author.id)
-            CasesSchema.find({ Guild: options.message.guild.id }).sort([['descending']]).exec((err, data) => {
+            CasesSchema.find({ Guild: options.message.guild.id }).sort([['descending']]).exec(async (err, data) => {
                 const cases = new CasesSchema({
                     Guild: options.message.guild.id,
                     User: options.client.user.id,
@@ -75,6 +75,16 @@ export class Logger {
                 if (!options.user) {
                     options.user == options.message.author.tag as unknown as GuildMember
                 };
+
+                if (options.warn === true) {
+                   options.client.database.update.addwarning({
+                        UserId: options.client.user.id,
+                        GuildId: options.message.guild.id,
+                        Reason: options.reason
+                    });
+                };
+
+                if (options.warn === false) {};
 
             const embed = new MessageEmbed()
                 .setAuthor({
@@ -145,5 +155,6 @@ interface modopts {
     userid?: string;
     title: 'Time Out' | 'Kick' | 'Ban' | 'Timed In' | 'Unban' | 'Warn';
     color: '#fcffa4' | '#ff7f50' | '#dc3b3b' | '#70bd92' | '#E59866';
+    warn?: Boolean | true
 }
 

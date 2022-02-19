@@ -34,21 +34,31 @@ export default class Warn extends Command {
             }).catch((e) => {return;});
         };
         let reason = args.slice(1).join(" ");
+        this.client.database.update.addwarning({
+            UserId: member.id,
+            GuildId: message.guild.id,
+            Reason: reason
+        })
+        message.reply({
+            content: `${member.user.tag} (${member.user.id}) has been warned`
+        }).then(async () => {
+            await member.send(`You have been warned in **${message.guild.name}** for \`${reason}\``).catch((e) => {return message.reply({ content: 'Could not dm this user'})})
+        });
 
-        Schema.find({ Guild: message.guild.id }).sort([['descending']]).exec((err, data) => {
+       /* Schema.find({ Guild: message.guild.id }).sort([['descending']]).exec((err, data) => {
             const warns = new Schema({
                 User: member.id,
                 Guild: message.guild.id,
-                Reason: reason || null,
+                Reason: reason || 'No reason provided',
                 WarnNum: data.length + 1
             })
-            warns.save()
+            warns.save() 
             return message.reply({
                 content: `${member.user.tag} (${member.user.id}) has been warned`
             }).then(async () => {
                 await member.send(`You have been warned in **${message.guild.name}** for \`${reason}\``).catch((e) => {return message.reply({ content: 'Could not dm this user'})})
             });
-        });
+        }); */
         this.service.logger.modlogs({
             client: this.client,
             message: message,
