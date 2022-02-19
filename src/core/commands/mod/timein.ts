@@ -1,7 +1,7 @@
 import { Message } from "discord.js";
 import { Command } from "../../Command";
 
-export default  class  Timein extends Command {
+export default class Timein extends Command {
     constructor(client) {
         super(client, {
             name: "timein",

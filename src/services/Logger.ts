@@ -9,11 +9,13 @@ export class Logger {
     public timeoutColor: string;
     public kickColor: string;
     public banColor: string;
+    public warnColor: string;
     public undo: string;
     //titles
     public timeoutTitle: string;
     public kickTitle: string;
     public banTitle: string;
+    public warnTitle: string;
     public undoTimeoutTitle: string;
     public undoBanTitle: string;
     public undotimeout: string;
@@ -23,12 +25,14 @@ export class Logger {
         this.timeoutColor = '#fcffa4';
         this.kickColor = '#ff7f50';
         this.banColor = '#ff0000';
+        this.warnColor = '#E59866';
         this.undo = '#70bd92';
         this.undotimeout = '#70bd92';
         //titles
         this.timeoutTitle = 'Timed Out';
         this.kickTitle = 'Kick';
         this.banTitle = 'Ban';
+        this.warnTitle = 'Warn'
         this.undoTimeoutTitle = 'Timed In';
         this.undoBanTitle = 'Unban'
     };
@@ -139,7 +143,7 @@ interface modopts {
     reason?: string;
     user?: GuildMember;
     userid?: string;
-    title: 'Time Out' | 'Kick' | 'Ban' | 'Timed In' | 'Unban';
-    color: '#fcffa4' | '#ff7f50' | '#dc3b3b' | '#70bd92';
+    title: 'Time Out' | 'Kick' | 'Ban' | 'Timed In' | 'Unban' | 'Warn';
+    color: '#fcffa4' | '#ff7f50' | '#dc3b3b' | '#70bd92' | '#E59866';
 }
 
