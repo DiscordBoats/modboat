@@ -31,7 +31,8 @@ export default class Command extends Event {
                 message,
                 this.client,
                 tag.Response
-                .replace('{user}', `<@!${message.author.id}>`).replace('{user.name}', message.author.username)
+                .replace('{user}', `<@!${message.author.id}>`)
+                .replace('{user.name}', message.author.username)
                 .replace('{server.name}', message.guild.name)
                 .replace('{user.id}', message.author.id)
                 .replace('{server.id}', message.guild.id)
