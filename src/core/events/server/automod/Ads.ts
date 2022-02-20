@@ -12,9 +12,6 @@ export default class Ads extends Event {
     };
 
     async run(message: Message, args: string[]) {
-        if (message.attachments) {
-            return;
-        };
 
         if (!message.guild) {
             return;
