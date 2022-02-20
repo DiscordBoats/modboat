@@ -106,7 +106,7 @@ export class Logger {
         };
     };
 
-    restag(message: Message, response) {
+    restag(message: Message, client: Discord, response) {
 
         if (!message) {
             return console.log(`Shrug - restag`);
@@ -123,14 +123,16 @@ export class Logger {
         if (!message.guild.me.permissions.has("EMBED_LINKS")) {
             return;
         };
-
         const embed = new MessageEmbed()
-            .setAuthor(message.author.tag, message.author.displayAvatarURL({ dynamic: true }))
+            .setAuthor({
+                name: message.author.tag,
+                iconURL: message.author.displayAvatarURL({ dynamic: true })
+            })
             //@ts-ignore
-            .setColor(this.client.color.red)
+            .setColor(client.color.red)
             .setDescription(response)
 
-        message.channel.send({
+        return message.channel.send({
             embeds: [embed]
         }).catch(error => {
             return;
