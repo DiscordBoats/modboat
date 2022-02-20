@@ -77,8 +77,12 @@ export default class Ads extends Event {
                         message: message,
                         moderator: message.guild.me,
                         reason: '[ Automod ] - User sent ads',
+                        //@ts-ignore
+                        user: String(message.author.tag),
+                        userid: String(message.author.id),
                         title: 'Time Out',
-                        color: '#fcffa4'
+                        color: '#fcffa4',
+                        warn: true
                     });
 
                 } catch (err) {

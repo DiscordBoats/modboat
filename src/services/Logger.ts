@@ -63,7 +63,7 @@ export class Logger {
             CasesSchema.find({ Guild: options.message.guild.id }).sort([['descending']]).exec(async (err, data) => {
                 const cases = new CasesSchema({
                     Guild: options.message.guild.id,
-                    User: options.client.user.id,
+                    User: options.user.id || options.message.author.id,
                     Reason: options.reason,
                     Case: data.length + 1
                 })
@@ -75,16 +75,15 @@ export class Logger {
                 if (!options.user) {
                     options.user == options.message.author.tag as unknown as GuildMember
                 };
+                if (options.warn === false) {};
 
                 if (options.warn === true) {
-                   options.client.database.update.addwarning({
-                        UserId: options.client.user.id,
+                   options.client.database.update.addWarning({
+                        UserId: options.user.id || options.message.author.id,
                         GuildId: options.message.guild.id,
                         Reason: options.reason
                     });
                 };
-
-                if (options.warn === false) {};
 
             const embed = new MessageEmbed()
                 .setAuthor({
@@ -100,16 +99,7 @@ export class Logger {
 
             return channel.send({
                 embeds: [embed]
-            })/*.then(async (message) => {
-                (await CasesSchema.findByIdAndUpdate({ Guild: options.message.guild.id, Case: cases.Case}, async (err, data) => {
-                    new CasesSchema({
-                        Guild: options.message.guild.id,
-                        User: cases.User,
-                        Case: cases.Case,
-                        MessageId: message.id
-                    }).save()
-                }).clone())
-            }) */
+            })
         })
         };
     };
@@ -155,6 +145,6 @@ interface modopts {
     userid?: string;
     title: 'Time Out' | 'Kick' | 'Ban' | 'Timed In' | 'Unban' | 'Warn';
     color: '#fcffa4' | '#ff7f50' | '#dc3b3b' | '#70bd92' | '#E59866';
-    warn?: Boolean | true
+    warn?: Boolean | true,
 }
 

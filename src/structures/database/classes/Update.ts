@@ -1,6 +1,7 @@
 import { Discord } from "../../Client";
 import Schema from "../../../models/guild";
 import WarnSchema from "../../../models/warn";
+import { GuildMember, Message, User } from "discord.js";
 
 
 
@@ -77,8 +78,8 @@ export class Update {
                     LogChannel: channelid
                 }).save()
             }
-        })
-    }
+        });
+    };
 
     modlogs(guildid: string, channelid: string) {
         Schema.findOne({ Guild: guildid }, async (err, data) => {
@@ -91,16 +92,30 @@ export class Update {
                     ModChannel: channelid
                 }).save()
             }
-        })
-    }
+        });
+    };
 
-    addwarning(options: addwarningopts) {
+    addWarning(options: addwarningopts) {
         WarnSchema.find({ Guild: options.GuildId }).sort([['descending']]).exec((err, data) => {
             const warns = new WarnSchema({
                 User: options.UserId,
                 Guild: options.GuildId,
                 Reason: options.Reason,
                 WarnNum: data.length + 1
+            })
+            warns.save()
+        });
+    };
+
+    deleteWarning(options: deletewariongopts) {
+        WarnSchema.findOneAndDelete({ Guild: options.GuildId }).sort([['descending']]).exec((err, data) => {
+            if (!data) {
+                return;
+            };
+            const warns = new WarnSchema({
+                User: options.UserId,
+                Guild: options.GuildId,
+                WarnNum: options.WarnNum
             })
             warns.save()
         })
@@ -125,4 +140,10 @@ interface addwarningopts {
     UserId: string,
     GuildId: string,
     Reason: string | 'No reason provided'
+}
+
+interface deletewariongopts {
+    UserId: string,
+    GuildId: string,
+    WarnNum: Number
 }

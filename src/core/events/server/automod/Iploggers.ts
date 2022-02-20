@@ -92,8 +92,12 @@ export default class IpLogger extends Event {
                         message: message,
                         moderator: message.guild.me,
                         reason: '[ Automod ] - User sent IP loggers.',
+                        //@ts-ignore
+                        user: String(message.author.tag),
+                        userid: String(message.author.id),
                         title: 'Time Out',
-                        color: '#fcffa4'
+                        color: '#fcffa4',
+                        warn: true
                     });
     
                     message.delete().catch(() => {
