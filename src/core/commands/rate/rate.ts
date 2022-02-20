@@ -104,6 +104,11 @@ export default class Rate extends Command {
                     };
 
                     const rate = args[0] as any;
+                    if (4015 < rate) {
+                        return message.reply({
+                            content: "You can not go over 11 years"
+                        });
+                    };
 
                     if (!rate || !validateRate(rate)) {
                         return message.reply({
