@@ -1,8 +1,6 @@
 import { Interaction, Message, MessageEmbed, version as DVer } from "discord.js";
 import { Command } from "../../Command";
 
-import { bot } from "../../../settings/settings.json";
-
 import moment from "moment";
 require("moment-duration-format");
 

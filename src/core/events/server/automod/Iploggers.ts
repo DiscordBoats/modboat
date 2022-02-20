@@ -3,45 +3,6 @@ import Schema from "../../../../models/guild";
 
 import { Event } from "../../../Event";
 
-let grabifyLinks = [
-    "viral.over-blog.com",
-    "gyazo.in",
-    "ps3cfw.com",
-    "urlz.fr",
-    "webpanel.space",
-    "steamcommumity.com",
-    "i.imgur.com.de",
-    "www.fuglekos.com",
-    "grabify.link",
-    "leancoding.co",
-    "stopify.co",
-    "freegiftcards.co",
-    "joinmy.site",
-    "curiouscat.club",
-    "catsnthings.fun",
-    "catsnthings.com",
-    "xn--yutube-iqc.com",
-    "gyazo.nl", "yip.su",
-    "iplogger.com",
-    "iplogger.org",
-    "iplogger.ru",
-    "2no.co",
-    "02ip.ru",
-    "iplis.ru",
-    "iplo.ru",
-    "ezstat.ru",
-    "www.whatstheirip.com",
-    "www.hondachat.com",
-    "www.bvog.com",
-    "www.youramonkey.com",
-    "pronosparadise.com",
-    "freebooter.pro",
-    "blasze.com",
-    "blasze.tk",
-    "ipgrab.org",
-    "i.gyazos.com"
-];
-
 export default class IpLogger extends Event {
     constructor(client) {
         super(client, {
@@ -72,7 +33,7 @@ export default class IpLogger extends Event {
             if (data && data.Automodiploggers == false) {
                 return;
             };
-            if (grabifyLinks.some(link => message.content.toLowerCase().includes(link))) {
+            if (this.client.settings.iploggers.some(link => message.content.toLowerCase().includes(link))) {
 
                 try {
     

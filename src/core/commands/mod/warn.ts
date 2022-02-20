@@ -37,12 +37,14 @@ export default class Warn extends Command {
         this.client.database.update.addWarning({
             UserId: member.id,
             GuildId: message.guild.id,
-            Reason: reason
+            Reason: reason || 'No reason provided',
+            MessageId: message.id,
+            ChannelId: message.channel.id
         })
         message.reply({
             content: `${member.user.tag} (${member.user.id}) has been warned`
         }).then(async () => {
-            await member.send(`You have been warned in **${message.guild.name}** for \`${reason}\``).catch((e) => {return message.reply({ content: 'Could not dm this user'})})
+            await member.send(`You have been warned in **${message.guild.name}** for \`${reason || 'No reason provided'}\``).catch((e) => {return message.reply({ content: 'Could not dm this user'})})
         });
         this.service.logger.modlogs({
             client: this.client,

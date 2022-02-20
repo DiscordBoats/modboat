@@ -3,6 +3,7 @@ import { API } from "./API";
 import { Command } from "../core/Command";
 import { Database } from "./database/Database";
 import { Service } from "../services/Service";
+import settings from "../settings/settings.json";
 
 
 export class Discord extends Client {
@@ -12,6 +13,7 @@ export class Discord extends Client {
     public request: API;
     public readonly color: colors;  
     public service: Service;
+    public settings: any;
     constructor () {
         super({
             intents: [
@@ -40,6 +42,7 @@ export class Discord extends Client {
         this.request = new API(this);
         this.service = new Service(this);
         this.color = colors as any;
+        this.settings = settings;
     };
 };
 

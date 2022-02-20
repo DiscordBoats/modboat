@@ -2,24 +2,6 @@ import { Message } from "discord.js";
 import { Event } from "../../../Event";
 import Schema from "../../../../models/guild";
 
-const words = [
-    "nigger",
-    "Nigger",
-    "nigg3r",
-    "ni44er",
-    "ni66er",
-    "n1gger",
-    "ni_gger",
-    "nigga",
-    "ni44a",
-    "nigg4",
-    "nigga",
-    "niger",
-    "niga",
-    "n.ig..ga",
-    "niggers"
-];
-
 export default class AutomodNword extends Event {
     constructor(client) {
         super(client, {
@@ -52,7 +34,7 @@ export default class AutomodNword extends Event {
                 return;
             };
 
-            if (words.some(w => message.content.toLowerCase().includes(w))) {
+            if (this.client.settings.nword.some(w => message.content.toLowerCase().includes(w))) {
 
                 try {
 

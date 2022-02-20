@@ -81,7 +81,9 @@ export class Logger {
                    options.client.database.update.addWarning({
                         UserId: options.user.id || options.message.author.id,
                         GuildId: options.message.guild.id,
-                        Reason: options.reason
+                        Reason: options.reason,
+                        MessageId: options.message.id,
+                        ChannelId: options.message.channel.id
                     });
                 };
 

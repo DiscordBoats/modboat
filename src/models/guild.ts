@@ -1,5 +1,4 @@
 import { Schema, model, Document } from "mongoose";
-import { prefix as AntiPrefix } from "../settings/settings.json";
 
 interface GuildDocument extends Document {
     Guild: string;
@@ -38,7 +37,7 @@ const GuildSchema = new Schema({
     Automodmasscaps: { type: Boolean, default: false },
     Automodipv4: { type: Boolean, default: false },
     Automodipv6: { type: Boolean, default: false },
-    Prefix: { type: String, default: AntiPrefix },
+    Prefix: { type: String, default: process.env.Prefix },
     MuteRole: { type: String, default: null },
     Autorole: { type: Boolean, default: false },
     Autoroles: { type: Array, default: [] }

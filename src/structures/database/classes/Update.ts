@@ -2,6 +2,7 @@ import { Discord } from "../../Client";
 import Schema from "../../../models/guild";
 import WarnSchema from "../../../models/warn";
 import { GuildMember, Message, User } from "discord.js";
+import { nanoid } from "nanoid";
 
 
 
@@ -101,7 +102,9 @@ export class Update {
                 User: options.UserId,
                 Guild: options.GuildId,
                 Reason: options.Reason,
-                WarnNum: data.length + 1
+                WarnNum: nanoid(6),
+                MessageId: options.MessageId,
+                ChannelId: options.ChannelId
             })
             warns.save()
         });
@@ -139,7 +142,9 @@ export type Automod = "Automodnword"
 interface addwarningopts {
     UserId: string,
     GuildId: string,
-    Reason: string | 'No reason provided'
+    Reason: string | 'No reason provided',
+    MessageId: string,
+    ChannelId: string
 }
 
 interface deletewariongopts {

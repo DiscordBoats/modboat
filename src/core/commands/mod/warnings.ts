@@ -29,7 +29,7 @@ export default class Warns extends Command {
                 .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
                 //@ts-ignore
                 .setColor(this.client.color.pink)
-                .setDescription(`If this user has over **5** warnings, you should ban them.\n${data.map((d) =>`\`\`\`${d.WarnNum} - ${d.Reason}\`\`\``).join('\n')}`)
+                .setDescription(`If this user has over **5** warnings, you should ban them.\n${data.map((d, v) =>`**${v + 1}.** [\`${d.WarnNum} - ${d.Reason}\`](https://discord.com/channels/${d.Guild}/${d.ChannelId}/${d.MessageId})`).join('\n')}`)
             ]
         })
     }

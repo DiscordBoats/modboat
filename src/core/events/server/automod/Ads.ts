@@ -1,18 +1,7 @@
 import { GuildMember, Message, TextChannel } from "discord.js";
 import { Event } from "../../../Event";
 import fetch from "cross-fetch";
-
 import Schema from "../../../../models/guild";
-
-let inviteLinks = [
-    "discord.gg",
-    "discord.com/invite/",
-    "dsc.gg",
-    "discord.link",
-    "invite.gg",
-    "invite.link",
-    "discord.io"
-];
 
 export default class Ads extends Event {
     constructor(client) {
@@ -48,7 +37,7 @@ export default class Ads extends Event {
             if (data && data.Automodads == false) {
                 return;
             };
-            if (inviteLinks.some(word => message.content.toLowerCase().includes(word))) {
+            if (this.client.settings.automod.ads.some(word => message.content.toLowerCase().includes(word))) {
 
                 message.delete().catch(err => {
                     return;
@@ -56,7 +45,7 @@ export default class Ads extends Event {
 
                 message.channel.send({
                     content: `**:warning:  [AUTOMOD]** Invite ads are not allowed. (\`${message.author.tag}\`)`,
-                }).then(x => {
+                })/*.then(x => {
 
                     setTimeout(() => {
 
@@ -68,7 +57,7 @@ export default class Ads extends Event {
 
                 }).catch(err => {
                     return;
-                });
+                });*/
 
                 try {
                     ;
