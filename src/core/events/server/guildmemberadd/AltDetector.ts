@@ -49,7 +49,7 @@ export default class AltDetector extends Event {
                                     //@ts-ignore
                                     .setColor(this.client.color.yellow)
                                     .setThumbnail(member.user.avatarURL({ dynamic: true, format: 'png' }))
-                                    .setDescription(`🔰 <@${member.user.id}> | ${member.user.tag} (${member.user.id}) has been automatically **${data.Alttype}** - Their account is under ${data.Altaccountdays}.\n\n**User Created:**\n<t:${unix}:f> (<t:${unix}:R>)`)
+                                    .setDescription(`🔰 <@${member.user.id}> | ${member.user.tag} (${member.user.id}) has been automatically **${data.Alttype}ed** - Their account is under ${data.Altaccountdays}.\n\n**User Created:**\n<t:${unix}:f> (<t:${unix}:R>)`)
                             ]
                         });
                     });
@@ -61,7 +61,7 @@ export default class AltDetector extends Event {
                             //@ts-ignore
                             .setColor(this.client.color.yellow)
                             .setThumbnail(member.user.avatarURL({ dynamic: true, format: 'png' }))
-                            .setDescription(`🔰 <@${member.user.id}> | ${member.user.tag} (${member.user.id}) has been automatically **${data.Alttype}** - Their account is under ${data.Altaccountdays}.\n\n**User Created:**\n<t:${unix}:f> (<t:${unix}:R>)`)
+                            .setDescription(`🔰 <@${member.user.id}> | ${member.user.tag} (${member.user.id}) has been automatically **${data.Alttype}ed** - Their account is under ${data.Altaccountdays}.\n\n**User Created:**\n<t:${unix}:f> (<t:${unix}:R>)`)
                         ]
                     });
                 });
@@ -80,7 +80,7 @@ export default class AltDetector extends Event {
                                     //@ts-ignore
                                     .setColor(this.client.color.yellow)
                                     .setThumbnail(member.user.avatarURL({ dynamic: true, format: 'png' }))
-                                    .setDescription(`🔰 <@${member.user.id}> | ${member.user.tag} (${member.user.id}) has been automatically **${data.Alttype}** - Their account is under ${data.Altaccountdays}.\n\n**User Created:**\n<t:${unix}:f> (<t:${unix}:R>)`) 
+                                    .setDescription(`🔰 <@${member.user.id}> | ${member.user.tag} (${member.user.id}) has been automatically **${data.Alttype}ned** - Their account is under ${data.Altaccountdays}.\n\n**User Created:**\n<t:${unix}:f> (<t:${unix}:R>)`) 
                             ] 
                         });
                     });
@@ -94,7 +94,7 @@ export default class AltDetector extends Event {
                                     //@ts-ignore
                                     .setColor(this.client.color.yellow)
                                     .setThumbnail(member.user.avatarURL({ dynamic: true, format: 'png' }))
-                                    .setDescription(`🔰 <@${member.user.id}> | ${member.user.tag} (${member.user.id}) has been automatically **${data.Alttype}** - Their account is under ${data.Altaccountdays}.\n\n**User Created:**\n<t:${unix}:f> (<t:${unix}:R>)`) 
+                                    .setDescription(`🔰 <@${member.user.id}> | ${member.user.tag} (${member.user.id}) has been automatically **${data.Alttype}ned** - Their account is under ${data.Altaccountdays}.\n\n**User Created:**\n<t:${unix}:f> (<t:${unix}:R>)`) 
                         ]
                     })
                 })
