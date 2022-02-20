@@ -63,8 +63,8 @@ export default class Ads extends Event {
                 });
 
                 try {
-                    ;
-                    this.service.logger.modlogs({
+
+                    await this.service.logger.modlogs({
                         client: this.client,
                         message: message,
                         moderator: message.guild.me,
