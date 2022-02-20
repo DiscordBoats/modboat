@@ -32,7 +32,7 @@ export default class MassMention extends Event {
 
         try {
 
-            var invalid = message.content.match(regex != null && regex).length >= data.Massmentionrate;
+            var invalid = message.content.match(regex).length >= data.Massmentionrate;
 
             if (!invalid) {
                 return;
@@ -53,7 +53,7 @@ export default class MassMention extends Event {
                     return;
                 });
 
-                this.service.logger.modlogs({
+                await this.service.logger.modlogs({
                     client: this.client,
                     message: message,
                     moderator: message.guild.me,

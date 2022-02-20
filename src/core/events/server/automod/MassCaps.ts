@@ -33,7 +33,7 @@ export default class MassCaps extends Event {
 
                 const regex = /[A-Z]/g;
     
-                const invalid = message.content.match(regex != null && regex).length >= data.Masscapsrate;
+                const invalid = message.content.match(regex).length >= data.Masscapsrate;
     
                 if (!invalid) {
                     return;
@@ -53,7 +53,7 @@ export default class MassCaps extends Event {
                     .catch(() => {
                         return;
                     });
-                    this.service.logger.modlogs({
+                    await this.service.logger.modlogs({
                         client: this.client,
                         message: message,
                         moderator: message.guild.me,
