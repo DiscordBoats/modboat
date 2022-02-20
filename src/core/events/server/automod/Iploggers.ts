@@ -51,7 +51,7 @@ export default class IpLogger extends Event {
                             return;
                         });
     
-                    await this.service.logger.modlogs({
+                    this.service.logger.modlogs({
                         client: this.client,
                         message: message,
                         moderator: message.guild.me,

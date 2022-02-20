@@ -36,7 +36,7 @@ export default class MassCaps extends Event {
 
                 const regex = /(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}/;
     
-                const invalid = message.content.match(regex);
+                const invalid = message.content.match(regex != null && regex);
     
                 if (!invalid) {
                     return;
@@ -57,7 +57,7 @@ export default class MassCaps extends Event {
                             return;
                         });
     
-                    await this.service.logger.modlogs({
+                    this.service.logger.modlogs({
                         client: this.client,
                         message: message,
                         moderator: message.guild.me,
