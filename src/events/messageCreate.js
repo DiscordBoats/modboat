@@ -30,7 +30,7 @@ module.exports = async (client, msg) => {
             embeds: [
                 new MessageEmbed()
                     .setColor("BLUE")
-                    .setDescription("[Why is Discord boats shutting down?](https://discord.com/channels/439866052684283905/439866052684283907/945095023526035486)\n\nThe shutdown of the website is because of three things:\n\n" +
+                    .setDescription("[Why is Discord boats shutting down?](https://discord.com/channels/439866052684283905/439872382430347264/945079542790357024)\n\nThe shutdown of the website is because of three things:\n\n" +
                         "```- Money, the site was losing money and costing the developers every month to run.\n" +
                         "- Time, running a site like this takes a lot of time. Both me and Roee have full-time jobs in the software industry.\n" +
                         "- Scope, the general scope of the discord bot listing field has been going downhill for the last five years. Nowadays the field is only about top.gg and discord trying to create their own solution to replace botlists.```")
