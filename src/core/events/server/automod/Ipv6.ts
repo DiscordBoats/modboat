@@ -12,7 +12,10 @@ export default class MassCaps extends Event {
     };
 
     async run(message: Message) {
-
+        if (message.attachments) {
+            return;
+        };
+        
         if (message.author.bot) {
             return;
         };

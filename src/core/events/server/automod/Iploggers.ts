@@ -12,7 +12,10 @@ export default class IpLogger extends Event {
     };
 
     async run(message: Message) {
-
+        if (message.attachments) {
+            return;
+        };
+        
         if (!message.guild) {
             return;
         };

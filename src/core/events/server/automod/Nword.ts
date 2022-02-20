@@ -11,7 +11,10 @@ export default class AutomodNword extends Event {
     };
 
     async run(message: Message) {
-
+        if (message.attachments) {
+            return;
+        };
+        
         if (!message.guild) {
             return;
         };
