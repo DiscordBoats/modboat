@@ -27,6 +27,9 @@ export default class MessageUpdate extends Event {
         if (!channel) {
             return;
         };
+        if (message.guild.me) {
+            return;
+        }
         if (channel) {
             channel.send({
                 embeds: [

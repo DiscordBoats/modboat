@@ -96,6 +96,38 @@ export class Update {
         });
     };
 
+    alts(guildid: string, channelid: string) {
+        Schema.findOne({ Guild: guildid }, async (err, data) => {
+            if (data) {
+                data.AltsChannel = channelid
+                data.save()
+            } else {
+                new Schema({
+                    Guild: guildid,
+                    AltsChannel: channelid
+                }).save()
+            }
+        });
+    };
+
+    altType(guildid: string, type: altType) {
+        const data = {};
+
+         Schema.findOne(data, (err, schema) => {
+            
+            data['Alttype'] = type;
+
+            if (!schema) {
+                schema = new Schema(data);
+
+                schema.save();
+            } else {
+                schema['Alttype'] = type;
+                schema.save();
+            };
+        });
+    }
+
     addWarning(options: addwarningopts) {
         WarnSchema.find({ Guild: options.GuildId }).sort([['descending']]).exec((err, data) => {
             const warns = new WarnSchema({
@@ -128,7 +160,7 @@ export class Update {
 
 
 
-export type Rate = "Massmentionrate" | "Masscapsrate";
+export type Rate = "Massmentionrate" | "Masscapsrate" | "Altaccountdays";
 
 export type Automod = "Automodnword" 
 | "Automodlinks" 
@@ -152,3 +184,5 @@ interface deletewariongopts {
     GuildId: string,
     WarnNum: Number
 }
+
+export type altType = "kick" | "ban"

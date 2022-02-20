@@ -15,6 +15,6 @@ const CasesSchema = new Schema({
     Reason: { type: String, default: 'No reason provided'},
     Case: Number,
     MessageId: String
-})
+}, { versionKey: false })
 
 export = model<CasesDocument>("cases", CasesSchema);

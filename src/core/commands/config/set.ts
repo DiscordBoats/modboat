@@ -15,6 +15,32 @@ export default class set extends Command {
         const input = (args[0]) ? args[0].toLowerCase() : args[0];
 
         switch (input) {
+            case 'type':
+                const typeinput = (args[1]) ? args[1].toLowerCase() : args[1];
+                switch (typeinput) {
+                    case 'alts': {
+                        const arg = args[2];
+                        if (!arg) {
+                            return message.reply({
+                                content: 'You need to specify either `kick` or `ban`'
+                            })
+                        }
+                        if (arg == 'kick') {
+                             this.client.database.update.altType(message.guildId, "kick")
+                            return message.reply({
+                                content: 'Changes Saved!'
+                            });
+                        };
+
+                        if (arg == 'ban') {
+                             this.client.database.update.altType(message.guildId, "ban")
+                             return message.reply({
+                                 content: 'Changes Saved!'
+                             });
+                        };
+                    }
+                } 
+                break;
             case 'role':
                 const roleinput = (args[1]) ? args[1].toLowerCase() : args[1];
                 switch (roleinput) {
@@ -41,25 +67,38 @@ export default class set extends Command {
                         if (!channel) {
                             return message.reply({
                                 content: 'You have to mention a channel'
-                            })
-                        }
+                            });
+                        };
                         await this.client.database.update.logs(message.guildId, channel.id);
                         return message.reply({
                             content: 'Changes Saved!'
-                        })
-                    }
+                        });
+                    };
                     break;
                     case 'modlogs': {
                         const channel = message.mentions.channels.first() || message.guild.channels.cache.get(args[1])
                         if (!channel) {
                             return message.reply({
                                 content: 'You have to mention a channel'
-                            })
-                        }
+                            });
+                        };
                         await this.client.database.update.modlogs(message.guildId, channel.id);
                         return message.reply({
                             content: 'Changes Saved!'
-                        })
+                        });
+                    };
+                    break;
+                    case 'alts': {
+                        const channel = message.mentions.channels.first() || message.guild.channels.cache.get(args[1]);
+                        if (!channel) {
+                            return message.reply({
+                                content: 'You have to mention a channel'
+                            });
+                        };
+                        await this.client.database.update.alts(message.guildId, channel.id)
+                        return message.reply({
+                            content: 'Changes Saved!'
+                        });
                     }
                 }
                 break;
