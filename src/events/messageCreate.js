@@ -23,7 +23,7 @@ module.exports = async (client, msg) => {
         await automodMassmention(client, msg);
         await automodScam(client, msg);
     }
-    const reg = new RegExp(/why/g && /website|discord boats/g ** /going|down/g)
+    const reg = new RegExp(/why/g && /website|discord boats/g && /going|down/g)
 console.log(reg.test(msg.content))
     if(reg.test(msg.content)) {
         return msg.reply({
