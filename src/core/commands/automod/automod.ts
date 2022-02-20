@@ -1,4 +1,4 @@
-import { CommandInteraction, Message } from "discord.js";
+import { CommandInteraction, Message, MessageEmbed } from "discord.js";
 import { Command } from "../../Command";
 
 export default class Auto extends Command {
@@ -183,6 +183,34 @@ export default class Auto extends Command {
             };
 
             break;
+
+            case "alts": {
+                work({
+                    client: this.client,
+                    struct: message,
+                    args: args,
+                    type: "Automodalts",
+                    onMessageType: "alts"
+                });
+            };
+            break;
+            default: {
+                return message.reply({
+                    embeds: [
+                        new MessageEmbed()
+                        .setURL('https://docs.antibot.xyz/anti-bot/automod')
+                        .setTitle("Automod")
+                        .setThumbnail(message.guild.iconURL({ dynamic: true }))
+                        //@ts-ignore
+                        .setColor(this.client.color.red)
+                        .setDescription('Arguments: `ads` | `iploggers` | `ipv4` | `ipv6` | `links` | `masscaps` | `massmention` | `nword` | `alts`')
+                        .addFields({
+                            name: "Automod Subs",
+                            value: "[`✅ enable`](https://docs.antibot.xyz/anti-bot/autmod)\n[`⛔ disable`](https://docs.antibot.xyz/anti-bot/automod)"
+                        })
+                    ]
+                })
+            } 
         };
     };
 };
@@ -227,7 +255,7 @@ function sendMessage (client, message, type: string, enabled: boolean) {
     message.reply({
         embeds: [
             {
-                color: client.color,
+                color: client.color.red,
                 description: `> Successfully ${(enabled === true) ? "enabled" : "disabled"} ${type}`
             }
         ]
@@ -247,7 +275,8 @@ export type Automod = "Automodnword"
 | "Automodcc" 
 | "Automodphonenumbers" 
 | "Automodssn" 
-| "Automoddehoist";
+| "Automoddehoist"
+| "Automodalts";
 
 interface WorkOption {
     client: any;

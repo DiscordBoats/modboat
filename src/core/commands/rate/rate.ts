@@ -97,73 +97,39 @@ export default class Rate extends Command {
             };
 
                 break;
+                case "days": {
+                    args.shift();
+                    if (!this.service.permission.checkMember(message, "MANAGE_GUILD", true)) {
+                        return;
+                    };
 
+                    const rate = args[0] as any;
+
+                    if (!rate || !validateRate(rate)) {
+                        return message.reply({
+                            content: "You have to give a valid rate"
+                        });
+                    };
+
+                    this.client.database.update.rate(message.guildId, "Altaccountdays", rate)
+                    return message.reply({
+                        content: "Changes Saved!"
+                    }).catch(() => {
+                        return;
+                    });
+                }
+                break;
             default: {
                 return message.reply({
                     embeds: [
                         new MessageEmbed()
+                            .setURL('https://docs.antibot.xyz/anti-bot/rates')
                             .setTitle("Rate")
                             .setThumbnail(message.guild.iconURL({ dynamic: true }))
                             //@ts-ignore
                             .setColor(this.client.color.red)
-                            .setDescription("`masscaps` | `massmentions`")
+                            .setDescription("Arguments: `masscaps` | `massmentions` | `days`")
                     ]
-                }).catch(() => {
-                    return;
-                });
-            };
-        };
-    };
-
-    async interact(i: CommandInteraction) {
-
-        const input = i.options.getString("config", true);
-        const rate = i.options.getNumber("limit", true);
-
-        switch (input) {
-            case "masscaps": {
-
-                if (!this.service.permission.checkMember(i, "MANAGE_GUILD", true)) {
-                    return;
-                };
-
-                if (!validateRate(String(rate))) {
-                    return i.reply({
-                        content: "You have to give a valid rate"
-                    }).catch(() => {
-                        return;
-                    });
-                };
-
-                this.client.database.update.rate(i.guildId, "Masscapsrate", rate);
-
-                return i.reply({
-                    content: "Changes Saved!"
-                }).catch(() => {
-                    return;
-                });
-            };
-
-                break;
-
-            case "massmentions": {
-
-                if (!this.service.permission.checkMember(i, "MANAGE_GUILD", true)) {
-                    return;
-                };
-
-                if (!validateRate(String(rate))) {
-                    return i.reply({
-                        content: "You have to give a valid rate"
-                    }).catch(() => {
-                        return;
-                    });
-                };
-
-                this.client.database.update.rate(i.guildId, "Massmentionrate", rate);
-
-                return i.reply({
-                    content: "Changes Saved!"
                 }).catch(() => {
                     return;
                 });

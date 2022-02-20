@@ -1,5 +1,5 @@
 import { Command } from "../../Command";
-import { MessageEmbed } from "discord.js";
+import { MessageEmbed, Message } from "discord.js";
 import Schema from "../../../models/guild";
 import TagSchema from "../../../models/tags";
 
@@ -15,14 +15,14 @@ export default class Settings extends Command {
         });
     };
 
-    async run(message, args) {
+    async run(message: Message) {
 
         const data = await Schema.findOne({ Guild: message.guild.id })
         if (!data) {
             const embed = new MessageEmbed()
                 .setTitle("Settings")
                 .setThumbnail(this.client.user.displayAvatarURL())
-                .setDescription(String(`**Mass Mention Rate:** 10\n**Mass Caps Rate** 10`))
+                .setDescription(String(`**Mass Mention Rate:** \`10\`\n**Mass Caps Rate:** \`10\`\n**Alt Account Type:** \`kick\`\n**Alt Account Days:** \`10\``))
                 //@ts-ignore
                 .setColor(this.client.color.pink)
                 .addFields(
@@ -33,6 +33,16 @@ export default class Settings extends Command {
                     },
                     {
                         name: "Logs Channel",
+                        value: "`❌`",
+                        inline: true
+                    },
+                    {
+                        name: "Alt Channel",
+                        value: "`❌`",
+                        inline: true
+                    },
+                    {
+                        name: "Alt Detector",
                         value: "`❌`",
                         inline: true
                     },
@@ -57,7 +67,12 @@ export default class Settings extends Command {
                         inline: true
                     },
                     {
-                        name: 'Automod Mass Mention',
+                        name: "Automod Mass Mention",
+                        value: "`❌`",
+                        inline: true
+                    },
+                    {
+                        name: "Automod Mass Caps",
                         value: "`❌`",
                         inline: true
                     },
@@ -82,7 +97,7 @@ export default class Settings extends Command {
                 .setThumbnail(this.client.user.displayAvatarURL())
                 //@ts-ignore
                 .setColor(this.client.color.pink)
-                .setDescription(String(`**Mass Mention Rate:** ${data.Massmentionrate}\n**Mass Caps Rate** ${data.Masscapsrate}`))
+                .setDescription(String(`**Mass Mention Rate:** \`${data.Massmentionrate}\`\n**Mass Caps Rate:** \`${data.Masscapsrate}\`\n**Alt Account Type:** \`${data.Alttype}\`\n**Alt Account Days:** \`${data.Altaccountdays}\``))
                 .addFields(
                     {
                         name: "ModLogs Channel",
@@ -92,6 +107,16 @@ export default class Settings extends Command {
                     {
                         name: "Logs Channel",
                         value: (data) ? (data.LogChannel) ? `<#${data.LogChannel}>` : "`❌`" : "`❌`",
+                        inline: true
+                    },
+                    {
+                        name: "Alt Channel",
+                        value: (data) ? (data.AltsChannel) ? `<#${data.AltsChannel}>` : "`❌`" : "`❌`",
+                        inline: true
+                    },
+                    {
+                        name: "Alt Detector",
+                        value: (data) ? (data.Automodalts) ? "`✅`" : "`❌`" : "`❌`",
                         inline: true
                     },
                     {
@@ -116,12 +141,12 @@ export default class Settings extends Command {
                     },
                     {
                         name: "Automod Mass Mention",
-                        value: String((data) ? (data.Automodmassmention) ? "`✅`" : "`❌`" : "`❌`" + `\n **Mass Mention Rate:** ` + (data) ? `${data.Massmentionrate}` : 0),
+                        value: String((data) ? (data.Automodmassmention) ? "`✅`" : "`❌`" : "`❌`"),
                         inline: true
                     },
                     {
                         name: "Automod Mass Caps",
-                        value: String((data ) ? (data.Automodmasscaps) ? "`✅`" : "`❌`" : "`❌`" + `**Mass Caps Rate:** ` + (data) ? `${data.Masscapsrate}` : 0),
+                        value: String((data ) ? (data.Automodmasscaps) ? "`✅`" : "`❌`" : "`❌`"),
                         inline: true
                     },
                     {
