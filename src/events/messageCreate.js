@@ -26,6 +26,7 @@ module.exports = async (client, msg) => {
     const reg = new RegExp(/why/g && /website|discord boats/g && /going|down/g)
     if(reg.test(msg.content)) {
         return msg.channel.send({
+            content: `<@${msg.author.id}>`,
             embeds: [
                 new MessageEmbed()
                     .setColor("BLUE")
