@@ -12,6 +12,9 @@ export default class Ads extends Event {
     };
 
     async run(message: Message, args: string[]) {
+        if (message.attachments) {
+            return;
+        };
 
         if (!message.guild) {
             return;
@@ -45,7 +48,7 @@ export default class Ads extends Event {
 
                 message.channel.send({
                     content: `**:warning:  [AUTOMOD]** Invite ads are not allowed. (\`${message.author.tag}\`)`,
-                })/*.then(x => {
+                }).then(x => {
 
                     setTimeout(() => {
 
@@ -57,7 +60,7 @@ export default class Ads extends Event {
 
                 }).catch(err => {
                     return;
-                });*/
+                });
 
                 try {
                     ;
