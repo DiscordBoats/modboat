@@ -57,6 +57,11 @@ export default class Settings extends Command {
                         inline: true
                     },
                     {
+                        name: 'Automod Mass Mention',
+                        value: "`❌`",
+                        inline: true
+                    },
+                    {
                         name: "Automod IPv4",
                         value: "`❌`",
                         inline: true
