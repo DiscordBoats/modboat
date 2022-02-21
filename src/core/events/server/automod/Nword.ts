@@ -1,8 +1,9 @@
-import { Message } from "discord.js";
+import { GuildMember, Message, TextChannel } from "discord.js";
 import { Event } from "../../../Event";
+import fetch from "cross-fetch";
 import Schema from "../../../../models/guild";
 
-export default class AutomodNword extends Event {
+export default class Nword extends Event {
     constructor(client) {
         super(client, {
             name: "messageCreate",
@@ -10,13 +11,9 @@ export default class AutomodNword extends Event {
         });
     };
 
-    async run(message: Message) {
+    async run(message: Message, args: string[]) {
 
         if (!message.guild) {
-            return;
-        };
-
-        if (message.author.bot) {
             return;
         };
 
@@ -24,31 +21,46 @@ export default class AutomodNword extends Event {
             return;
         };
 
-        if (message.member.permissions.has("KICK_MEMBERS") || message.member.permissions.has("BAN_MEMBERS")) {
+        if (message.author.bot) {
+            return;
+        };
+
+        if (!message.guild.me.permissions.has("SEND_MESSAGES") || !message.guild.me.permissions.has("MANAGE_MESSAGES")) {
+            return;
+        };
+
+        if (message.member.permissions.has("KICK_MEMBERS")) {
             return;
         };
 
         await Schema.findOne({ Guild: message.guild.id }, async (err, data) => {
-
-            if (!data && data.Automodnword == false) {
+            if (data && data.Automodnword == false) {
                 return;
             };
+            if (this.client.settings.automod.nword.some(word => message.content.toLowerCase().includes(word))) {
 
-            if (this.client.settings.nword.some(w => message.content.toLowerCase().includes(w))) {
+                message.delete().catch(err => {
+                    return;
+                });
 
-                try {
+                message.channel.send({
+                    content: `**:warning:  [AUTOMOD]** The N-word is not allowed. (\`${message.author.tag}\`)`,
+                }).then(x => {
 
-                    message.channel.send(`**:warning:  [AUTOMOD]** The N-word is not allowed.(\`${message.author.tag}\`)`)
-                        .then((x) => {
-                            setTimeout(() => {
-                                x.delete().catch(() => {
-                                    return;
-                                });
-                            }, 5000);
-                        }).catch(() => {
+                    setTimeout(() => {
+
+                        x.delete().catch(err => {
                             return;
                         });
 
+                    }, 10000);
+
+                }).catch(err => {
+                    return;
+                });
+
+                try {
+                    ;
                     this.service.logger.modlogs({
                         client: this.client,
                         message: message,
@@ -62,14 +74,16 @@ export default class AutomodNword extends Event {
                         warn: true
                     });
 
-                    message.delete().catch(() => {
-                        return;
-                    });
-
                 } catch (err) {
                     return;
                 };
             };
-        }).clone();
-    };
-};
+        }
+
+        ).clone()
+    }
+}
+
+
+
+

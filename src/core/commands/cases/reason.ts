@@ -14,7 +14,7 @@ export default class Reason extends Command {
     };
 
     async run (message: Message, args: string[]) {
-        return message.reply('In the works')
+      //  return message.reply('In the works')
         if (!this.service.permission.checkMember(message, "MANAGE_MESSAGES", true)) {
             return;
         };
