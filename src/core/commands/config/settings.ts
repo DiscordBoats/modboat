@@ -57,6 +57,11 @@ export default class Settings extends Command {
                         inline: true
                     },
                     {
+                        name: 'Automod Scams',
+                        value: "`❌`",
+                        inline: true
+                    },
+                    {
                         name: 'Automod nword',
                         value: "`❌`",
                         inline: true
@@ -127,6 +132,11 @@ export default class Settings extends Command {
                     {
                         name: 'Automod Ads',
                         value: (data) ? (data.Automodads) ? "`✅`" : "`❌`" : "`❌`",
+                        inline: true
+                    },
+                    {
+                        name: "Automod Scams",
+                        value: (data) ? (data.Automodscams) ? "`✅`" : "`❌`" : "`❌`",
                         inline: true
                     },
                     {

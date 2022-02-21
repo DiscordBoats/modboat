@@ -194,6 +194,17 @@ export default class Auto extends Command {
                 });
             };
             break;
+
+            case "scams": {
+                work({
+                    client: this.client,
+                    struct: message,
+                    args: args,
+                    type: "Automodscams",
+                    onMessageType: "scams"
+                })
+            }
+            break;
             default: {
                 return message.reply({
                     embeds: [
@@ -203,7 +214,7 @@ export default class Auto extends Command {
                         .setThumbnail(message.guild.iconURL({ dynamic: true }))
                         //@ts-ignore
                         .setColor(this.client.color.red)
-                        .setDescription('Arguments: `ads` | `iploggers` | `ipv4` | `ipv6` | `links` | `masscaps` | `massmention` | `nword` | `alts`')
+                        .setDescription('Arguments: `ads` | `iploggers` | `ipv4` | `ipv6` | `links` | `masscaps` | `massmention` | `nword` | `alts` | `scams`')
                         .addFields({
                             name: "Automod Subs",
                             value: "[`✅ enable`](https://docs.antibot.xyz/anti-bot/autmod)\n[`⛔ disable`](https://docs.antibot.xyz/anti-bot/automod)"
@@ -276,7 +287,8 @@ export type Automod = "Automodnword"
 | "Automodphonenumbers" 
 | "Automodssn" 
 | "Automoddehoist"
-| "Automodalts";
+| "Automodalts"
+| "Automodscams";
 
 interface WorkOption {
     client: any;

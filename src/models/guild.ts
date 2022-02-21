@@ -18,6 +18,7 @@ interface GuildDocument extends Document {
     Automodipv4: boolean;
     Automodipv6: boolean;
     Automodalts: boolean;
+    Automodscams: boolean;
     Prefix: string;
     MuteRole: string;
     Autorole: boolean;
@@ -45,6 +46,7 @@ const GuildSchema = new Schema({
     Automodipv4: { type: Boolean, default: false },
     Automodipv6: { type: Boolean, default: false },
     Automodalts: { type: Boolean, default: false },
+    Automodscams: { type: Boolean, default: false },
     Prefix: { type: String, default: process.env.Prefix },
     MuteRole: { type: String, default: null },
     Autorole: { type: Boolean, default: false },
