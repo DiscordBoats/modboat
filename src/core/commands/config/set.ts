@@ -110,7 +110,7 @@ export default class set extends Command {
                             .setThumbnail(message.guild.iconURL( { dynamic: true}))
                             //@ts-ignore
                             .setColor(this.client.color.red)
-                            .setDescription(`Arguments: \`channel <logs | modlogs>\` | \`role <muterole>\``)
+                            .setDescription(`Arguments: \`channel <logs | modlogs alts>\` | \`role <muterole>\``)
                     ]
                 })
             }

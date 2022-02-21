@@ -1,5 +1,6 @@
 import { GuildMember, Message, TextChannel } from "discord.js";
 import { Event } from "../../../Event";
+import settings from "../../../../settings/settings.json";
 import fetch from "cross-fetch";
 import Schema from "../../../../models/guild";
 
@@ -37,7 +38,7 @@ export default class Nword extends Event {
             if (data && data.Automodnword == false) {
                 return;
             };
-            if (this.client.settings.automod.nword.some(word => message.content.toLowerCase().includes(word))) {
+            if (settings.automod.nword.some(word => message.content.toLowerCase().includes(word))) {
 
                 message.delete().catch(err => {
                     return;

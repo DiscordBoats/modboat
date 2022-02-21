@@ -2,7 +2,7 @@ import { Message } from "discord.js";
 import Schema from "../../../../models/guild";
 
 import { Event } from "../../../Event";
-
+import settings from "../../../../settings/settings.json";
 export default class IpLogger extends Event {
     constructor(client) {
         super(client, {
@@ -32,7 +32,7 @@ export default class IpLogger extends Event {
             if (data && data.Automodiploggers == false) {
                 return;
             };
-            if (this.client.settings.iploggers.some(link => message.content.toLowerCase().includes(link))) {
+            if (settings.automod.iploggers.some(link => message.content.toLowerCase().includes(link))) {
 
                 try {
     
