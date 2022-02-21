@@ -27,7 +27,7 @@ export default class stats extends Command {
                         name: message.author.tag,
                         iconURL: message.author.displayAvatarURL({ dynamic: true })
                     },
-                    title: "Modboat Stats",
+                    title: `${this.client.user.username} Stats`,
                     thumbnail: {
                         url: this.client.user.displayAvatarURL()
                     },
