@@ -3,7 +3,7 @@ const automodInvites = require('../Functions/automod/invites');
 const automodSlurs = require('../Functions/automod/slurs');
 const automodMassmention = require('../Functions/automod/massmention');
 const automodScam = require('../Functions/automod/scam');
-const {MessageEmbed} = require("discord.js");
+const {MessageEmbed, Permissions} = require("discord.js");
 
 module.exports = async (client, msg) => {
     try {
@@ -23,8 +23,11 @@ module.exports = async (client, msg) => {
         await automodMassmention(client, msg);
         await automodScam(client, msg);
     }
-    const reg = new RegExp(/why/g && /website|discord boats/g && /going|down/g)
+    const reg = new RegExp(/why/g && /website|discord boats/g)
     if(reg.test(msg.content)) {
+        if(msg.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES)) {
+            return;
+        }
         return msg.channel.send({
             content: `<@${msg.author.id}>`,
             embeds: [
