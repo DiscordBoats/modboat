@@ -21,7 +21,7 @@ export default class Warns extends Command {
             });
         };
 
-        const data = await Schema.find({ User: member.id, Guld: message.guild.id });
+        const data = await Schema.find({ User: member.id, Guild: message.guild.id });
         return message.reply({
             embeds: [
                 new MessageEmbed()
