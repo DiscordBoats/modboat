@@ -23,23 +23,7 @@ module.exports = async (client, msg) => {
         await automodMassmention(client, msg);
         await automodScam(client, msg);
     }
-    const reg = new RegExp(/why/g && /website|discord boats/g)
-    if(reg.test(msg.content)) {
-        if(msg.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES)) {
-            return;
-        }
-        return msg.channel.send({
-            content: `<@${msg.author.id}>`,
-            embeds: [
-                new MessageEmbed()
-                    .setColor("BLUE")
-                    .setDescription("[Why is Discord boats shutting down?](https://discord.com/channels/439866052684283905/439872382430347264/945102259166011412)\n\nThe shutdown of the website is because of three things:\n\n" +
-                        "**-** Money, the site was losing money and costing the developers every month to run.\n" +
-                        "**-** Time, running a site like this takes a lot of time. Both me and Roee have full-time jobs in the software industry.\n" +
-                        "**-** Scope, the general scope of the discord bot listing field has been going downhill for the last five years. Nowadays the field is only about top.gg and discord trying to create their own solution to replace botlists.")
-            ]
-        })
-    }
+   
     // prefix stuff
     const prefixMention = new RegExp(`^<@!?${client.user.id}> `);
     const prefix = msg.content.match(prefixMention) ? msg.content.match(prefixMention)[0] : (client.settings.prefix || client.config.defaultPrefix);
