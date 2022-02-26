@@ -41,7 +41,7 @@ export default class ping extends Event {
             }, 10000);
 
             return message.channel.send({
-                content: `You can do "_help" or check out our docs. https://docs.antibot.xyz/`
+                content: `View your guild settings using \`${process.env.Prefix}settings\``
             }).catch(err => {
                 return;
             });
