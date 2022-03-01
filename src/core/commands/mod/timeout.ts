@@ -38,7 +38,7 @@ export default  class  Timeout extends Command {
             });
         };
         let reason = args.slice(1).join(" ");
-        this.service.timeout(message.guild.id, member.id)
+        await this.service.timeout(message.guild.id, member.id)
         return message.reply({
             content: `**${member}** has been timed out`
         }).then(async () => {

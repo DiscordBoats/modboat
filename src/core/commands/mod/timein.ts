@@ -10,6 +10,7 @@ export default class Timein extends Command {
     }
 
     async run(message: Message, args: string[]) {
+        /*
         if (!this.service.permission.checkMember(message, "KICK_MEMBERS", true)) {
             return;
         };
@@ -17,6 +18,7 @@ export default class Timein extends Command {
         if (!this.service.permission.checkBot(message, "KICK_MEMBERS", true)) {
             return;
         };
+         */
 
         const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
         if (!args[0]) {
@@ -33,7 +35,7 @@ export default class Timein extends Command {
             });
         };
         let reason = args.slice(1).join(" ");
-        this.service.timein(message.guild.id, member.id)
+        await this.service.timein(message.guild.id, member.id)
         return message.channel.send({
             content: `**${member}** has been timed in`
         }).then(async () => {
