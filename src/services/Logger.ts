@@ -74,14 +74,11 @@ export class Logger {
                 if (!options.user) {
                     options.user == options.message.author.tag as unknown as GuildMember
                 }
-
-                if (options.timeout === false) {};
-                if (options.timeout === true) {
+                if (options.timeout) {
                     await options.client.service.timeout(options.message.guild.id, options.user.id)
-                };
-                if (options.warn === false) {};
+                }
 
-                if (options.warn === true) {
+                if (options.warn) {
                    options.client.database.update.addWarning({
                         UserId: options.user.id || options.message.author.id,
                         GuildId: options.message.guild.id,
