@@ -52,7 +52,7 @@ export default class Reason extends Command {
         this.client.channels.fetch(GuildData.ModChannel).then(channel => {
             //@ts-ignore
             channel.messages.fetch(data.MessageId as TextChannel).then((message: { embeds: (MessageEmbed | MessageEmbedOptions | APIEmbed)[]; edit: (arg0: { embeds: MessageEmbed[]; }) => void; channel: { send: (arg0: string) => void; }; }) => {
-                message.embeds[0].description = message.embeds[0].description.split('**Reason:**')[0] + '**Reason:** ' + reason;
+                message.embeds[0].description = message.embeds[0].description.split('**Reason:**') + '**Reason:** ' + reason;
                 message.edit({embeds: [new MessageEmbed(message.embeds[0])]});
                 message.channel.send(`Reason for case ${args[0]} has been updated`);
             });

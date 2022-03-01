@@ -11,6 +11,7 @@ export default class Button extends Event {
         });
     };
     async run(b: ButtonInteraction): Promise<void> {
+        
     }
 
     private async deleteInteraction (b: ButtonInteraction): Promise<void> {

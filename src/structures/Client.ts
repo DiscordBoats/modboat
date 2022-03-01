@@ -4,6 +4,7 @@ import { Command } from "../core/Command";
 import { Database } from "./database/Database";
 import { Service } from "../services/Service";
 import settings from "../settings/settings.json";
+import fetch from "cross-fetch";
 
 
 export class Discord extends Client {
@@ -14,6 +15,7 @@ export class Discord extends Client {
     public readonly color: colors;  
     public service: Service;
     public settings: any;
+    public fetch: typeof fetch;
     constructor () {
         super({
             intents: [
@@ -43,6 +45,7 @@ export class Discord extends Client {
         this.service = new Service(this);
         this.color = colors as any;
         this.settings = settings;
+        this.fetch = fetch;
     };
 };
 
