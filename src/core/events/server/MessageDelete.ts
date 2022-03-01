@@ -23,20 +23,33 @@ export default class MessageDelete extends Event {
             return;
         };
 
+        const res = await this.client.fetch(process.env.Phish, {
+            method: "POST",
+            body: JSON.stringify({
+                message: message.content
+            }),
+            headers: {
+                "Content-Type": "application/json",
+                "User-Agent": process.env.Agent
+            }
+        }).then(r => r.json())
+
+        if(res.match) return;
+
         const channel = message.guild.channels.cache.get(data.LogChannel) as TextChannel;
         if (!channel) {
             return;
         };
         if (channel) {
-            channel.send({
+            await channel.send({
                 embeds: [
                     new MessageEmbed()
-                    //@ts-ignore
-                    .setColor(this.client.color.red)
-                    .setDescription(`<@${message.author.id}> | ${message.author.tag} (${message.author.id})\ndeleted a message in <#${message.channel.id}>\n`)
-                    .addField('Deleted Message:', `${message.content ? message.content : `[No messages found](${message.attachments.first() ? message.attachments.first().proxyURL : null}).`}`)
-                    .setImage(message.attachments.first() ? message.attachments.first().proxyURL : null)
-                    .setThumbnail(message.author.displayAvatarURL({ dynamic: true }))
+                        //@ts-ignore
+                        .setColor(this.client.color.red)
+                        .setDescription(`<@${message.author.id}> | ${message.author.tag} (${message.author.id})\ndeleted a message in <#${message.channel.id}>\n`)
+                        .addField('Deleted Message:', `${message.content ? message.content : `[No messages found](${message.attachments.first() ? message.attachments.first().proxyURL : null}).`}`)
+                        .setImage(message.attachments.first() ? message.attachments.first().proxyURL : null)
+                        .setThumbnail(message.author.displayAvatarURL({dynamic: true}))
                 ]
             })
         }

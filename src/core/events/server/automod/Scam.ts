@@ -29,27 +29,34 @@ export default class Scam extends Event {
             return;
         };
 
+        /*
         if (message.member.permissions.has("KICK_MEMBERS")) {
             return;
         };
+         */
 
         await Schema.findOne({ Guild: message.guild.id }, async (err, data) => {
             if (data && data.Automodscams == false) {
                 return;
             };
 
-            const res = this.client.fetch(process.env.Phish, {
+            const reg = new RegExp(/(?:[A-z0-9](?:[A-z0-9-]{0,61}[A-z0-9])?\.)+[A-z0-9][A-z0-9-]{0,61}[A-z0-9]/gi)
+            if(!message.content.match(reg)) return;
+
+            const link = message.content.match(reg)[0]
+            const res = await this.client.fetch(process.env.Phish, {
                 method: "POST",
                 body: JSON.stringify({
-                    message: message.content
+                    message: link
                 }),
                 headers: {
                     "Content-Type": "application/json",
-                    "User-Agent": process.env.Agent
+                    "User-Agent": "Modboat Nek#4476 (942798261536841730)"
                 }
             }).then(r => r.json())
-            console.log(res)
-             //@ts-ignore
+            if(!res.match) return;
+console.log(res)
+            //@ts-ignore
             if (res.match) {
                 message.delete().catch(err => {
                     return;
@@ -70,7 +77,14 @@ export default class Scam extends Event {
                     return;
                 });
                 try {
-                    this.service.logger.modlogs({
+                    await this.service.logger.scamLog({
+                        client: this.client,
+                        message: message,
+                        //@ts-ignore
+                        user: String(message.author.tag),
+                        userid: String(message.author.id),
+                    })
+                    await this.service.logger.modlogs({
                         client: this.client,
                         message: message,
                         moderator: message.guild.me,
@@ -80,7 +94,7 @@ export default class Scam extends Event {
                         userid: String(message.author.id),
                         title: 'Time Out',
                         color: '#fcffa4',
-                        warn: false
+                        warn: false,
                     })
                 } catch (err) {
                     return;

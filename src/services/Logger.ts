@@ -59,7 +59,7 @@ export class Logger {
             return;
         };
         if (channel) {
-           options.client.service.timeout(options.message.guildId, options.message.author.id)
+           await options.client.service.timeout(options.message.guildId, options.message.author.id)
             CasesSchema.find({ Guild: options.message.guild.id }).sort([['descending']]).exec(async (err, data) => {
                 const cases = new CasesSchema({
                     Guild: options.message.guild.id,
@@ -67,7 +67,7 @@ export class Logger {
                     Reason: options.reason,
                     Case: data.length + 1
                 })
-                cases.save()
+                await cases.save()
                 if (!options.reason) {
                     options.reason = `No reason provided. To provide a reason run \`+reason ${cases.Case}\``
                 };
@@ -103,6 +103,47 @@ export class Logger {
                 embeds: [embed]
             })
         })
+        };
+    };
+
+    async scamLog(options: modopts) {
+        const unix = Math.floor(new Date().getTime() / 1000);
+        if (!options.message) throw new ReferenceError('shrug');
+
+        const data = await GuildSchema.findOne({ Guild: options.message.guild.id });
+
+        if (!data || !data.ModChannel) {
+            return;
+        };
+
+        if (!options.message.guild.me.permissions.has("SEND_MESSAGES")) {
+            return;
+        };
+
+        if (!options.message.guild.me.permissions.has("EMBED_LINKS")) {
+            return;
+        };
+
+        const channel = options.message.guild.channels.cache.get(data.LogChannel) as TextChannel;
+        if (!channel) {
+            return;
+        };
+        if (channel) {
+
+                if (!options.user) {
+                    options.user == options.message.author.tag as unknown as GuildMember
+                };
+
+                const embed = new MessageEmbed()
+                    .setColor('RED')
+                    .setAuthor({name: '❌ Phishing Link Found'})
+                    .setThumbnail(options.message.author.avatarURL({dynamic: true}))
+                    .setDescription(`<@${options.message.author.id}> | ${options.message.author.tag} (${options.message.author.id})\nsent a phishing link\n\nMessage Deleted <t:${unix}:R>: \`${options.message.content}\``)
+
+                return channel.send({
+                    embeds: [embed]
+                })
+
         };
     };
 
