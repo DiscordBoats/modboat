@@ -3,25 +3,13 @@ import { Command } from "../../Command";
 import {inspect} from "util";
 
 
-export default class Purge extends Command {
+export default class Eval extends Command {
     constructor (client) {
         super (client, {
             name: "eval",
             description: "Eval code",
-            slash: {
-                name: "purge",
-                description: "Purge a number of messages",
-                options: [
-                    {
-                        type: "NUMBER",
-                        name: "messages",
-                        description: "Number of messages to clear",
-                        required: true
-                    }
-                ]
             }
-        });
-    };
+    )};
 
     async run (message: Message, args: string[]) {
         // @ts-ignore
