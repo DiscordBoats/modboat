@@ -10,7 +10,7 @@ export default class Timein extends Command {
     }
 
     async run(message: Message, args: string[]) {
-        /*
+
         if (!this.service.permission.checkMember(message, "KICK_MEMBERS", true)) {
             return;
         };
@@ -18,7 +18,7 @@ export default class Timein extends Command {
         if (!this.service.permission.checkBot(message, "KICK_MEMBERS", true)) {
             return;
         };
-         */
+
 
         const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
         if (!args[0]) {

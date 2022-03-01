@@ -15,7 +15,7 @@ export class Service {
 
     public async timeout(guildid?: string, userid?: string): Promise<any> {
         const x = new Date(Date.now() + 828000000).toISOString();
-        fetch(`https://discord.com/api/guilds/${guildid}/members/${userid}`, {
+        await fetch(`https://discord.com/api/guilds/${guildid}/members/${userid}`, {
             method: 'PATCH',
             headers: {
                 "Content-Type": "application/json",
@@ -29,7 +29,7 @@ export class Service {
 
     public async timein(guildid?: string, userid?: string): Promise<any> {
        // const x = new Date(Date.now() + 1000).toISOString();
-        fetch(`https://discord.com/api/guilds/${guildid}/members/${userid}`, {
+        await fetch(`https://discord.com/api/guilds/${guildid}/members/${userid}`, {
             method: 'PATCH',
             headers: {
                 "Content-Type": "application/json",
