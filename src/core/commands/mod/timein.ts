@@ -5,7 +5,7 @@ export default class Timein extends Command {
     constructor(client) {
         super(client, {
             name: "timein",
-            description: "Timeouts a user"
+            description: "Timeins a user"
         });
     }
 
