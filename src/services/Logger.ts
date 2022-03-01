@@ -75,7 +75,7 @@ export class Logger {
                     options.user == options.message.author.tag as unknown as GuildMember
                 }
                 if (options.timeout) {
-                    await options.client.service.timeout(options.message.guild.id, options.user.id)
+                    await options.client.service.timeout(options.message.guild.id, options.userid)
                 }
 
                 if (options.warn) {
