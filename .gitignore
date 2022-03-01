@@ -4,6 +4,7 @@ dist
 
 # Files
 .env
+package-lock.json
 yarn.lock
 src/settings/settings.json
 
