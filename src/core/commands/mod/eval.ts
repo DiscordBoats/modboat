@@ -8,8 +8,20 @@ export default class Eval extends Command {
         super (client, {
             name: "eval",
             description: "Eval code",
+      slash: {
+                name: "eval",
+                description: "eval code",
+                options: [
+                    {
+                        type: "STRING",
+                        name: "code",
+                        description: "Code to evaluate",
+                        required: true
+                    }
+                ]
             }
-    )};
+        });
+    };
 
     async run (message: Message, args: string[]) {
         // @ts-ignore
