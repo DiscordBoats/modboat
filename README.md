@@ -6,7 +6,7 @@ Simple moderation bot for Discord.
 2. ``npm i`` (or ``yarn``)
 3. ``cd src && node setupdatabase.js``
 4. ``mv tsconfig.json`` and fill out the config
-4. ``npm start`` (or ``cd src && node index.ts``)
+4. ``npm start`` (or ``yarn start``)
 
 ## Future ideas
 * Multi-guild support
