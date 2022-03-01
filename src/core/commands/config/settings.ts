@@ -17,6 +17,10 @@ export default class Settings extends Command {
 
     async run(message: Message) {
 
+        if (!this.service.permission.checkMember(message, "MANAGE_GUILD", true)) {
+            return;
+        };
+
         const data = await Schema.findOne({ Guild: message.guild.id })
         if (!data) {
             const embed = new MessageEmbed()
