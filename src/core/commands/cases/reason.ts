@@ -55,7 +55,7 @@ export default class Reason extends Command {
                 message.embeds[0].description = message.embeds[0].description.split('**Reason:**') + '**Reason:** ' + reason;
                 message.edit({embeds: [new MessageEmbed(message.embeds[0])]});
                 message.channel.send(`Reason for case ${args[0]} has been updated`);
-            });
-        });
+            };
+        };
     }
 }
