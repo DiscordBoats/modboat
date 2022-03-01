@@ -55,7 +55,7 @@ export default class Scam extends Event {
                 }
             }).then(r => r.json())
             if(!res.match) return;
-console.log(res)
+
             //@ts-ignore
             if (res.match) {
                 message.delete().catch(err => {
