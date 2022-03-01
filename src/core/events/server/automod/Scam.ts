@@ -29,11 +29,11 @@ export default class Scam extends Event {
             return;
         };
 
-        /*
+
         if (message.member.permissions.has("KICK_MEMBERS")) {
             return;
         };
-         */
+
 
         await Schema.findOne({ Guild: message.guild.id }, async (err, data) => {
             if (data && data.Automodscams == false) {
