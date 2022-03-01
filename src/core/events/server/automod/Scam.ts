@@ -40,7 +40,7 @@ export default class Scam extends Event {
                 return;
             };
 
-            const reg = new RegExp(/(?:[A-z0-9](?:[A-z0-9-]{0,61}[A-z0-9])?\.)+[A-z0-9][A-z0-9-]{0,61}[A-z0-9]/gi)
+            const reg = new RegExp(/(?:[A-z0-9](?:[A-z0-9-]{0,61}[A-z0-9])?\.)+[A-z0-9][A-z0-9-]{0,61}[A-z0-9]/gi);
             if(!message.content.match(reg)) return;
 
             const link = message.content.match(reg)[0]
