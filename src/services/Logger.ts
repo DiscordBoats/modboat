@@ -195,6 +195,6 @@ interface modopts {
     title: 'Time Out' | 'Kick' | 'Ban' | 'Timed In' | 'Unban' | 'Warn';
     color: '#fcffa4' | '#ff7f50' | '#dc3b3b' | '#70bd92' | '#E59866';
     warn?: Boolean | true,
-    timeout: Boolean | true,
+    timeout?: Boolean | true,
 }
 
