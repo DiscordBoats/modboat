@@ -10,11 +10,11 @@ export default class Timein extends Command {
     }
 
     async run(message: Message, args: string[]) {
-        if (!this.service.permission.checkMember(message, "MODERATE_MEMBERS", true)) {
+        if (!this.service.permission.checkMember(message, "KICK_MEMBERS", true)) {
             return;
         };
 
-        if (!this.service.permission.checkBot(message, "MODERATE_MEMBERS", true)) {
+        if (!this.service.permission.checkBot(message, "KICK_MEMBERS", true)) {
             return;
         };
 
