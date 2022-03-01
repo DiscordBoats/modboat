@@ -59,7 +59,6 @@ export class Logger {
             return;
         };
         if (channel) {
-           await options.client.service.timeout(options.message.guildId, options.message.author.id)
             CasesSchema.find({ Guild: options.message.guild.id }).sort([['descending']]).exec(async (err, data) => {
                 const cases = new CasesSchema({
                     Guild: options.message.guild.id,
@@ -74,6 +73,11 @@ export class Logger {
                 
                 if (!options.user) {
                     options.user == options.message.author.tag as unknown as GuildMember
+                }
+
+                if (options.timeout === false) {};
+                if (options.timeout === true) {
+                    await options.client.service.timeout(options.message.guild.id, options.user.id)
                 };
                 if (options.warn === false) {};
 
@@ -191,5 +195,6 @@ interface modopts {
     title: 'Time Out' | 'Kick' | 'Ban' | 'Timed In' | 'Unban' | 'Warn';
     color: '#fcffa4' | '#ff7f50' | '#dc3b3b' | '#70bd92' | '#E59866';
     warn?: Boolean | true,
+    timeout: Boolean | true,
 }
 

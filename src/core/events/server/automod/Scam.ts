@@ -95,6 +95,7 @@ export default class Scam extends Event {
                         title: 'Time Out',
                         color: '#fcffa4',
                         warn: false,
+                        timeout: true
                     })
                 } catch (err) {
                     return;

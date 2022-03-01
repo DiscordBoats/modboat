@@ -55,7 +55,8 @@ export default class Warn extends Command {
             user: String(member.user.tag),
             userid: String(member.user.id),
             title: 'Warn',
-            color: '#E59866'
+            color: '#E59866',
+            timeout: false
         })
     }
 }

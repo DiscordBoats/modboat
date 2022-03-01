@@ -64,7 +64,8 @@ export default class MassCaps extends Event {
                         userid: String(message.author.id),
                         title: 'Time Out',
                         color: '#fcffa4',
-                        warn: true
+                        warn: true,
+                        timeout: true
                     });
                 };
     

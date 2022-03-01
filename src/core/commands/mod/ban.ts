@@ -84,7 +84,8 @@ export default class Ban extends Command {
                 userid: String(member.user.id),
                 title: 'Ban',
                 color: '#dc3b3b',
-                warn: true
+                warn: true,
+                timeout: false
             })
             return message.reply({
                 content: "User has been banned."

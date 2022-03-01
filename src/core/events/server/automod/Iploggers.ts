@@ -57,7 +57,8 @@ export default class IpLogger extends Event {
                         userid: String(message.author.id),
                         title: 'Time Out',
                         color: '#fcffa4',
-                        warn: true
+                        warn: true,
+                        timeout: true
                     });
     
                     message.delete().catch(() => {

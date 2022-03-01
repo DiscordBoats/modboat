@@ -10,15 +10,17 @@ export default class Timein extends Command {
     }
 
     async run(message: Message, args: string[]) {
-        /*
+
 
         if (!this.service.permission.checkMember(message, "KICK_MEMBERS", true)) {
             return;
-        };
+        }
+        ;
 
         if (!this.service.permission.checkBot(message, "KICK_MEMBERS", true)) {
             return;
-        };
+        }
+        ;
 
 
         const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
@@ -26,7 +28,8 @@ export default class Timein extends Command {
             return message.reply({
                 content: 'I need to know the user!'
             });
-        };
+        }
+        ;
 
         if (!member) {
             return message.reply({
@@ -34,7 +37,8 @@ export default class Timein extends Command {
             }).catch(() => {
                 return;
             });
-        };
+        }
+        ;
         let reason = args.slice(1).join(" ");
         await this.service.timein(message.guild.id, member.id)
         return message.channel.send({
@@ -50,12 +54,10 @@ export default class Timein extends Command {
                 userid: String(member.user.id),
                 title: 'Timed In',
                 color: '#70bd92',
-                warn: false
+                warn: false,
+                timeout: false
             })
         })
     }
-
-         */
-}
 
 }

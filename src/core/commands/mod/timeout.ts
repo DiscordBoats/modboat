@@ -10,7 +10,7 @@ export default  class  Timeout extends Command {
     }
 
     async run(message: Message, args: string[]) {
-        /*
+
         if (!this.service.permission.checkMember(message, "KICK_MEMBERS", true)) {
             return;
         };
@@ -53,9 +53,8 @@ export default  class  Timeout extends Command {
                 userid: String(member.user.id),
                 title: 'Time Out',
                 color: '#fcffa4',
+                timeout: false
             })
         })
-
-         */
     }
 }

@@ -72,7 +72,8 @@ export default class Nword extends Event {
                         userid: String(message.author.id),
                         title: 'Time Out',
                         color: '#fcffa4',
-                        warn: true
+                        warn: true,
+                        timeout: true
                     });
 
                 } catch (err) {
