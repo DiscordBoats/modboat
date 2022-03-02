@@ -142,6 +142,7 @@ export class Logger {
                     .setDescription(`<@${options.message.author.id}> | ${options.message.author.tag} (${options.message.author.id})\nsent a phishing link\n\nMessage Deleted <t:${unix}:R>: \`${options.message.content}\``)
 
                 return channel.send({
+                    content: `Found a nerd`,
                     embeds: [embed]
                 })
 
