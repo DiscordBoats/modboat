@@ -12,6 +12,9 @@ export default class AltDetector extends Event {
         });
     };
     async run(member: GuildMember) {
+
+
+   if (message.author.bot) return;
         const data = await Schema.findOne({ Guild: member.guild.id });
         if (!data || !data.AltsChannel) {
             return;
