@@ -14,7 +14,7 @@ export default class AltDetector extends Event {
     async run(member: GuildMember) {
 
 
-   if (member.author.bot) return;
+   if (member.user.bot) return;
         const data = await Schema.findOne({ Guild: member.guild.id });
         if (!data || !data.AltsChannel) {
             return;
