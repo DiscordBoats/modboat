@@ -173,8 +173,30 @@ export default class Dev extends Command {
                 });
 
                 break;
+
+            case "pull":
+                exec("git pull", (err, stdout, stderr) => {
+                    if (err) {
+                        return message.channel.send({
+                            embeds: [
+                                new MessageEmbed()
+                                    .setDescription(`\`\`\`${err}\`\`\``)
+                                    .setColor("RED")
+                                    .setFooter({text: "Smooth brain, you failed."}),
+                            ],
+                        });
+                    }
+                    if (stdout) {
+                        return message.channel.send({
+                            content: `\`\`\`${stdout}\`\`\``
+                        })
+
+                    }
+                })
+
+                break
             default:
-                return message.channel.send("Available args: `override <kick/ban>`")
+                return message.channel.send("Available args: `override <kick/ban>` | `build` | `pull`");
                 break;
         }
     };
