@@ -3,7 +3,7 @@ import { Command } from "../../Command";
 import { exec } from "child_process";
 
 
-export default class ping extends Command {
+export default class dev extends Command {
     constructor(client) {
         super(client, {
             name: "dev",
