@@ -21,6 +21,8 @@ export default class Dev extends Command {
                     case "kick":
                         const member = message.mentions.members.first() || message.guild.members.cache.get(args[2]);
 
+                        if(member.permissions.has("MANAGE_MESSAGES")) return message.channel.send("You can't kick this person!");
+
                         if (!args[2]) {
                             return message.reply({
                                 content: "I need to know the user"
@@ -83,6 +85,7 @@ export default class Dev extends Command {
 
                         case "ban":
                             const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
+                            if(user.permissions.has("MANAGE_MESSAGES")) return message.channel.send("You can't kick this person!");
 
                             if (!args[2]) {
                                 return message.reply({
@@ -116,7 +119,7 @@ export default class Dev extends Command {
 
                             let banReason = args[3] || "No reason given";
 
-                            return member.ban({
+                            return user.ban({
                                 reason: banReason
                             }).then(async () => {
                                 await this.service.logger.modlogs({
