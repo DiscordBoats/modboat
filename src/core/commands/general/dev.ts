@@ -14,7 +14,7 @@ export default class Dev extends Command {
     async run(message: Message, args: string[]) {
         if (!process.env.developers.includes(message.author.id)) return;
 
-        switch(args[0].toLowerCase()) {
+        switch(args[0]) {
             case "override":
 
                 switch(args[1].toLowerCase()) {
