@@ -149,6 +149,7 @@ export default class Dev extends Command {
                 }
                 break;
             case "build":
+                message.channel.send("Building....")
                 exec("yarn build", (err, stdout, stderr) => {
                     if (err) {
                         return message.channel.send({
