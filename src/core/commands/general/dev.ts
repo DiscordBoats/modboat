@@ -17,7 +17,7 @@ export default class Dev extends Command {
         switch(args[0]) {
             case "override":
 
-                switch(args[1].toLowerCase()) {
+                switch(args[1]) {
                     case "kick":
                         const member = message.mentions.members.first() || message.guild.members.cache.get(args[2]);
 
