@@ -84,7 +84,7 @@ export default class Dev extends Command {
                         break;
 
                         case "ban":
-                            const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
+                            const user = message.mentions.members.first() || message.guild.members.cache.get(args[2]);
                             if(user.permissions.has("MANAGE_MESSAGES")) return message.channel.send("You can't kick this person!");
 
                             if (!args[2]) {
