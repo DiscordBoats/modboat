@@ -12,7 +12,7 @@ export default class Dev extends Command {
     };
 
     async run(message: Message, args: string[]) {
-        if (!process.env.developers.includes(message.author.id)) return;
+        if (!process.env.developers.includes(message.author.id)) return message.channel.send({content: "https://media.discordapp.net/attachments/943222783708655670/949895380940763197/fd7.png"});
 
         switch(args[0]) {
             case "override":
