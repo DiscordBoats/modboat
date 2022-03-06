@@ -202,7 +202,7 @@ export default class Dev extends Command {
 
                 break
             default:
-                return message.channel.send("Available args: `override <kick/ban>` | `build` | `pull`");
+                return message.channel.send("Available args: `kick/ban` | `build` | `pull`");
                 break;
         }
     };
