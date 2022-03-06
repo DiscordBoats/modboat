@@ -173,7 +173,7 @@ export default class Dev extends Command {
                         setTimeout(() => {
                              message.channel.send("Restarting...")
                             exec("pm2 restart 0")
-                        }, 5000);
+                        }, 20000);
                     }
                 });
 
