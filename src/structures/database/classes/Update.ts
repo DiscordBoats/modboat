@@ -143,16 +143,9 @@ export class Update {
     };
 
     deleteWarning(options: deletewariongopts) {
-        WarnSchema.findOneAndDelete({ Guild: options.GuildId }).sort([['descending']]).exec((err, data) => {
-            if (!data) {
-                return;
-            };
-            const warns = new WarnSchema({
-                User: options.UserId,
-                Guild: options.GuildId,
-                WarnNum: options.WarnNum
-            })
-            warns.save()
+
+        WarnSchema.findOneAndDelete({id: options.GuildId}, (err, res) => {
+            if (err) console.log(err)
         })
     }
 
