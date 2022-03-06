@@ -159,7 +159,8 @@ export default class Dev extends Command {
                             embeds: [
                                 new MessageEmbed()
                                     .setDescription(`\`\`\`${err}\`\`\``)
-                                    .setColor("RED")
+                                //@ts-ignore
+                                    .setColor(this.client.color.red)
                                     .setFooter({text: "Smooth brain, you failed."}),
                             ],
                         });
@@ -185,7 +186,8 @@ export default class Dev extends Command {
                             embeds: [
                                 new MessageEmbed()
                                     .setDescription(`\`\`\`${err}\`\`\``)
-                                    .setColor("RED")
+                                //@ts-ignore
+                                    .setColor(this.client.color.red)
                                     .setFooter({text: "Smooth brain, you failed."}),
                             ],
                         });
