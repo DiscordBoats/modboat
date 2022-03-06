@@ -14,7 +14,7 @@ export default class Ready extends Event {
         });
         await this.client.user.setActivity({
             type: "PLAYING",
-            name: "Members"
+            name: "members"
             
         })
     };
