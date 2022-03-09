@@ -218,7 +218,7 @@ export default class Dev extends Command {
                     const members = filter(await message.guild.members.fetch(), (_k, v) => v.user.username.toLowerCase().includes(args[1].toLowerCase()))
                     let list = '';
                     members.forEach(member => {
-                        list += `${member.user.username}#${member.user.discriminator} (${member.user.id})\n`;
+                        list += `${member.user.username}#${member.user.discriminator} (${member.user.id}) \`Bot: ${member.user.bot}\`\n`;
                     });
 
                     if (list === '') {
