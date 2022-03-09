@@ -204,6 +204,37 @@ export default class Dev extends Command {
 
                 break;
 
+            case "filter":
+                const filter = (map, pred) => {
+                    const result = new Map();
+                    for (let [k, v] of map) {
+                        if (pred(k, v)) {
+                            result.set(k, v);
+                        }
+                    }
+                    return result;
+                }
+                if(!args[1]) return message.reply("Please specify a name.")
+                    const members = filter(await message.guild.members.fetch(), (_k, v) => v.user.username.toLowerCase().includes(args[1].toLowerCase()))
+                    let list = '';
+                    members.forEach(member => {
+                        list += `${member.user.username}#${member.user.discriminator} (${member.user.id})\n`;
+                    });
+
+                    if (list === '') {
+                        return message.channel.send('No users found.');
+                    }
+
+                    // @ts-ignore
+                    const embed = new MessageEmbed()
+                        .setColor("BLUE")
+                        .setTitle(`Users found:`)
+                        .setDescription(list.substring(0, 4096))
+                    await message.channel.send({
+                        embeds: [embed]
+                    });
+                break
+
             case "pull":
                 exec("git pull", (err, stdout, stderr) => {
                     if (err) {
