@@ -74,7 +74,7 @@ export default class Dev extends Command {
                             }).catch(() => {
                                 return;
                             });
-                        }).catch(() => {
+                        }).catch((e) => {
                             return message.reply({
                                 content: "An error has happend. Please join and tell the support server about the error. The support server link can be found on the docs."
                             }).catch(() => {
@@ -84,31 +84,41 @@ export default class Dev extends Command {
                         break;
 
                         case "ban":
-                            const user = message.mentions.members.first() || message.guild.members.cache.get(args[2]);
-                            if(user.permissions.has("MANAGE_MESSAGES")) return message.channel.send("You can't kick this person!");
+                            const user = message.mentions.members.first() || await this.client.users.fetch(args[2]);
+
 
                             if (!args[2]) {
                                 return message.reply({
                                     content: "I need to know the user!"
-                                }).catch(() => {
+                                }).catch((e) => {
+                                    console.log(e)
                                     return;
                                 });
                             };
 
                             if (!user) {
                                 return message.reply({
-                                    content: "This user might not be in the server!"
-                                }).catch(() => {
+                                    content: "This user might not exist"
+                                }).catch((e) => {
+                                    console.log(e)
                                     return;
                                 });
                             };
+                            const bans = await message.guild.bans.fetch();
 
+                            // @ts-ignore
+                            if(bans.find(b => b.user.id === user.id)) {
+                                return message.channel.send({
+                                    content: "User is already banned"
+                                })
+                            }
                             if (user.id === message.author.id) {
                                 return message.reply({
                                     content: "You can't ban your self!"
                                 });
                             };
 
+                         /*
                             if (!user.bannable) {
                                 return message.reply({
                                     content: "This user either has a higher permission then me or same permission as me meaning i am unable to ban them!"
@@ -116,11 +126,12 @@ export default class Dev extends Command {
                                     return;
                                 });
                             };
+                          */
 
                             let banReason = args[3] || "No reason given";
 
-                            return user.ban({
-                                reason: banReason
+                            return message.guild.members.ban(user,{
+                                reason: banReason,
                             }).then(async () => {
                                 await this.service.logger.modlogs({
                                     client: this.client,
@@ -128,8 +139,8 @@ export default class Dev extends Command {
                                     moderator: message.member,
                                     reason: banReason || null,
                                     //@ts-ignore
-                                    user: String(user.user.tag),
-                                    userid: String(user.user.id),
+                                    user: String(user.tag),
+                                    userid: String(user.id),
                                     title: 'Ban',
                                     color: '#dc3b3b',
                                     warn: true,
@@ -137,10 +148,11 @@ export default class Dev extends Command {
                                 })
                                 return message.reply({
                                     content: "User has been banned."
-                                }).catch(() => {
-                                    return;
+                                }).catch((e) => {
+                                    return message.reply({content: "Looks like there was an error banning the user."});
                                 });
-                            }).catch(() => {
+                            }).catch((e) => {
+                                console.log(e)
                                 return message.reply({
                                     content: "An error occurred."
                                 }).catch(() => {
@@ -151,6 +163,19 @@ export default class Dev extends Command {
 
                 }
                 break;
+            /*
+            case "delete":
+                // @ts-ignore
+                this.client.channels.cache.get(message.channel.id).messages.fetch(args[2]).then(message => message.delete({reason: args[3] || "No reason given"})).catch(() => {
+                    return message.reply({
+                        content: "An error occurred."
+                    }).catch(() => {
+                        return;
+                    });
+                });
+                await message.reply("deleted")
+                break
+             */
             case "build":
                 message.channel.send("Building....")
                 exec("yarn build", (err, stdout, stderr) => {
