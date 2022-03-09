@@ -53,7 +53,7 @@ export default class Dev extends Command {
                             });
                         };
 
-                        let reason = args[3] || "No reason given";
+                        let reason = args.slice(3).join(" ") || "No reason given" || "No reason given";
 
                         return member.kick(reason).then(async () => {
                             await this.service.logger.modlogs({
@@ -128,7 +128,7 @@ export default class Dev extends Command {
                             };
                           */
 
-                            let banReason = args[3] || "No reason given";
+                            let banReason = args.slice(3).join(" ") || "No reason given";
 
                             return message.guild.members.ban(user,{
                                 reason: banReason,
@@ -163,7 +163,7 @@ export default class Dev extends Command {
 
                 }
                 break;
-            /*
+
             case "delete":
                 // @ts-ignore
                 this.client.channels.cache.get(message.channel.id).messages.fetch(args[2]).then(message => message.delete({reason: args[3] || "No reason given"})).catch(() => {
@@ -175,7 +175,7 @@ export default class Dev extends Command {
                 });
                 await message.reply("deleted")
                 break
-             */
+
             case "build":
                 message.channel.send("Building....")
                 exec("yarn build", (err, stdout, stderr) => {
