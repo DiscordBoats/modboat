@@ -112,11 +112,7 @@ export default class Dev extends Command {
                                     content: "User is already banned"
                                 })
                             }
-                            if (user.id === message.author.id) {
-                                return message.reply({
-                                    content: "You can't ban your self!"
-                                });
-                            };
+                           
 
                          /*
                             if (!user.bannable) {
