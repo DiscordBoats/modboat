@@ -24,10 +24,9 @@ export default class Dehoist extends Command {
 
 
         await (await message.guild.members.fetch()).forEach(member => {
-            member.setNickname(member.user.username.replace(/[^a-zA-Z0-9\s\w]/g, "")).catch(e => {
+            member.setNickname(member.user.username.replace(/[^a-zA-Z0-9\s\w]/g, " ")).catch(e => {
                 return
             })
-
         })
         message.channel.send("Dehoisted")
     };
