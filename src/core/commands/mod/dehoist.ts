@@ -21,25 +21,21 @@ export default class Dehoist extends Command {
             }
             return result;
         }
+        // @ts-ignore
+        const array = []; // eslint-disable-line
+
+        (await message.guild.members.fetch()).forEach(member => {
+            // @ts-ignore
+
+            if(/[^a-zA-Z0-9\s\w]/g.test(member.user.username) || /[^a-zA-Z0-9\s\w]/g.test(member.nickname)) {
+                array.push(member.user.id)
+                member.setNickname(member.user.username.replace(/[^a-zA-Z0-9\s\w]/g, " ")).catch(e => {
+                    return
+                })
+            }
 
 
-        switch(args[0]) {
-            case "nfd":
-                await (await message.guild.members.fetch()).forEach(member => {
-                    member.setNickname(member.user.username.normalize("NFD").replace(/[\u0300-\u036f]/g, "")).catch(e => {
-                        return console.log(e)
-                    })
-                })
-                message.channel.send("Normalized names")
-                break
-            default:
-                await (await message.guild.members.fetch()).forEach(member => {
-                    member.setNickname(member.user.username.replace(/[^a-zA-Z0-9\s\w]/g, " ")).catch(e => {
-                        return
-                    })
-                })
-                message.channel.send("Dehoisted")
-                break
-        }
+        })
+        return message.channel.send("Dehoisted " + array.length + " member(s)")
     };
 };
