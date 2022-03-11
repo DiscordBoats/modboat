@@ -22,16 +22,13 @@ export default class Dehoist extends Command {
             return result;
         }
 
-        const members = filter(await message.guild.members.fetch(), (_k, v) => v.user.username.charAt(0) === "!" || v.user.username.charAt(0) === "-");
-        if(members.size < 0) {
-            return message.channel.send("No members found");
-        }
 
-        let array = Array.from(members.keys());
-        members.forEach(member => {
-            member.setNickname(member.user.username.slice(1));
+        await (await message.guild.members.fetch()).forEach(member => {
+            member.setNickname(member.user.username.replace(/[^a-zA-Z0-9]/g, "")).catch(e => {
+                return
+            })
 
         })
-        message.channel.send("Dehoisted " +array.length+ " member(s)!")
+        message.channel.send("Dehoisted")
     };
 };
