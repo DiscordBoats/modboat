@@ -29,9 +29,6 @@ export default class Dehoist extends Command {
 
         let array = Array.from(members.keys());
         members.forEach(member => {
-            if(member.nickname !== "!" || member.nickname !== "-") {
-                array.splice(array.indexOf(member.id), 1);
-            }
             member.setNickname(member.user.username.slice(1));
 
         })
