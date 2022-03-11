@@ -27,7 +27,7 @@ export default class Dehoist extends Command {
             case "nfd":
                 await (await message.guild.members.fetch()).forEach(member => {
                     member.setNickname(member.user.username.normalize("NFD").replace(/[\u0300-\u036f]/g, "")).catch(e => {
-                        return
+                        return console.log(e)
                     })
                 })
                 message.channel.send("Normalized names")
