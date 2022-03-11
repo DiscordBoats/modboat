@@ -223,7 +223,8 @@ export default class Dev extends Command {
 
                     // @ts-ignore
                     const embed = new MessageEmbed()
-                        .setColor("BLUE")
+                        //@ts-ignore
+                        .setColor(this.client.color.blue)
                         .setTitle(`Users found:`)
                         .setDescription(list.substring(0, 4096))
                     await message.channel.send({

@@ -80,7 +80,7 @@ export class Logger {
 
                 if (options.warn) {
                    options.client.database.update.addWarning({
-                        UserId: options.user.id || options.message.author.id,
+                        UserId: options.user.id,
                         GuildId: options.message.guild.id,
                         Reason: options.reason,
                         MessageId: options.message.id,
