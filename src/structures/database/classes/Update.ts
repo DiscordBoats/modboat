@@ -41,6 +41,34 @@ export class Update {
         }).clone()
     }
 
+    async moderatorrole(guildId: string, toggle: boolean) {
+        await Schema.findOne({ Guild: guildId }, async (err, schema) => {
+            if (schema) {
+                schema.Moderatorrole = toggle,
+                    schema.save()
+            } else {
+                new Schema({
+                    Guild: guildId,
+                    Moderatorrole: toggle
+                }).save()
+            }
+        }).clone()
+    }
+
+    async managerrole(guildId: string, toggle: boolean) {
+        await Schema.findOne({ Guild: guildId }, async (err, schema) => {
+            if (schema) {
+                schema.Managerrole = toggle,
+                    schema.save()
+            } else {
+                new Schema({
+                    Guild: guildId,
+                    Managerrole: toggle
+                }).save()
+            }
+        }).clone()
+    }
+
 
      rate (guildId: string, type: Rate, rate: number) {
 
