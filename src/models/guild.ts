@@ -23,6 +23,8 @@ interface GuildDocument extends Document {
     MuteRole: string;
     Autorole: boolean;
     Autoroles: string[];
+    Moderatorroles: string[];
+    Managerroles: string[];
 };
 
 
@@ -50,7 +52,9 @@ const GuildSchema = new Schema({
     Prefix: { type: String, default: process.env.Prefix },
     MuteRole: { type: String, default: null },
     Autorole: { type: Boolean, default: false },
-    Autoroles: { type: Array, default: [] }
+    Autoroles: { type: Array, default: [] },
+    Moderatorroles: { type: Array, default: [] },
+    Managerroles: { type: Array, default: [] }
 }, { versionKey: false });
 
 export = model<GuildDocument>("settings", GuildSchema);

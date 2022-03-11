@@ -21,7 +21,7 @@ export default class Dev extends Command {
                     case "kick":
                         const member = message.mentions.members.first() || message.guild.members.cache.get(args[2]);
 
-                        if(member.permissions.has("MANAGE_MESSAGES")) return message.channel.send("You can't kick this person!");
+                        if (member.permissions.has("MANAGE_MESSAGES")) return message.channel.send("You can't kick this person!");
 
                         if (!args[2]) {
                             return message.reply({
@@ -107,7 +107,7 @@ export default class Dev extends Command {
                             const bans = await message.guild.bans.fetch();
 
                             // @ts-ignore
-                            if(bans.find(b => b.user.id === user.id)) {
+                            if (bans.find(b => b.user.id === user.id)) {
                                 return message.channel.send({
                                     content: "User is already banned"
                                 })
@@ -186,7 +186,7 @@ export default class Dev extends Command {
                             ],
                         });
                     }
-                    if(stdout) {
+                    if (stdout) {
                          message.channel.send({
                             content: "Build successful!"
                         })
@@ -210,7 +210,7 @@ export default class Dev extends Command {
                     }
                     return result;
                 }
-                if(!args[1]) return message.reply("Please specify a name.")
+                if (!args[1]) return message.reply("Please specify a name.")
                     const members = filter(await message.guild.members.fetch(), (_k, v) => v.user.username.toLowerCase().includes(args[1].toLowerCase()))
                     let list = '';
                     members.forEach(member => {
