@@ -23,7 +23,9 @@ interface GuildDocument extends Document {
     MuteRole: string;
     Autorole: boolean;
     Autoroles: string[];
+    Moderatorrole: boolean;
     Moderatorroles: string[];
+    Managerrole: boolean;
     Managerroles: string[];
 };
 
