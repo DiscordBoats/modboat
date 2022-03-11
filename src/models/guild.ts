@@ -53,7 +53,9 @@ const GuildSchema = new Schema({
     MuteRole: { type: String, default: null },
     Autorole: { type: Boolean, default: false },
     Autoroles: { type: Array, default: [] },
+    Moderatorrole: { type: Boolean, default: false },
     Moderatorroles: { type: Array, default: [] },
+    Managerrole: { type: Boolean, default: false },
     Managerroles: { type: Array, default: [] }
 }, { versionKey: false });
 
