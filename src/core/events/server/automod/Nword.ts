@@ -38,7 +38,7 @@ export default class Nword extends Event {
             if (data && data.Automodnword == false) {
                 return;
             };
-            if (settings.automod.nword.some(word => message.content.toLowerCase().includes(word))) {
+            if (/(n|i){1,32}((g{2,32}|q){1,32}|[gq]{2,32})[e3r]{1,32}/gmi.test(message.content) || settings.automod.nword.some(word => message.content.toLowerCase().includes(word))) {
 
                 message.delete().catch(err => {
                     return;
