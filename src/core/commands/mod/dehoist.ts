@@ -23,6 +23,19 @@ export default class Dehoist extends Command {
         }
 
         switch(args[0]) {
+            case "user":
+                const user = message.guild.members.cache.get(args[1]);
+
+                if (!user) {
+                    return message.channel.send("User not found");
+                }
+
+                user.setNickname(user.user.username.replace(/[^a-zA-Z0-9\s\w]/g, " ")).catch(e => {
+                    return
+                })
+
+                return message.channel.send(`Dehoisted ${user.nickname} (${user.user.tag} | ${user.id})`);
+                break;
             case "list":
                 let list = '';
                 (await message.guild.members.fetch()).forEach(member => {
