@@ -24,7 +24,7 @@ export default class Dehoist extends Command {
 
         switch(args[0]) {
             case "user":
-                const user = message.guild.members.cache.get(args[1]);
+                const user = await message.guild.members.fetch(args[1]);
 
                 if (!user) {
                     return message.channel.send("User not found");
