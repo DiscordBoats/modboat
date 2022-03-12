@@ -44,11 +44,24 @@ export default class Role extends Command {
                         .setThumbnail(message.guild.iconURL({ dynamic: true }))
                         //@ts-ignore
                         .setColor(this.client.color.red)
-                        .setDescription(`Arguments: \`displayall\` | \`add\` | \`romove\` | \`info\`| \`autorole\``)
-                        .addFields({
+                        .setDescription(`Arguments: \`displayall\` | \`add\` | \`romove\` | \`info\` | \`autorole\` | \`moderatorrole\` | \`managerrole\``)
+                        .addFields(
+                        {
                             name: "Autorole Subs",
-                            value: "[`✅ enable`](https://docs.antibot.xyz/anti-bot/roles)\n[`⛔ disable`](https://docs.antibot.xyz/anti-bot/roles)\n[`📝 list`](https://docs.antibot.xyz/anti-bot/roles)\n[`➕ add`](https://docs.antibot.xyz/anti-bot/roles)\n[`❌ remove`](https://docs.antibot.xyz/anti-bot/roles)"
-                        }),
+                            value: "[`✅ enable`](https://docs.antibot.xyz/anti-bot/roles)\n[`⛔ disable`](https://docs.antibot.xyz/anti-bot/roles)\n[`📝 list`](https://docs.antibot.xyz/anti-bot/roles)\n[`➕ add`](https://docs.antibot.xyz/anti-bot/roles)\n[`❌ remove`](https://docs.antibot.xyz/anti-bot/roles)",
+                            inline: true
+                        },
+                        {
+                            name: "Moderator Role Subs",
+                            value: "[`✅ enable`](https://docs.antibot.xyz/anti-bot/roles)\n[`⛔ disable`](https://docs.antibot.xyz/anti-bot/roles)\n[`📝 list`](https://docs.antibot.xyz/anti-bot/roles)\n[`➕ add`](https://docs.antibot.xyz/anti-bot/roles)\n[`❌ remove`](https://docs.antibot.xyz/anti-bot/roles)",
+                            inline: true
+                        },
+                        {
+                            name: "Manager Role Subs",
+                            value: "[`✅ enable`](https://docs.antibot.xyz/anti-bot/roles)\n[`⛔ disable`](https://docs.antibot.xyz/anti-bot/roles)\n[`📝 list`](https://docs.antibot.xyz/anti-bot/roles)\n[`➕ add`](https://docs.antibot.xyz/anti-bot/roles)\n[`❌ remove`](https://docs.antibot.xyz/anti-bot/roles)",
+                            inline: true
+                        }
+                        ),
                         
                     ]
                 })
@@ -361,6 +374,252 @@ export default class Role extends Command {
                                     //@ts-ignore
                                     color: this.client.color.red,
                                     description: '> Successfully disabled autoroles'
+                                }
+                            ]
+                        })
+                    }
+                    default: {
+                        return message.reply({
+                            embeds: [
+                                new MessageEmbed()
+                                .setURL('https://docs.antibot.xyz/anti-bot/roles')
+                                .setTitle("Roles")
+                                .setThumbnail(message.guild.iconURL({ dynamic: true }))
+                                //@ts-ignore
+                                .setColor(this.client.color.red)
+                                .setDescription(`Arguments: \`enable\` | \`disable\` | \`list\` | \`add\` | \`remove\``)
+                                
+                            ]
+                        })
+                    }
+                }
+            }
+            break;
+            case 'moderatorrole': {
+                switch (args[1]) {
+                    case 'add': {
+                        const role = message.mentions.roles.first() || message.guild.roles.cache.get(args[2]);
+                        if (!this.service.permission.checkMember(message, "MANAGE_ROLES", true)) {
+                            return;
+                        }
+                        if (!this.service.permission.checkBot(message, "MANAGE_ROLES", true)) {
+                            return;
+                        }
+                        ;
+                        if (!role) {
+                            return message.reply({
+                                content: 'You have to mention a role'
+                            })
+                        }
+
+                        Schema.findOne({Guild: message.guild.id}, (err, data) => {
+                            if (data.Moderatorroles.length > 4) {
+                                return message.reply({
+                                    content: 'You can only have 5 moderator roles'
+                                })
+                            }
+                            if (!data) {
+                                new Schema({
+                                    Guild: message.guild.id,
+                                    Moderatorroles: [role.id]
+                                })
+                                 message.reply({
+                                    content: 'Changes Saved!'
+                                })
+                            } else {
+                                data.Moderatorroles.push(role.id);
+                                message.reply({
+                                    content: 'Changes Saved!'
+                                })
+                                data.save()
+                            }
+                        })
+                    }
+                        break;
+                    case 'remove': {
+                        const number = parseInt(args[2])
+                        if (!number) {
+                            return message.reply({
+                                content: 'You must say the number of role on the moderator role list'
+                            })
+                        }
+                        Schema.findOne({Guild: message.guild.id}, (err, data) => {
+                            if (data) {
+                                data.Moderatorroles.splice(number - 1, 1);
+                                message.reply({
+                                    content: 'Changes Saved!'
+                                })
+                            } else {
+                                message.reply({
+                                    content: 'That role doesn\'t exist on the list.'
+                                })
+                            };
+                            data.save()
+                        })
+                    }
+                        break;
+                    case 'list': {
+                        const autoroles = await Schema.findOne({ Guild: message.guild.id })
+                        return message.channel.send({
+                            embeds: [
+                                {
+                                    title: 'Moderator Roles',
+                                    //@ts-ignore
+                                    color: this.client.color.green,
+                                    description: String(autoroles.Moderatorroles.map(
+                                        (x, i) =>
+                                            `\`${i + 1}\`. <@&${x}> - ${x}`.toString()).join('\n') || 'No roles found.'
+                                    )
+                                }
+                            ]
+                        })
+
+                    }
+                    break;
+                    case 'enable': {
+                        this.client.database.update.moderatorrole(message.guild.id, true)
+                        return message.reply({
+                            embeds: [
+                                {
+                                    //@ts-ignore
+                                    color: this.client.color.red,
+                                    description: '> Successfully enabled moderatorroles'
+                                }
+                            ]
+                        })
+                    }
+                    break;
+                    case 'disable': {
+                        this.client.database.update.moderatorrole(message.guild.id, false)
+                        return message.reply({
+                            embeds: [
+                                {
+                                    //@ts-ignore
+                                    color: this.client.color.red,
+                                    description: '> Successfully disabled moderatorroles'
+                                }
+                            ]
+                        })
+                    }
+                    default: {
+                        return message.reply({
+                            embeds: [
+                                new MessageEmbed()
+                                .setURL('https://docs.antibot.xyz/anti-bot/roles')
+                                .setTitle("Roles")
+                                .setThumbnail(message.guild.iconURL({ dynamic: true }))
+                                //@ts-ignore
+                                .setColor(this.client.color.red)
+                                .setDescription(`Arguments: \`enable\` | \`disable\` | \`list\` | \`add\` | \`remove\``)
+                                
+                            ]
+                        })
+                    }
+                }
+            }
+            break;
+            case 'managerrole': {
+                switch (args[1]) {
+                    case 'add': {
+                        const role = message.mentions.roles.first() || message.guild.roles.cache.get(args[2]);
+                        if (!this.service.permission.checkMember(message, "MANAGE_ROLES", true)) {
+                            return;
+                        }
+                        if (!this.service.permission.checkBot(message, "MANAGE_ROLES", true)) {
+                            return;
+                        }
+                        ;
+                        if (!role) {
+                            return message.reply({
+                                content: 'You have to mention a role'
+                            })
+                        }
+
+                        Schema.findOne({Guild: message.guild.id}, (err, data) => {
+                            if (data.Managerroles.length > 4) {
+                                return message.reply({
+                                    content: 'You can only have 5 manager roles'
+                                })
+                            }
+                            if (!data) {
+                                new Schema({
+                                    Guild: message.guild.id,
+                                    Managerroless: [role.id]
+                                })
+                                 message.reply({
+                                    content: 'Changes Saved!'
+                                })
+                            } else {
+                                data.Managerroles.push(role.id);
+                                message.reply({
+                                    content: 'Changes Saved!'
+                                })
+                                data.save()
+                            }
+                        })
+                    }
+                        break;
+                    case 'remove': {
+                        const number = parseInt(args[2])
+                        if (!number) {
+                            return message.reply({
+                                content: 'You must say the number of role on the manager role list'
+                            })
+                        }
+                        Schema.findOne({Guild: message.guild.id}, (err, data) => {
+                            if (data) {
+                                data.Managerroles.splice(number - 1, 1);
+                                message.reply({
+                                    content: 'Changes Saved!'
+                                })
+                            } else {
+                                message.reply({
+                                    content: 'That role doesn\'t exist on the list.'
+                                })
+                            };
+                            data.save()
+                        })
+                    }
+                        break;
+                    case 'list': {
+                        const autoroles = await Schema.findOne({ Guild: message.guild.id })
+                        return message.channel.send({
+                            embeds: [
+                                {
+                                    title: 'Manager Roles',
+                                    //@ts-ignore
+                                    color: this.client.color.green,
+                                    description: String(autoroles.Managerroles.map(
+                                        (x, i) =>
+                                            `\`${i + 1}\`. <@&${x}> - ${x}`.toString()).join('\n') || 'No roles found.'
+                                    )
+                                }
+                            ]
+                        })
+
+                    }
+                    break;
+                    case 'enable': {
+                        this.client.database.update.managerrole(message.guild.id, true)
+                        return message.reply({
+                            embeds: [
+                                {
+                                    //@ts-ignore
+                                    color: this.client.color.red,
+                                    description: '> Successfully enabled managerroles'
+                                }
+                            ]
+                        })
+                    }
+                    break;
+                    case 'disable': {
+                        this.client.database.update.managerrole(message.guild.id, false)
+                        return message.reply({
+                            embeds: [
+                                {
+                                    //@ts-ignore
+                                    color: this.client.color.red,
+                                    description: '> Successfully disabled managerroles'
                                 }
                             ]
                         })

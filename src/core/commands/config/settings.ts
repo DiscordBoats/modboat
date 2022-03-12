@@ -17,7 +17,7 @@ export default class Settings extends Command {
 
     async run(message: Message) {
 
-        if (!this.service.permission.checkMember(message, "MANAGE_GUILD", true)) {
+        if (!await this.service.permission.checkForModeratorRole(message, 'MANAGE_GUILD', true)) {
             return;
         };
 
@@ -47,6 +47,21 @@ export default class Settings extends Command {
                     },
                     {
                         name: "Alt Detector",
+                        value: "`❌`",
+                        inline: true
+                    },
+                    {
+                        name: "Auto Role",
+                        value: "`❌`",
+                        inline: true
+                    },
+                    {
+                        name: "Moderator Role",
+                        value: "`❌`",
+                        inline: true
+                    },
+                    {
+                        name: "Manager Role",
                         value: "`❌`",
                         inline: true
                     },
@@ -126,6 +141,21 @@ export default class Settings extends Command {
                     {
                         name: "Alt Detector",
                         value: (data) ? (data.Automodalts) ? "`✅`" : "`❌`" : "`❌`",
+                        inline: true
+                    },
+                    {
+                        name: "Auto Role",
+                        value: (data) ? (data.Autorole) ? "`✅`" : "`❌`" : "`❌`",
+                        inline: true
+                    },
+                    {
+                        name: "Moderator Role",
+                        value: (data) ? (data.Moderatorrole) ? "`✅`" : "`❌`" : "`❌`",
+                        inline: true
+                    },
+                    {
+                        name: "Manager Role",
+                        value: (data) ? (data.Managerrole) ? "`✅`" : "`❌`" : "`❌`",
                         inline: true
                     },
                     {

@@ -1,6 +1,7 @@
-import { ApplicationCommandData } from "discord.js";
+import { ApplicationCommandData, Message } from "discord.js";
 import { Service } from "../services/Service";
 import { Discord } from "../structures/Client";
+import Schema from "../models/guild";
 
 export class Command {
     public client: Discord;
@@ -9,7 +10,7 @@ export class Command {
     public service: Service;
     public slash?: ApplicationCommandData;
 
-    constructor (client: Discord, opt: CommandOpt) {    
+    constructor(client: Discord, opt: CommandOpt) {
         this.client = client;
         this.name = opt.name;
         this.description = opt.description;
@@ -31,6 +32,7 @@ export class Command {
         };
     };
 };
+
 
 interface CommandOpt {
     name: string;

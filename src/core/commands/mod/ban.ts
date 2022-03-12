@@ -3,7 +3,7 @@ import { Command } from "../../Command";
 
 export default class Ban extends Command {
     constructor(client) {
-        super(client, {
+        super(client,  {
             name: "ban",
             description: "Ban a user",
             slash: {
