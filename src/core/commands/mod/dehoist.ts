@@ -29,10 +29,13 @@ export default class Dehoist extends Command {
                 if (!user) {
                     return message.channel.send("User not found");
                 }
+                if(/[^a-zA-Z0-9\s\w]/g.test(user.user.username) || /[^a-zA-Z0-9\s\w]/g.test(user.nickname)) {
+                    user.setNickname(user.user.username.replace(/[^a-zA-Z0-9\s\w]/g, " ")).catch(e => {
+                        console.log(e)
+                    })
+                }
+                else return message.channel.send("User doesn't have any special characters");
 
-                user.setNickname(user.user.username.replace(/[^a-zA-Z0-9\s\w]/g, " ")).catch(e => {
-                    return
-                })
 
                 return message.channel.send(`Dehoisted ${user.nickname} (${user.user.tag} | ${user.id})`);
                 break;
