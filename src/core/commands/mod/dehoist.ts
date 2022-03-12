@@ -52,13 +52,11 @@ export default class Dehoist extends Command {
                     // @ts-ignore
 
                     if(/[^a-zA-Z0-9\s\w]/g.test(member.user.username) || /[^a-zA-Z0-9\s\w]/g.test(member.nickname)) {
-                        setTimeout(() => {
+
                             array.push(member.user.id)
                             member.setNickname(member.user.username.replace(/[^a-zA-Z0-9\s\w]/g, " ")).catch(e => {
                                 return
                             })
-                            console.log("Dehoisted user")
-                        }, 3.6e+6)
 
                     }
 
