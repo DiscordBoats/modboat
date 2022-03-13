@@ -17,9 +17,9 @@ export default class Settings extends Command {
 
     async run(message: Message) {
 
-        if (!await this.service.permission.checkForModeratorRole(message, 'MANAGE_GUILD', true)) {
+        if (!await this.service.permission.checkForManagerRole(message, 'MANAGE_GUILD', true)) {
             return;
-        };
+        }; 
 
         const data = await Schema.findOne({ Guild: message.guild.id })
         if (!data) {

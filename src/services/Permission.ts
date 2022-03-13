@@ -49,12 +49,15 @@ export class Permission {
 
     async checkForModeratorRole(object: Message, permission: PermissionString, reply?: boolean): Promise<boolean> {
         const data = await Schema.findOne({ Guild: object.guild.id })
+        if (!data) {
+            return this.checkMember(object, permission, reply)
+        };
 
         if (data.Moderatorrole === false) {
             return this.checkMember(object, permission, reply);
         };
 
-        if (data.Moderatorroles === []) {
+        if (data.Moderatorroles.length === 0) {
             return this.checkMember(object, permission);
         } 
         let hasPermission = true;
@@ -67,6 +70,40 @@ export class Permission {
 
                 object["reply"]({
                     content: `> Missing Role \`moderator role\`. :x:`
+                }).catch(() => {
+                    return;
+                });
+
+            }
+            ;
+
+            return hasPermission;
+        }
+    };
+
+    async checkForManagerRole(object: Message, permission: PermissionString, reply?: boolean): Promise<boolean> {
+        const data = await Schema.findOne({ Guild: object.guild.id })
+        if (!data) {
+            return this.checkMember(object, permission, reply)
+        };
+
+        if (data.Managerrole === false) {
+            return this.checkMember(object, permission, reply);
+        };
+
+        if (data.Managerroles.length === 0) {
+            return this.checkMember(object, permission);
+        };
+        let hasPermission = true;
+        const roleData = data.Managerroles;
+        for (let i = 0; i < roleData.length; i++) {
+            if (!object.member.roles.cache.has(roleData[i])) {
+                hasPermission = false;
+            }
+            if (!hasPermission && reply === true) {
+
+                object["reply"]({
+                    content: `> Missing Role \`manager role\`. :x:`
                 }).catch(() => {
                     return;
                 });
