@@ -25,7 +25,7 @@ export default class Purge extends Command {
 
     async run (message: Message, args: string[]) {
 
-        if (!this.service.permission.checkMember(message, "MANAGE_MESSAGES", true)) {
+        if (!this.service.permission.checkForModeratorRole(message, "MANAGE_MESSAGES", true)) {
             return;
         };
 

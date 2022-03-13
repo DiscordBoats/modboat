@@ -93,7 +93,7 @@ export default class Role extends Command {
             case "add": {
                 const role = message.mentions.roles.first() || message.guild.roles.cache.get(args[2]);
                 const member = message.mentions.members.first() || message.guild.members.cache.get(args[3]);
-                if (!this.service.permission.checkMember(message, "MANAGE_ROLES", true)) {
+                if (!this.service.permission.checkForManagerRole(message, "MANAGE_ROLES", true)) {
                     return;
                 }
                 if (!this.service.permission.checkBot(message, "MANAGE_ROLES", true)) {
@@ -154,7 +154,7 @@ export default class Role extends Command {
             case 'remove': {
                 const role = message.mentions.roles.first() || message.guild.roles.cache.get(args[2]);
                 const member = message.mentions.members.first() || message.guild.members.cache.get(args[3]);
-                if (!this.service.permission.checkMember(message, "MANAGE_ROLES", true)) {
+                if (!this.service.permission.checkForManagerRole(message, "MANAGE_ROLES", true)) {
                     return;
                 }
                 if (!this.service.permission.checkBot(message, "MANAGE_ROLES", true)) {
@@ -264,7 +264,7 @@ export default class Role extends Command {
                 switch (args[1]) {
                     case 'add': {
                         const role = message.mentions.roles.first() || message.guild.roles.cache.get(args[2]);
-                        if (!this.service.permission.checkMember(message, "MANAGE_ROLES", true)) {
+                        if (!this.service.permission.checkForManagerRole(message, "MANAGE_ROLES", true)) {
                             return;
                         }
                         if (!this.service.permission.checkBot(message, "MANAGE_ROLES", true)) {

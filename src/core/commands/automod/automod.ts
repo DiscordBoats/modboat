@@ -81,7 +81,7 @@ export default class Auto extends Command {
 
     async run (message: Message, args: string[]) {
 
-        if (!this.service.permission.checkMember(message, "MANAGE_GUILD", true)) {
+        if (!this.service.permission.checkForManagerRole(message, "MANAGE_GUILD", true)) {
             return;
         };
 

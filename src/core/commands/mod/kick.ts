@@ -29,7 +29,7 @@ export default class Kick extends Command {
 
     async run(message: Message, args: string[]) {
 
-        if (!this.service.permission.checkMember(message, "KICK_MEMBERS", true)) {
+        if (!this.service.permission.checkForModeratorRole(message, "KICK_MEMBERS", true)) {
             return;
         };
 
