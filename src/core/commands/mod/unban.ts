@@ -10,6 +10,13 @@ export default class Unban extends Command {
         });
     };
     async run(message: Message, args: string[]) {
+        if (!this.service.permission.checkMember(message, "BAN_MEMBERS", true)) {
+            return;
+        };
+
+        if (!this.service.permission.checkBot(message, "BAN_MEMBERS", true)) {
+            return;
+        };
         const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || args[0];
 
         if (user) {
