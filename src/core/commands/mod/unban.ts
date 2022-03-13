@@ -10,7 +10,7 @@ export default class Unban extends Command {
         });
     };
     async run(message: Message, args: string[]) {
-        if (!this.service.permission.checkForModeratorRole(message, "BAN_MEMBERS", true)) {
+        if (!await this.service.permission.checkForModeratorRole(message, "BAN_MEMBERS", true)) {
             return;
         };
 

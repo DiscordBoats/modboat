@@ -12,7 +12,7 @@ export default class Dehoist extends Command {
     };
 
     async run (message: Message, args: string[]) {
-        if (!this.service.permission.checkForModeratorRole(message, "KICK_MEMBERS", true)) {
+        if (!await this.service.permission.checkForModeratorRole(message, "KICK_MEMBERS", true)) {
             return;
         };
         const filter = (map, pred) => {

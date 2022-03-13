@@ -11,7 +11,7 @@ export default class Warns extends Command {
     };
 
     async run(message: Message, args: string[]) {
-        if (!this.service.permission.checkForModeratorRole(message, "MODERATE_MEMBERS", true)) {
+        if (!await this.service.permission.checkForModeratorRole(message, "MODERATE_MEMBERS", true)) {
             return;
         };
         const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]);

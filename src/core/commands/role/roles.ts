@@ -93,7 +93,7 @@ export default class Role extends Command {
             case "add": {
                 const role = message.mentions.roles.first() || message.guild.roles.cache.get(args[2]);
                 const member = message.mentions.members.first() || message.guild.members.cache.get(args[3]);
-                if (!this.service.permission.checkForManagerRole(message, "MANAGE_ROLES", true)) {
+                if (!await this.service.permission.checkForManagerRole(message, "MANAGE_ROLES", true)) {
                     return;
                 }
                 if (!this.service.permission.checkBot(message, "MANAGE_ROLES", true)) {
@@ -154,7 +154,7 @@ export default class Role extends Command {
             case 'remove': {
                 const role = message.mentions.roles.first() || message.guild.roles.cache.get(args[2]);
                 const member = message.mentions.members.first() || message.guild.members.cache.get(args[3]);
-                if (!this.service.permission.checkForManagerRole(message, "MANAGE_ROLES", true)) {
+                if (!await this.service.permission.checkForManagerRole(message, "MANAGE_ROLES", true)) {
                     return;
                 }
                 if (!this.service.permission.checkBot(message, "MANAGE_ROLES", true)) {
@@ -264,7 +264,7 @@ export default class Role extends Command {
                 switch (args[1]) {
                     case 'add': {
                         const role = message.mentions.roles.first() || message.guild.roles.cache.get(args[2]);
-                        if (!this.service.permission.checkForManagerRole(message, "MANAGE_ROLES", true)) {
+                        if (!await this.service.permission.checkForManagerRole(message, "MANAGE_ROLES", true)) {
                             return;
                         }
                         if (!this.service.permission.checkBot(message, "MANAGE_ROLES", true)) {
@@ -314,6 +314,9 @@ export default class Role extends Command {
                     }
                         break;
                     case 'remove': {
+                        if (!await this.service.permission.checkForManagerRole(message, "MANAGE_ROLES", true)) {
+                            return;
+                        }
                         const number = parseInt(args[2])
                         if (!number) {
                             return message.reply({
@@ -354,6 +357,9 @@ export default class Role extends Command {
                     }
                     break;
                     case 'enable': {
+                        if (!await this.service.permission.checkForManagerRole(message, "MANAGE_ROLES", true)) {
+                            return;
+                        }
                         this.client.database.update.autorole(message.guild.id, true)
                         return message.reply({
                             embeds: [
@@ -367,6 +373,9 @@ export default class Role extends Command {
                     }
                     break;
                     case 'disable': {
+                        if (!await this.service.permission.checkForManagerRole(message, "MANAGE_ROLES", true)) {
+                            return;
+                        }
                         this.client.database.update.autorole(message.guild.id, false)
                         return message.reply({
                             embeds: [
@@ -399,7 +408,7 @@ export default class Role extends Command {
                 switch (args[1]) {
                     case 'add': {
                         const role = message.mentions.roles.first() || message.guild.roles.cache.get(args[2]);
-                        if (!this.service.permission.checkMember(message, "MANAGE_ROLES", true)) {
+                        if (!await this.service.permission.checkForManagerRole(message, "MANAGE_ROLES", true)) {
                             return;
                         }
                         if (!this.service.permission.checkBot(message, "MANAGE_ROLES", true)) {
@@ -437,6 +446,9 @@ export default class Role extends Command {
                     }
                         break;
                     case 'remove': {
+                        if (!await this.service.permission.checkForManagerRole(message, "MANAGE_ROLES", true)) {
+                            return;
+                        }
                         const number = parseInt(args[2])
                         if (!number) {
                             return message.reply({
@@ -477,6 +489,9 @@ export default class Role extends Command {
                     }
                     break;
                     case 'enable': {
+                        if (!await this.service.permission.checkForManagerRole(message, "MANAGE_ROLES", true)) {
+                            return;
+                        }
                         this.client.database.update.moderatorrole(message.guild.id, true)
                         return message.reply({
                             embeds: [
@@ -490,6 +505,9 @@ export default class Role extends Command {
                     }
                     break;
                     case 'disable': {
+                        if (!await this.service.permission.checkForManagerRole(message, "MANAGE_ROLES", true)) {
+                            return;
+                        }
                         this.client.database.update.moderatorrole(message.guild.id, false)
                         return message.reply({
                             embeds: [
@@ -522,7 +540,7 @@ export default class Role extends Command {
                 switch (args[1]) {
                     case 'add': {
                         const role = message.mentions.roles.first() || message.guild.roles.cache.get(args[2]);
-                        if (!this.service.permission.checkMember(message, "MANAGE_ROLES", true)) {
+                        if (!await this.service.permission.checkForManagerRole(message, "MANAGE_ROLES", true)) {
                             return;
                         }
                         if (!this.service.permission.checkBot(message, "MANAGE_ROLES", true)) {
@@ -560,6 +578,9 @@ export default class Role extends Command {
                     }
                         break;
                     case 'remove': {
+                        if (!await this.service.permission.checkForManagerRole(message, "MANAGE_ROLES", true)) {
+                            return;
+                        }
                         const number = parseInt(args[2])
                         if (!number) {
                             return message.reply({
@@ -600,6 +621,9 @@ export default class Role extends Command {
                     }
                     break;
                     case 'enable': {
+                        if (!await this.service.permission.checkForManagerRole(message, "MANAGE_ROLES", true)) {
+                            return;
+                        }
                         this.client.database.update.managerrole(message.guild.id, true)
                         return message.reply({
                             embeds: [
@@ -613,6 +637,9 @@ export default class Role extends Command {
                     }
                     break;
                     case 'disable': {
+                        if (!await this.service.permission.checkForManagerRole(message, "MANAGE_ROLES", true)) {
+                            return;
+                        }
                         this.client.database.update.managerrole(message.guild.id, false)
                         return message.reply({
                             embeds: [

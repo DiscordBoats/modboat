@@ -9,7 +9,7 @@ export default class set extends Command {
         });
     };
     async run(message: Message, args: string[]) {
-        if (!this.service.permission.checkForManagerRole(message, "MANAGE_GUILD", true)) {
+        if (!await this.service.permission.checkForManagerRole(message, "MANAGE_GUILD", true)) {
             return;
         };
         const input = (args[0]) ? args[0].toLowerCase() : args[0];
