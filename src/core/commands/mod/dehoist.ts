@@ -7,7 +7,7 @@ export default class Dehoist extends Command {
     constructor (client) {
         super (client, {
             name: "dehoist",
-            description: "Eval code",
+            description: "Dehoist members",
         });
     };
 
