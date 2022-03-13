@@ -1,7 +1,7 @@
 import { Message, User } from "discord.js";
 import { Command } from "../../Command";
 
-export default class Ban extends Command {
+export default class Unban extends Command {
     constructor(client) {
         super(client, {
             name: "unban",
