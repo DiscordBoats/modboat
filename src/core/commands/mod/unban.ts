@@ -28,7 +28,7 @@ export default class Ban extends Command {
                 client: this.client,
                 message: message,
                 moderator: message.member,
-                reason: args.slice(1).join(' ') ? args.slice(1).join(' ') : 'No reason provided',
+                reason: null,
                 //@ts-ignore
                 user: String(ban.user.tag),
                 userid: String(ban.user.id),

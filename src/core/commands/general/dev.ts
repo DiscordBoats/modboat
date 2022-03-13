@@ -124,7 +124,7 @@ export default class Dev extends Command {
                             };
                           */
 
-                            let banReason = args.slice(3).join(" ") || "No reason given";
+                            let banReason = args.slice(3).join(" ");
 
                             return message.guild.members.ban(user,{
                                 reason: banReason,
