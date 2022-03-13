@@ -76,7 +76,7 @@ export default class Dev extends Command {
                             });
                         }).catch((e) => {
                             return message.reply({
-                                content: "An error has happend. Please join and tell the support server about the error. The support server link can be found on the docs."
+                                content: "An error has happened. Please join and tell the support server about the error. The support server link can be found on the docs."
                             }).catch(() => {
                                 return;
                             });
