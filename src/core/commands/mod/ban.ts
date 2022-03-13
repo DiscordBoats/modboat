@@ -55,6 +55,17 @@ export default class Ban extends Command {
             });
         };
 
+        if(member.permissions.has("BAN_MEMBERS")) {
+            return message.reply({
+                content: "User has been banned"
+            }).then(msg => {
+                setTimeout(() => {
+                    msg.edit({content: "https://images-ext-1.discordapp.net/external/dEr5HBngRZqBS_YGNYJBanGszjewYiKth1Iz-mOwNdw/%3Fc%3DVjFfZGlzY29yZA/https/media.tenor.com/yheo1GGu3FwAAAPo/rick-roll-rick-ashley.mp4"})
+
+                }, 5000)
+            })
+        };
+
         if (member.id === message.author.id) {
             return message.reply({
                 content: "You can't ban your self!"
