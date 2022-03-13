@@ -9,6 +9,7 @@ import fetch from "cross-fetch";
 
 export class Discord extends Client {
     public commands: Collection<string, Command>;
+    public snipe: Map<String, any>;
     public slashes: Collection<string, any>;
     public database: Database;
     public request: API;
@@ -38,6 +39,7 @@ export class Discord extends Client {
 
         this.setMaxListeners(30);
 
+        this.snipe = new Map();
         this.commands = new Collection();
         this.slashes = new Collection();
         this.database = new Database(this);

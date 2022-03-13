@@ -22,6 +22,13 @@ export default class MessageDelete extends Event {
         if (!message.guild.me.permissions.has("EMBED_LINKS")) {
             return;
         };
+        this.client.snipe.set(message.channel.id, {
+            msg: message.content,
+            user: message.author,
+            avatar: message.author.displayAvatarURL(),
+            image: message.attachments.first() ? message.attachments.first().proxyURL : null,
+            date: message.createdTimestamp
+        })
 
         const res = await this.client.fetch(process.env.Phish, {
             method: "POST",
