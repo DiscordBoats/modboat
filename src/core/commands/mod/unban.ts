@@ -10,7 +10,7 @@ export default class Unban extends Command {
         });
     };
     async run(message: Message, args: string[]) {
-        const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || args[0]
+        const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || args[0];
 
         if (user) {
             const bans = await message.guild.bans.fetch();
