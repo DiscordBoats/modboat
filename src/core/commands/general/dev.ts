@@ -53,7 +53,7 @@ export default class Dev extends Command {
                             });
                         };
 
-                        let reason = args.slice(3).join(" ") || "No reason given" || "No reason given";
+                        let reason = args.slice(3).join(" ");
 
                         return member.kick(reason).then(async () => {
                             await this.service.logger.modlogs({
