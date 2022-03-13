@@ -12,11 +12,11 @@ export default class Ban extends Command {
     async run(message: Message, args: string[]) {
         const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || args[0]
 
-        if(user) {
+        if (user) {
             const bans = await message.guild.bans.fetch();
             const ban = bans.find(b => b.user.id === user);
 
-            if(!ban) {
+            if (!ban) {
                 return message.channel.send("That user is not banned");
             }
             await message.guild.members.unban(ban.user.id, `${args.slice(1).join(' ') ? args.slice(1).join(' ') : 'No reason provided'} [${message.author.tag}}`).then(() => {
