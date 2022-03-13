@@ -1,4 +1,4 @@
-import { Message, User } from "discord.js";
+import {Message, MessageEmbed, User} from "discord.js";
 import { Command } from "../../Command";
 
 export default class Ban extends Command {
@@ -81,7 +81,13 @@ export default class Ban extends Command {
         };
 
         let reason = args.slice(1).join(" ");
-
+        await member.send({embeds: [
+            new MessageEmbed()
+                .setDescription(`You have been banned from \`${message.guild.name}\` by \`${message.author.tag}\` for the following reason:\n${reason}`)
+                .setColor("RED")
+                .setThumbnail(message.guild.iconURL())
+                .setFooter({text: "To appeal for your ban, contact the moderator that banned you."})
+            ]})
         return member.ban({
             reason
         }).then(async () => {

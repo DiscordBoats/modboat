@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import {Message, MessageEmbed} from "discord.js";
 import { Command } from "../../Command";
 
 export default class Kick extends Command {
@@ -70,7 +70,13 @@ export default class Kick extends Command {
         };
 
         let reason = args.slice(1).join(" ");
-
+        await member.send({embeds: [
+                new MessageEmbed()
+                    .setDescription(`You have been kicked from \`${message.guild.name}\` by \`${message.author.tag}\` for the following reason:\n${reason}`)
+                    .setColor("RED")
+                    .setThumbnail(message.guild.iconURL())
+                    .setFooter({text: "You're free to join back, but but be sure not to do what you did again."})
+            ]})
         return member.kick(reason).then(async () => {
             await this.service.logger.modlogs({
                 client: this.client,
