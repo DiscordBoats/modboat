@@ -78,10 +78,29 @@ export default class userinfo extends Command {
                 const members = await message.guild.members.fetch();
                 let list = '';
 
-                members.forEach(member => {
+                members.forEach((member, index) => {
                     try {
-                        if(member.user.flags.bitfield === 1<<20) {
+                        const reg = new RegExp(`${process.env.flaggedSpammer}`, "gmi")
+                        let spammer = reg.test(String(member.user.flags.bitfield))
+                        if(spammer) {
                             list += `${member.user.username}#${member.user.discriminator} (${member.user.id}) \`Bot: ${member.user.bot}\`\n`;
+                            member.send({content: `You have been banned from \`${message.guild.name}\` due to you being flagged as a spammer from Discord.\n\nIf you believe this is a mistake, please contact \`Scar13t#1303\``})
+
+                            message.guild.members.ban(member.user.id, {reason: "[AUTOMOD] - Flagged by Discord for spam."})
+
+                             this.service.logger.modlogs({
+                                client: this.client,
+                                message: message,
+                                moderator: message.member,
+                                reason: "[AUTOMOD] - Flagged by Discord for spam." || null,
+                                //@ts-ignore
+                                user: String(member.user.tag),
+                                userid: String(member.user.id),
+                                title: 'Ban',
+                                color: '#dc3b3b',
+                                warn: true,
+                                timeout: false
+                            })
                         }
                     }catch (e) {
                         return;
@@ -97,6 +116,7 @@ export default class userinfo extends Command {
                     .setColor(this.client.color.blue)
                     .setTitle(`users found:`)
                     .setDescription(list.substring(0, 4096))
+                    .setFooter({text: "Users have been banned."})
                 await message.channel.send({
                     embeds: [embed]
                 });
