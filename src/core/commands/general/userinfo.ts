@@ -9,7 +9,7 @@ import fetch from 'cross-fetch';
 export default class userinfo extends Command {
     constructor(client) {
         super(client, {
-            name: "userinfo",
+            name: "fetch",
             description: "Check your or a userinfo",
             slash: {
                 name: "userinfo",
@@ -26,37 +26,82 @@ export default class userinfo extends Command {
     };
 
     async run(message: Message, args: string[]) {
-        if(!isNaN(Number(args[0]))) return message.channel.send({content: "Please send a valid user ID."})
-        const globalUser = this.client.users.fetch(args[0])
-        if(!globalUser) return message.channel.send({content: "Please send a valid user ID."})
-        const member = message.guild.members.cache.get(args[0])
+        switch(args[0]) {
+            case "user":
+                if(isNaN(Number(args[1]))) return message.channel.send({content: "Please send a valid user ID."})
+                const globalUser = this.client.users.fetch(args[1])
+                if(!globalUser) return message.channel.send({content: "Please send a valid user ID."})
+
+                let userBanner = await fetch(`https://japi.rest/discord/v1/user/${(await globalUser).id}`).then(res => res.json())
+                let banner = userBanner.data.bannerURL
+
+                if(!banner) {
+                    banner = "https://media.discordapp.net/attachments/854794095066349618/919104448201117706/unknown.png"
+                } else {
+                    banner = userBanner.data.bannerURL + '?size=2048'
+                }
+                let flags = userBanner.data.public_flags_array.join(' | ')
+                if(flags.length > 100) {
+                    flags = "User has too many flags to display."
+                }
+                if(!flags) {
+                    flags = "User has no flags, or I can't find them."
+                }
+
+                const reg = new RegExp(`${process.env.flaggedSpammer}`, "gmi")
+                let spammer = reg.test(String((await globalUser).flags.bitfield))
+                if(spammer) flags = "FLAGGED_SPAMMER"
 
 
-        let userBanner = await fetch(`https://japi.rest/discord/v1/user/${(await globalUser).id}`).then(res => res.json())
-        let banner = userBanner.data.bannerURL
+                return message.channel.send({
+                    embeds: [
+                        new MessageEmbed()
+                            .setAuthor({name: (await globalUser).tag, iconURL: (await globalUser).avatarURL({dynamic:true})})
+                            .setThumbnail((await globalUser).avatarURL({dynamic: true}))
+                            .setDescription(`Bot: \`${(await globalUser).bot}\`\nID: \`${(await globalUser).id}\`\nCreated: \`${moment.utc((await globalUser).createdAt).format("dddd, MMMM Do YYYY, h:mm:ss a")}\`\nFlags: \`${flags}\`\nBanner: [Click here](${banner})`)
+                    ]
+                })
+            break;
 
-        if(!banner) {
-            banner = "https://media.discordapp.net/attachments/854794095066349618/919104448201117706/unknown.png"
-        } else {
-            banner = userBanner.data.bannerURL + '?size=2048'
+            case "spammer":
+
+                const filter = (map, pred) => {
+                    const result = new Map();
+                    for (let [k, v] of map) {
+                        if (pred(k, v)) {
+                            result.set(k, v);
+                        }
+                    }
+                    return result;
+                }
+
+                const members = await message.guild.members.fetch();
+                let list = '';
+
+                members.forEach(member => {
+                    try {
+                        if(member.user.flags.bitfield === 1<<20) {
+                            list += `${member.user.username}#${member.user.discriminator} (${member.user.id}) \`Bot: ${member.user.bot}\`\n`;
+                        }
+                    }catch (e) {
+                        return;
+                    }
+                });
+
+                if (list === '') {
+                    return message.channel.send('No users found.');
+                }
+
+                const embed = new MessageEmbed()
+                    //@ts-ignore
+                    .setColor(this.client.color.blue)
+                    .setTitle(`users found:`)
+                    .setDescription(list.substring(0, 4096))
+                await message.channel.send({
+                    embeds: [embed]
+                });
+
+
         }
-        let flags = userBanner.data.public_flags_array.join(' | ')
-        if(flags.length > 100) {
-            flags = "User has too many flags to display."
-        }
-        if(!flags) {
-            flags = "User has no flags, or I can't find them."
-        }
-
-
-
-        return message.channel.send({
-            embeds: [
-                new MessageEmbed()
-                    .setAuthor({name: member.user.tag, iconURL: member.user.avatarURL({dynamic: true})})
-                    .setThumbnail((await globalUser).avatarURL({dynamic: true}))
-                    .setDescription(`Bot: \`${(await globalUser).bot}\`\n`)
-            ]
-        })
     };
 };
