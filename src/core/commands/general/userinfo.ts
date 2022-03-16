@@ -86,13 +86,13 @@ export default class userinfo extends Command {
                             list += `${member.user.username}#${member.user.discriminator} (${member.user.id}) \`Bot: ${member.user.bot}\`\n`;
                             member.send({content: `You have been banned from \`${message.guild.name}\` due to you being flagged as a spammer from Discord.\n\nIf you believe this is a mistake, please contact \`Scar13t#1303\``})
 
-                            message.guild.members.ban(member.user.id, {reason: "[ Automod ] - Flagged by Discord for spam."})
+                            message.guild.members.ban(member.user.id, {reason: "Flagged by Discord for spam."})
 
                              this.service.logger.modlogs({
                                 client: this.client,
                                 message: message,
                                 moderator: message.member,
-                                reason: "[AUTOMOD] - Flagged by Discord for spam." || null,
+                                reason: "Flagged by Discord for spam." || null,
                                 //@ts-ignore
                                 user: String(member.user.tag),
                                 userid: String(member.user.id),
@@ -120,7 +120,9 @@ export default class userinfo extends Command {
                 await message.channel.send({
                     embeds: [embed]
                 });
-
+                break
+            default:
+                return message.channel.send({content: "Valid arguments for fetch: `user [user ID]`, `spammer`"})
 
         }
     };
