@@ -14,8 +14,12 @@ export default class Snipe extends Command {
         // message.mentions.channels.first().id || message.guild.channels.cache.find((c) => c.name.toLowerCase() === args.join(" ").toLocaleLowerCase()).id
         switch(args[0]) {
             case "channel":
-                const channel = message.channel.id
-
+                const channel = message.mentions.channels.first().id || message.guild.channels.cache.find((c) => c.name.toLowerCase() === args.join(" ").toLocaleLowerCase()).id
+                if(!channel) return message.channel.send({
+                    embeds: [
+                        new MessageEmbed().setDescription("Please mention a channel or provide a channel name").setColor("RED")
+                    ]
+                });
                 let snip = this.client.snipe.get(channel)
                 if(!snip) return message.channel.send("No deleted messages have been found.")
 
@@ -37,6 +41,29 @@ export default class Snipe extends Command {
                 break
 
             default:
+                const channe = message.mentions.channels.first().id || message.guild.channels.cache.find((c) => c.name.toLowerCase() === args.join(" ").toLocaleLowerCase()).id
+
+                let snipa = this.client.snipe.get(channe)
+                if(!snipa) return message.channel.send("No deleted messages have been found.")
+
+                let unixx = Math.floor(snip.date / 1000)
+                if(snipa.image) {
+                    setTimeout(() => {
+                        message.channel.send({files: [snipa.image]})
+                    }, 1000)
+                }
+
+                return  message.reply({
+                embeds: [
+                    new MessageEmbed()
+                        .setTitle("Snipe")
+                        .setThumbnail(message.guild.iconURL({ dynamic: true }))
+                        //@ts-ignore
+                        .setColor(this.client.color.red)
+                        .setDescription(`Arguments: \`channel [channel]\``)
+
+                ]
+            })
         }
 
     }
