@@ -80,7 +80,7 @@ export class Logger {
 
                 if (options.warn) {
                    options.client.database.update.addWarning({
-                        UserId: options.user.id,
+                        UserId: options.message.author.id,
                         GuildId: options.message.guild.id,
                         Reason: options.reason,
                         MessageId: options.message.id,
@@ -136,8 +136,9 @@ export class Logger {
                 };
 
                 const embed = new MessageEmbed()
-                    .setColor('RED')
-                    .setAuthor({name: '❌ Phishing Link Found'})
+                //@ts-ignore
+                    .setColor(this.client.color.red)
+                    .setAuthor({name: 'Phishing Link Found'})
                     .setThumbnail(options.message.author.avatarURL({dynamic: true}))
                     .setDescription(`<@${options.message.author.id}> | ${options.message.author.tag} (${options.message.author.id})\nsent a phishing link\n\nMessage Deleted <t:${unix}:R>: \`${options.message.content}\``)
 
