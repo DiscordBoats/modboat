@@ -23,7 +23,7 @@ export default class variable extends Command {
                     {
                         title: "Variables",
                         url: "https://docs.antibot.xyz/text/_variables",
-                        description: "These variables will be replaced in autors & tags.",
+                        description: "These variables will be replaced in tags.",
                         thumbnail: {
                             url: this.client.user.displayAvatarURL()
                         },
@@ -37,6 +37,10 @@ export default class variable extends Command {
                             {
                                 "name": "Server",
                                 "value": "- `{server.name}` **-----** The name of the current server\n- `{server.id}` **-----** The id of the current server"
+                            },
+                            {
+                                "name": "Mod (ban & kick)",
+                                "value": "- `{reason}` **-----** The reason of the moderation action"
                             }
                         ]
                     }

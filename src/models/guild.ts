@@ -27,6 +27,10 @@ interface GuildDocument extends Document {
     Moderatorroles: string[];
     Managerrole: boolean;
     Managerroles: string[];
+    BanDM: boolean;
+    KickDM: boolean;
+    BanDMText: string;
+    KickDMText: string;
 };
 
 
@@ -58,7 +62,11 @@ const GuildSchema = new Schema({
     Moderatorrole: { type: Boolean, default: false },
     Moderatorroles: { type: Array, default: [] },
     Managerrole: { type: Boolean, default: false },
-    Managerroles: { type: Array, default: [] }
+    Managerroles: { type: Array, default: [] },
+    BanDM: { type: Boolean, default: false },
+    KickDM: { type: Boolean, default: false },
+    BanDMText: { type: String, default: 'Ban Message'},
+    KickDMText: { type: String, default: 'Kick Message'}
 }, { versionKey: false });
 
 export = model<GuildDocument>("settings", GuildSchema);

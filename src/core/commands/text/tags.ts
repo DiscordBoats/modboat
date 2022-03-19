@@ -38,7 +38,7 @@ export default class Tags extends Command {
             case "create": {
                 args.shift();
 
-                if (!this.service.permission.checkMember(message, "MANAGE_GUILD", true)) {
+                if (!this.service.permission.checkForManagerRole(message, "MANAGE_GUILD", true)) {
                     return;
                 };
 

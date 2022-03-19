@@ -39,7 +39,7 @@ export class Update {
                 }).save()
             }
         }).clone()
-    }
+    };
 
     async moderatorrole(guildId: string, toggle: boolean) {
         await Schema.findOne({ Guild: guildId }, async (err, schema) => {
@@ -53,7 +53,7 @@ export class Update {
                 }).save()
             }
         }).clone()
-    }
+    };
 
     async managerrole(guildId: string, toggle: boolean) {
         await Schema.findOne({ Guild: guildId }, async (err, schema) => {
@@ -67,7 +67,7 @@ export class Update {
                 }).save()
             }
         }).clone()
-    }
+    };
 
 
      rate (guildId: string, type: Rate, rate: number) {
@@ -176,6 +176,63 @@ export class Update {
             if (err) console.log(err)
         })
     }
+
+    async banDM(guildId: string, toggle: boolean) {
+        await Schema.findOne({ Guild: guildId }, async (err, schema) => {
+            if (schema) {
+                schema.BanDM = toggle,
+                    schema.save()
+            } else {
+                new Schema({
+                    Guild: guildId,
+                    BanDM: toggle
+                }).save()
+            }
+        }).clone()
+    };
+
+    async kickDM(guildId: string, toggle: boolean) {
+        await Schema.findOne({ Guild: guildId }, async (err, schema) => {
+            if (schema) {
+                schema.KickDM = toggle,
+                    schema.save()
+            } else {
+                new Schema({
+                    Guild: guildId,
+                    KickDM: toggle
+                }).save()
+            }
+        }).clone()
+    };
+
+    banDMText(guildid: string, text: string) {
+        Schema.findOne({ Guild: guildid }, async (err, data) => {
+            if (data) {
+                data.BanDMText = text
+                data.save()
+            } else {
+                new Schema({
+                    Guild: guildid,
+                    BanDMText: text
+                }).save()
+            }
+        });
+    };
+
+    kickDMText(guildid: string, text: string) {
+        Schema.findOne({ Guild: guildid }, async (err, data) => {
+            if (data) {
+                data.KickDMText = text
+                data.save()
+            } else {
+                new Schema({
+                    Guild: guildid,
+                    KickDMText: text
+                }).save()
+            }
+        });
+    };
+
 
 };
 

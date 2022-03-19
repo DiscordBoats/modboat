@@ -59,7 +59,8 @@ export default class Dehoist extends Command {
                         new MessageEmbed()
                             .setTitle("Dehoist List")
                             .setDescription(list.substring(0, 4096))
-                            .setColor("#00ff00")
+                            //@ts-ignore
+                            .setColor(this.client.color.green)
                     ]
                 })
                 break;

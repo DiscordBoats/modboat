@@ -102,10 +102,112 @@ export default class set extends Command {
                     }
                 }
                 break;
+                case 'dm': {
+                    const dminput = (args[1]) ? args[1].toLowerCase() : args[1];
+                    switch(dminput) {
+                        case 'kick': {
+                            if (args[2] === 'text') {
+                                const arg = args.slice(3).join(" ");
+                                if (!arg) {
+                                    return message.reply({
+                                        content: 'You need to provide text for the kick dm message'
+                                    });
+                                };
+
+                                if (arg.length > 1020) {
+                                    return message.reply({
+                                        content: 'Your kick text is too long (over 1020 chars)'
+                                    })
+                                }
+                                this.client.database.update.kickDMText(message.guildId, arg)
+                                return message.reply({
+                                    content: 'Changes Saved!'
+                                }).catch(() => {
+                                    return;
+                                });
+                            };
+                            if (args[2] === 'enable') {
+                                await this.client.database.update.kickDM(message.guildId, true)
+                                return message.reply({
+                                    embeds: [
+                                        {
+                                            //@ts-ignore
+                                            color: this.client.color.red,
+                                            description: `> Successfully enabled kickdm`
+                                        }
+                                    ]
+                                });
+                            };
+
+                            if (args[2] === 'disable') {
+                                await this.client.database.update.kickDM(message.guildId, false)
+                                return message.reply({
+                                    embeds: [
+                                        {
+                                            //@ts-ignore
+                                            color: this.client.color.red,
+                                            description: `> Successfully disabled kickdm`
+                                        }
+                                    ]
+                                });
+                            };
+                        };
+                        break;
+                        case 'ban': {
+                            if (args[2] === 'text') {
+                                const arg = args.slice(3).join(" ");
+                                if (!arg) {
+                                    return message.reply({
+                                        content: 'You need to provide text for the ban dm message'
+                                    });
+                                };
+
+                                if (arg.length > 1020) {
+                                    return message.reply({
+                                        content: 'Your kick text is too long (over 1020 chars)'
+                                    })
+                                }
+                                this.client.database.update.banDMText(message.guildId, arg)
+                                return message.reply({
+                                    content: 'Changes Saved!'
+                                }).catch(() => {
+                                    return;
+                                });
+                            };
+                            if (args[2] === 'enable') {
+                                await this.client.database.update.banDM(message.guildId, true)
+                                return message.reply({
+                                    embeds: [
+                                        {
+                                            //@ts-ignore
+                                            color: this.client.color.red,
+                                            description: `> Successfully enabled bandm`
+                                        }
+                                    ]
+                                });
+                            };
+
+                            
+                            if (args[2] === 'disable') {
+                                await this.client.database.update.banDM(message.guildId, false)
+                                return message.reply({
+                                    embeds: [
+                                        {
+                                            //@ts-ignore
+                                            color: this.client.color.red,
+                                            description: `> Successfully disabled bandm`
+                                        }
+                                    ]
+                                });
+                            };
+                        }
+                    };
+                }
             default: {
                 return message.reply({
                     embeds: [
                         new MessageEmbed()
+                        .setURL('https://docs.antibot.xyz/anti-bot/config')
                             .setTitle("Configurations")
                             .setThumbnail(message.guild.iconURL( { dynamic: true}))
                             //@ts-ignore

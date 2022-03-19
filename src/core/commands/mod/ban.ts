@@ -1,9 +1,10 @@
-import {Message, MessageEmbed, User} from "discord.js";
+import { Message, MessageEmbed, User } from "discord.js";
 import { Command } from "../../Command";
+import Schema from "../../../models/guild";
 
 export default class Ban extends Command {
     constructor(client) {
-        super(client,  {
+        super(client, {
             name: "ban",
             description: "Ban a user",
             slash: {
@@ -55,12 +56,12 @@ export default class Ban extends Command {
             });
         };
 
-        if(member.permissions.has("BAN_MEMBERS")) {
+        if (member.permissions.has("BAN_MEMBERS")) {
             return message.reply({
                 content: "User has been banned"
             }).then(msg => {
                 setTimeout(() => {
-                    msg.edit({content: "https://images-ext-1.discordapp.net/external/dEr5HBngRZqBS_YGNYJBanGszjewYiKth1Iz-mOwNdw/%3Fc%3DVjFfZGlzY29yZA/https/media.tenor.com/yheo1GGu3FwAAAPo/rick-roll-rick-ashley.mp4"})
+                    msg.edit({ content: "https://images-ext-1.discordapp.net/external/dEr5HBngRZqBS_YGNYJBanGszjewYiKth1Iz-mOwNdw/%3Fc%3DVjFfZGlzY29yZA/https/media.tenor.com/yheo1GGu3FwAAAPo/rick-roll-rick-ashley.mp4" })
 
                 }, 5000)
             })
@@ -81,13 +82,25 @@ export default class Ban extends Command {
         };
 
         let reason = args.slice(1).join(" ");
-        await member.send({embeds: [
-            new MessageEmbed()
-                .setDescription(`You have been banned from \`${message.guild.name}\` by \`${message.author.tag}\` for the following reason:\n${reason}`)
-                .setColor("RED")
-                .setThumbnail(message.guild.iconURL())
-                .setFooter({text: "To appeal for your ban, contact the moderator that banned you."})
-            ]})
+        const data = await Schema.findOne({ Guild: message.guild.id });
+        if (data && data.BanDM === true) {
+            await member.send({
+                embeds: [
+                    new MessageEmbed()
+                        .setDescription(data.BanDMText
+                            .replace('{user}', `<@!${message.author.id}>`)
+                            .replace('{user.name}', message.author.username)
+                            .replace('{server.name}', message.guild.name)
+                            .replace('{user.id}', message.author.id)
+                            .replace('{server.id}', message.guild.id)
+                            .replace('{reason}', reason || 'No reason provided'))
+                        //@ts-ignore
+                        .setColor(this.client.color.red)
+                        .setThumbnail(message.guild.iconURL())
+                    // .setFooter({text: "To appeal for your ban, contact the moderator that banned you."})
+                ]
+            }).catch((err) => {});
+        };
         return member.ban({
             reason
         }).then(async () => {

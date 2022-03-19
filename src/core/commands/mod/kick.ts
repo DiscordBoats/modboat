@@ -1,5 +1,6 @@
 import {Message, MessageEmbed} from "discord.js";
 import { Command } from "../../Command";
+import Schema from "../../../models/guild";
 
 export default class Kick extends Command {
     constructor(client) {
@@ -70,13 +71,25 @@ export default class Kick extends Command {
         };
 
         let reason = args.slice(1).join(" ");
-        await member.send({embeds: [
-                new MessageEmbed()
-                    .setDescription(`You have been kicked from \`${message.guild.name}\` by \`${message.author.tag}\` for the following reason:\n${reason}`)
-                    .setColor("RED")
-                    .setThumbnail(message.guild.iconURL())
-                    .setFooter({text: "You're free to join back, but but be sure not to do what you did again."})
-            ]})
+        const data = await Schema.findOne({ Guild: message.guild.id });
+        if (data && data.KickDM === true) {
+            await member.send({
+                embeds: [
+                    new MessageEmbed()
+                        .setDescription(data.KickDMText
+                            .replace('{user}', `<@!${message.author.id}>`)
+                            .replace('{user.name}', message.author.username)
+                            .replace('{server.name}', message.guild.name)
+                            .replace('{user.id}', message.author.id)
+                            .replace('{server.id}', message.guild.id)
+                            .replace('{reason}', reason || 'No reason provided'))
+                        //@ts-ignore
+                        .setColor(this.client.color.red)
+                        .setThumbnail(message.guild.iconURL())
+                    // .setFooter({text: "To appeal for your ban, contact the moderator that banned you."})
+                ]
+            }).catch((err) => {});
+        };
         return member.kick(reason).then(async () => {
             await this.service.logger.modlogs({
                 client: this.client,

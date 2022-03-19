@@ -603,7 +603,7 @@ export default class Role extends Command {
                     }
                         break;
                     case 'list': {
-                        const autoroles = await Schema.findOne({ Guild: message.guild.id })
+                        const autoroles = await Schema.findOne({ Guild: message.guild.id });
                         return message.channel.send({
                             embeds: [
                                 {
