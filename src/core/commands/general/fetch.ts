@@ -1,12 +1,9 @@
-import {CommandInteraction, GuildMember, Message, MessageEmbed} from "discord.js";
+import {Message, MessageEmbed} from "discord.js";
 import { Command } from "../../Command";
-
 import moment from "moment";
-import {Permission} from "../../../services/Permission";
-
 import fetch from 'cross-fetch';
 
-export default class userinfo extends Command {
+export default class Fetch extends Command {
     constructor(client) {
         super(client, {
             name: "fetch",
