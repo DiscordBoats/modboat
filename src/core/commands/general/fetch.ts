@@ -64,6 +64,9 @@ export default class userinfo extends Command {
             break;
 
             case "spammer":
+                if (!await this.service.permission.checkForManagerRole(message, "MANAGE_GUILD", true)) {
+                    return;
+                };
 
                 const filter = (map, pred) => {
                     const result = new Map();
@@ -122,7 +125,7 @@ export default class userinfo extends Command {
                 });
                 break
             default:
-                return message.channel.send({content: "Valid arguments for fetch: `user [user ID]`, `spammer`"})
+                return message.reply({content: "Valid arguments for fetch: `user [user ID]`, `spammer`"})
 
         }
     };
