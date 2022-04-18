@@ -63,7 +63,7 @@ export default class userinfo extends Command {
                 })
             break;
 
-            case "spammer":
+          /*  case "spammer":
                 if (!await this.service.permission.checkForManagerRole(message, "MANAGE_GUILD", true)) {
                     return;
                 };
@@ -123,7 +123,7 @@ export default class userinfo extends Command {
                 await message.channel.send({
                     embeds: [embed]
                 });
-                break
+                break */
             default:
                 return message.reply({content: "Valid arguments for fetch: `user [user ID]`, `spammer`"})
 
