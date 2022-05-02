@@ -1,5 +1,9 @@
 import {Event} from "../../Event";
-import {GuildMember, Message, MessageEmbed, TextChannel} from "discord.js";
+import {
+GuildMember, 
+Message, 
+MessageEmbed, 
+TextChannel} from "discord.js";
 import Schema from "../../../models/guild";
 
 export default class GuildMemberAdd extends Event {
