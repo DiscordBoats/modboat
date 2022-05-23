@@ -73,7 +73,7 @@ export default class Rate extends Command {
             case "massmentions": {
                 args.shift();
 
-                if (!this.service.permission.checkMember(message, "MANAGE_GUILD", true)) {
+                if (!this.service.permission.checkForManagerRole(message, "MANAGE_GUILD", true)) {
                     return;
                 };
 
@@ -99,7 +99,7 @@ export default class Rate extends Command {
                 break;
                 case "days": {
                     args.shift();
-                    if (!this.service.permission.checkMember(message, "MANAGE_GUILD", true)) {
+                    if (!this.service.permission.checkForManagerRole(message, "MANAGE_GUILD", true)) {
                         return;
                     };
 
