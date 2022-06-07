@@ -148,6 +148,20 @@ export class Logger {
                 })
 
         };
+
+        await this.modlogs({
+            client: this.client,
+            message: options.message,
+            moderator: options.message.guild.me,
+            reason: '[ Automod ] - User sent a scam link',
+            //@ts-ignore
+            user: String(options.message.author.tag),
+            userid: String(options.message.author.id),
+            title: 'Time Out',
+            color: '#fcffa4',
+            warn: false,
+            timeout: true
+        })
     };
 
     restag(message: Message, client: Discord, response) {

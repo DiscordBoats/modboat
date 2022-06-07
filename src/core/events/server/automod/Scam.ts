@@ -84,19 +84,6 @@ export default class Scam extends Event {
                         user: String(message.author.tag),
                         userid: String(message.author.id),
                     })
-                    await this.service.logger.modlogs({
-                        client: this.client,
-                        message: message,
-                        moderator: message.guild.me,
-                        reason: '[ Automod ] - User sent a scam link',
-                        //@ts-ignore
-                        user: String(message.author.tag),
-                        userid: String(message.author.id),
-                        title: 'Time Out',
-                        color: '#fcffa4',
-                        warn: false,
-                        timeout: true
-                    })
                 } catch (err) {
                     return;
                 };
